@@ -1,0 +1,8 @@
+rootProject.name = 'RemoHouse'
+include 'core'
+include 'remohouse-core'
+include 'remohouse-web'
+include 'remohouse-web'
+include 'remohouse-web'
+include 'webapp'
+
