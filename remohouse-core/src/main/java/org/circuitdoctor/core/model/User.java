@@ -8,15 +8,16 @@ import java.io.Serializable;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 
-@Data
+
+
 @ToString
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
 @Builder
+@Data
 @Table(name="user")
 public class User extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)

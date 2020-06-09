@@ -14,6 +14,8 @@ public class UserConverter extends BaseConverter<User, UserDto> {
 
     @Override
     public UserDto convertModelToDto(User user) {
-        return null;
+        UserDto userDto=new UserDto();
+        return userDto;
+
     }
 }
