@@ -6,6 +6,7 @@ plugins {
 dependencies {
     //jpa
     compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
+
     compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
     compile(group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion")
 
