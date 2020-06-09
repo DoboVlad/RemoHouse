@@ -7,7 +7,7 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
 
     @Override
     public Location convertDtoToModel(LocationDto dto) {
-        Location location =
+
         return null;
     }
 
