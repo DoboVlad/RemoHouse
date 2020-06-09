@@ -9,6 +9,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @Builder
 public class LocationDto extends BaseDto {
+    private Long id;
     private String latitude;
     private String longitude;
     private String image; //to be updated later
