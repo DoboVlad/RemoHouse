@@ -11,9 +11,11 @@ import java.util.Set;
 @Builder
 public class UserDto extends BaseDto {
     private Long id;
+    private String name;
+    private String surname;
     private String phoneNumber;
-    private String email;
     private String password;
+    private String email;
     private Set<Long> locations;
 }
 

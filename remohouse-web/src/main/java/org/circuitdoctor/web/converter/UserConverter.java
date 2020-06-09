@@ -11,24 +11,18 @@ import java.util.concurrent.atomic.AtomicReference;
 public class UserConverter extends BaseConverter<User, UserDto> {
     @Autowired
     private LocationConverter locationConverter;
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     public User convertDtoToModel(UserDto dto) {
-        Optional<User> userOptional = userRepository.findById(dto.getId());
-        AtomicReference<User> userResult = null;
-        userOptional.ifPresent(user->{
-            userResult.set(User.builder()
-                    .email(dto.getEmail())
-                    .locations(locationConverter.convertIDstoModel(dto.getLocations()))
-                    .name(user.getName())
-                    .password(dto.getPassword())
-                    .phoneNumber(dto.getPhoneNumber())
-                    .surname(user.getSurname())
-                    .build());
-        });
-        return userResult.get();
+        User userResult = User.builder()
+                .email(dto.getEmail())
+                .locations(locationConverter.convertIDstoModel(dto.getLocations()))
+                .name(dto.getName())
+                .password(dto.getPassword())
+                .phoneNumber(dto.getPhoneNumber())
+                .surname(dto.getSurname())
+                .build();
+        return userResult;
     }
 
     @Override
@@ -39,6 +33,8 @@ public class UserConverter extends BaseConverter<User, UserDto> {
                 .locations(locationConverter.convertModelsToIDs(user.getLocations()))
                 .password(user.getPassword())
                 .phoneNumber(user.getPhoneNumber())
+                .name(user.getName())
+                .surname(user.getSurname())
                 .build();
         return userDto;
     }

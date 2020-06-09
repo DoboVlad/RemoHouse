@@ -6,7 +6,6 @@ import org.circuitdoctor.web.dto.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
