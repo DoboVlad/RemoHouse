@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserService {
     List<User> getAllUsers();
     boolean login(User user);
+    User signUp(User user);
 }

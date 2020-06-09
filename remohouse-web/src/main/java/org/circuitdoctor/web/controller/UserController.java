@@ -32,4 +32,14 @@ public class UserController {
         log.trace("login - method finished result={}",result.get());
         return result.get();
     }
+    @RequestMapping(value = "user/signUp", method = RequestMethod.POST)
+    UserDto signUp(@RequestBody UserDto userDto){
+        log.trace("signUp - method entered user={}",userDto);
+        User user = userConverter.convertDtoToModel(userDto);
+
+        UserDto result= userConverter.convertModelToDto(userService.signUp(user));
+        log.trace("signUp - method finished result={}",result);
+
+        return userDto;
+    }
 }

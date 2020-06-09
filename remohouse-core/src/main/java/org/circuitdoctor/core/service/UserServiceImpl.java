@@ -40,4 +40,15 @@ public class UserServiceImpl implements UserService {
         log.trace("login - method finished r={}",result.get());
         return result.get();
     }
+
+    @Override
+    public User signUp(User user) {
+        log.trace("signUp - method entered user={}",user);
+
+
+        User newUser=userRepository.save(user);
+        
+        log.trace("signUp - method finished newUser={}",newUser);
+        return newUser;
+    }
 }
