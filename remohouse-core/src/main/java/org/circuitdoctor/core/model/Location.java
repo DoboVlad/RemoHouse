@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class Location extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Latitude is mandatory")
-    @Pattern(regexp = "^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$\n")
+    @Pattern(regexp = "^(\\+|-)?(?:90(?:(?:\\.0{1,6})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,6})?))$")
     private String latitude;
 
     @Column(nullable = false, unique = true)
