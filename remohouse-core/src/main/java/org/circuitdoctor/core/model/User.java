@@ -25,7 +25,7 @@ public class User extends BaseEntity<Long> implements Serializable {
     private String name;
     @Column(nullable = false)
     @NotBlank(message = "surname is mandatory")
-    @Pattern(regexp ="[A-Z][a-z]+")
+    @Pattern(regexp ="[A-Za-z][A-Za-z'\\-]+")
     private String surname;
     @Column(nullable = false,unique = true)
     @NotBlank(message = "phoneNumber is mandatory")
