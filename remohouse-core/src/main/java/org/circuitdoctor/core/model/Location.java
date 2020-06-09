@@ -1,12 +1,12 @@
 package org.circuitdoctor.core.model;
 
 import lombok.*;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
@@ -36,4 +36,7 @@ public class Location extends BaseEntity<Long> implements Serializable {
     @NotBlank(message = "Name is mandatory")
     @Min(2)
     private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    User user;
 }
