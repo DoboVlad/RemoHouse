@@ -1,8 +1,6 @@
 package org.circuitdoctor.core.model;
 
-
 import lombok.*;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -11,7 +9,9 @@ import javax.validation.constraints.Pattern;
 
 
 
-
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @Entity
@@ -43,7 +43,4 @@ public class User extends BaseEntity<Long> implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     Set<Location> locations;
-
-
-
 }

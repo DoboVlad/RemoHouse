@@ -2,6 +2,7 @@ package org.circuitdoctor.web.controller;
 
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.Repository;
+import org.circuitdoctor.core.service.UserService;
 import org.circuitdoctor.web.converter.UserConverter;
 import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    private Repository<User,Long> userRepository;
+    private UserService userService;
     @Autowired
     private UserConverter userConverter;
 
@@ -27,7 +28,7 @@ public class UserController {
         log.trace("login - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
         AtomicBoolean result = new AtomicBoolean(false);
-
+        result.set(userService.login(user));
         log.trace("login - method finished result={}",result.get());
         return result.get();
     }
