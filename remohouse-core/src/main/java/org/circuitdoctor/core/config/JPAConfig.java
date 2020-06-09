@@ -52,18 +52,6 @@ public class JPAConfig {
         return dataSource;
     }
 
-//    @Bean
-//    DataSource dataSource() {
-//        BasicDataSource dataSource=new BasicDataSource();
-//        dataSource.setDriverClassName(Driver.class.getName());
-//        dataSource.setUrl(jdbcUrl);
-//        dataSource.setUsername(username);
-//        dataSource.setPassword(password);
-//        dataSource.setInitialSize(2);
-//
-//        return dataSource;
-//    }
-
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

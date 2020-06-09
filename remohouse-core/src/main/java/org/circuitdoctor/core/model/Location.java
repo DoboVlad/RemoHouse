@@ -4,11 +4,12 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,6 +34,6 @@ public class Location extends BaseEntity<Long> implements Serializable {
     private String image; //to be updated later
     @Column(nullable = false)
     @NotBlank(message = "Name is mandatory")
-    @Size()
+    @Min(2)
     private String name;
 }
