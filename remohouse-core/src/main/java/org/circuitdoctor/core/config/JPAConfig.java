@@ -42,11 +42,6 @@ public class JPAConfig {
     @Value("${db.generateDDL}")
     private Boolean generateDDL;
 
-    /**
-     * http://www.baeldung.com/hikaricp
-     *
-     * @return
-     */
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
@@ -56,7 +51,7 @@ public class JPAConfig {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config.setDriverClassName("org.postgresql.Driver");
+        config.setDriverClassName("org.mysql.Driver");
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
