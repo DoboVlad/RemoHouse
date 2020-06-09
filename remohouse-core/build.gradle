@@ -1,3 +1,8 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
 dependencies {
     //jpa
     compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
@@ -7,16 +12,21 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
 
     compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
-//    compile group: 'postgresql', name: 'postgresql', version: "$jdbcpostgreSqlVersion"
-    //---
 
     compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
-//    compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: "$dbcpVersion"
-
 
     compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: "$caffeineVersion"
     compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
 
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+test {
+    useJUnitPlatform()
 }
