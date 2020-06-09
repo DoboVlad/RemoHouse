@@ -1,7 +1,7 @@
 package org.circuitdoctor.core.service;
 
 import org.circuitdoctor.core.model.Location;
-import org.circuitdoctor.core.repository.LocationRepository;
+import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,8 @@ import java.util.List;
 @Service
 public class LocationServiceImpl implements LocationService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
-
     @Autowired
-    private LocationRepository locationRepository;
+    private Repository<Location,Long> locationRepository;
     @Override
     public List<Location> getAllLocations() {
         log.trace("getAllLocations - method entered");

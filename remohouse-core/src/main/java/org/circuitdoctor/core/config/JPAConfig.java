@@ -20,12 +20,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-/**
- * Created by radu.
- */
-
 @Configuration
-@EnableJpaRepositories({"ro.ubb.catalog.core.repository"})
+@EnableJpaRepositories({"org.circuitdoctor.core.repository"})
 @EnableTransactionManagement
 @EnableCaching
 public class JPAConfig {
@@ -51,7 +47,7 @@ public class JPAConfig {
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-        config.setDriverClassName("org.mysql.Driver");
+        config.setDriverClassName("org.postgresql.Driver");
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
@@ -77,7 +73,7 @@ public class JPAConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ro.ubb.catalog.core.model");
+        factory.setPackagesToScan("org.circuitdoctor.core.model");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
         return factory.getObject();

@@ -11,10 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * https://github.com/mvpjava/spring-caffeine-cache-tutorial/blob/master/src/main/java/com/mvpjava/CacheJavaConfig.java
- */
-
 @Configuration
 public class CacheConfig {
     @Bean
@@ -32,7 +28,6 @@ public class CacheConfig {
         return CaffeineSpec.parse
                 ("initialCapacity=100,maximumSize=500,expireAfterAccess=5m,recordStats");
     }
-
 
     Caffeine<Object, Object> caffeineCacheBuilder() {
         return Caffeine.newBuilder()
