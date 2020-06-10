@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
@@ -38,7 +39,7 @@ public class Location extends BaseEntity<Long> implements Serializable {
     private String image; //to be updated later
     @Column(nullable = false)
     @NotBlank(message = "Name is mandatory")
-    @Min(2)
+    @Size(min=2)
     private String name;
 
 }

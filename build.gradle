@@ -70,7 +70,8 @@ allprojects {
         compileOnly "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-
+        // https://mvnrepository.com/artifact/javax.validation/validation-api
+        compile group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
     }
 }
 

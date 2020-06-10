@@ -8,10 +8,9 @@ import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -29,22 +28,26 @@ public class UserController {
     private UserConverter userConverter;
 
     @RequestMapping(value = "user/login", method = RequestMethod.PUT)
-    boolean login(@Valid  @RequestBody UserDto userDto){
+    ResponseEntity<Boolean> login(@RequestBody UserDto userDto){
         //send the user's ID from db!!
         log.trace("login - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
         AtomicBoolean result = new AtomicBoolean(false);
         result.set(userService.login(user));
         log.trace("login - method finished result={}",result.get());
-        return result.get();
+        return ResponseEntity.ok(result.get());
     }
     @RequestMapping(value = "user/signUp", method = RequestMethod.POST)
-    UserDto signUp(@Valid @RequestBody UserDto userDto){
+    ResponseEntity<UserDto> signUp(@RequestBody @Valid UserDto userDto, Errors errors){
         log.trace("signUp - method entered user={}",userDto);
+        if(errors.hasErrors()){
+            log.trace("signUp - validation error on user");
+            return (ResponseEntity<UserDto>) ResponseEntity.badRequest();
+        }
         User user = userConverter.convertDtoToModel(userDto);
         UserDto result= userConverter.convertModelToDto(userService.signUp(user));
         log.trace("signUp - method finished result={}",result);
 
-        return userDto;
+        return ResponseEntity.ok(userDto);
     }
 }

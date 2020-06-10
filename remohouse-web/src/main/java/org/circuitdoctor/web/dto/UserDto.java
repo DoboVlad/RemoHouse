@@ -1,6 +1,12 @@
 package org.circuitdoctor.web.dto;
 
 import lombok.*;
+
+import javax.persistence.Column;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -11,10 +17,20 @@ import java.util.Set;
 @Builder
 public class UserDto extends BaseDto {
     private Long id;
+    @NotBlank(message = "name is mandatory")
+    @Pattern(regexp ="^[A-Za-z][A-Za-z'\\-]+")
     private String name;
+    @NotBlank(message = "surname is mandatory")
+    @Pattern(regexp ="[A-Za-z][A-Za-z'\\-]+")
     private String surname;
+    @NotBlank(message = "phoneNumber is mandatory")
+    @Digits(fraction=0,integer=10)
     private String phoneNumber;
+    @Column(nullable = false)
+    @NotBlank(message = "password is mandatory")
     private String password;
+    @NotBlank(message = "email is mandatory")
+    @Email
     private String email;
     private Set<Long> locations;
 }
