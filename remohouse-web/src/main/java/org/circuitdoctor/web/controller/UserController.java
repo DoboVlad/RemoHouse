@@ -6,6 +6,8 @@ import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,4 +46,22 @@ public class UserController {
         log.trace("signUp - method finished result={}",result);
         return userDto;
     }
+    @RequestMapping(value = "user/changePassword/{id}", method = RequestMethod.PUT)
+    public UserDto changePassword(@RequestBody @Valid UserDto userDto,Errors errors){
+        log.trace("changePassword - method entered user={}",userDto);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
+            log.trace("changePassword - validation error");
+            return null;
+        }
+        User user=userConverter.convertDtoToModel(userDto);
+        User newUser = userService.changePassword(user);
+
+        UserDto newUserDto =userConverter.convertModelToDto(newUser);
+
+        log.trace("changePassword - method finished user={}",newUserDto);
+        return newUserDto;
+    }
+
+
 }

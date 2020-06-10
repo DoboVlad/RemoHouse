@@ -52,4 +52,23 @@ public class UserServiceImpl implements UserService {
         log.trace("signUp - method finished newUser={}",newUser);
         return newUser;
     }
+
+    @Override
+    public User changePassword(User user) {
+        log.trace("changePassword - method entered user={}",user);
+
+        Optional<User> userFromDB = userRepository.findById(user.getId());
+        userFromDB.ifPresent(userDB->{
+            userDB.setPassword(user.getPassword());
+
+        });
+        User newUser=userFromDB.get();
+
+        log.trace("\"changePassword - method finished user={}",newUser);
+        return newUser;
+
+    }
+
+
+
 }
