@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LocationConverter extends BaseConverter<Location, LocationDto> {
-    @Autowired
-    private UserConverter userConverter;
     @Override
     public Location convertDtoToModel(LocationDto dto) {
 
@@ -16,7 +14,6 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .latitude(dto.getLatitude())
                 .longitude(dto.getLongitude())
                 .name(dto.getName())
-                .user(userConverter.convertDtoToModel(dto.getUserDto()))
                 .build();
         location.setId(dto.getId());
         return location;
@@ -31,7 +28,6 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .latitude(location.getLatitude())
                 .longitude(location.getLongitude())
                 .name(location.getName())
-                .userDto(userConverter.convertModelToDto(location.getUser()))
                 .build();
         return locationDto;
     }

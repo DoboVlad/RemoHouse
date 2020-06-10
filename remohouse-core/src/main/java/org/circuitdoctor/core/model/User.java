@@ -8,18 +8,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-
-
 @EqualsAndHashCode(callSuper = true)
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
 @Entity
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @Data
-@Table(name="user")
+@Getter
+@Setter
+@Builder
+@ToString
+@Table(name="user_account")
 public class User extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)
     @NotBlank(message = "name is mandatory")

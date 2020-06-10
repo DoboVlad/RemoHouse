@@ -14,5 +14,4 @@ public class LocationDto extends BaseDto {
     private String longitude;
     private String image; //to be updated later
     private String name;
-    UserDto userDto;
 }
