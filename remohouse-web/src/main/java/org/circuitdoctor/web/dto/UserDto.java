@@ -3,10 +3,7 @@ package org.circuitdoctor.web.dto;
 import lombok.*;
 
 import javax.persistence.Column;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -28,6 +25,7 @@ public class UserDto extends BaseDto {
     private String phoneNumber;
     @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
+    @Size(min=7)
     private String password;
     @NotBlank(message = "email is mandatory")
     @Email
