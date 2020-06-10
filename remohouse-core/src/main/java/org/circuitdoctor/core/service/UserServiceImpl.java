@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 
         User newUser=userRepository.save(user);
-        
+
         log.trace("signUp - method finished newUser={}",newUser);
         return newUser;
     }

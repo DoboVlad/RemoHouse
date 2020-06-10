@@ -4,6 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -30,10 +31,11 @@ public class User extends BaseEntity<Long> implements Serializable {
     private String surname;
     @Column(nullable = false,unique = true)
     @NotBlank(message = "phoneNumber is mandatory")
-            @Pattern(regexp = "[0-9]{10}")
+    @Pattern(regexp = "[0-9]{10}")
     private String phoneNumber;
     @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
+    @Min(7)
     private String password;
 
     @Column(nullable = false,unique = true)
