@@ -41,7 +41,4 @@ public class User extends BaseEntity<Long> implements Serializable {
     @NotBlank(message = "email is mandatory")
     @Email
     private String email;
-
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    Set<Location> locations;
 }

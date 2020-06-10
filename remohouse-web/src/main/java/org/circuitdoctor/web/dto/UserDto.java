@@ -1,10 +1,8 @@
 package org.circuitdoctor.web.dto;
 
 import lombok.*;
-
 import javax.persistence.Column;
 import javax.validation.constraints.*;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,7 +28,6 @@ public class UserDto extends BaseDto {
     @NotBlank(message = "email is mandatory")
     @Email
     private String email;
-    private Set<Long> locations;
 }
 
 

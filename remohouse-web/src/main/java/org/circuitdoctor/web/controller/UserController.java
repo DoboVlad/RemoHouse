@@ -37,7 +37,7 @@ public class UserController {
         //return null if some error occurred
         log.trace("signUp - method entered user={}",userDto);
         if(errors.hasErrors()){
-            errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
+            errors.getAllErrors().forEach(error-> log.error("error - {}",error.toString()));
             log.trace("signUp - validation error");
             return null;
         }
