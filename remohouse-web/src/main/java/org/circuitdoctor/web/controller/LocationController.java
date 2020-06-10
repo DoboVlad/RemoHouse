@@ -1,7 +1,6 @@
 package org.circuitdoctor.web.controller;
 
 import org.circuitdoctor.core.model.Location;
-import org.circuitdoctor.core.repository.LocationRepository;
 import org.circuitdoctor.core.service.LocationService;
 import org.circuitdoctor.web.converter.LocationConverter;
 import org.circuitdoctor.web.dto.LocationDto;
@@ -21,15 +20,16 @@ public class LocationController {
     @Autowired
     private LocationConverter locationConverter;
 
-    @RequestMapping(value = "location/addLocation/{userID}",method = RequestMethod.PUT)
-    LocationDto addLocation(@RequestBody @Valid LocationDto locationDto, @PathVariable Long userID, Errors errors){
-        log.trace("addLocation - method entered location={} userid={}",locationDto,userID);
+    @RequestMapping(value = "location/addLocation",method = RequestMethod.PUT)
+    LocationDto addLocation(@RequestBody @Valid LocationDto locationDto, Errors errors){
+        //receives a location already created
+        log.trace("addLocation - method entered location={}",locationDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
             log.trace("addLocation - validation error occurred");
             return null;
         }
-        Location result = locationService.addLocation(locationConverter.convertDtoToModel(locationDto),userID);
+        Location result = locationService.addLocation(locationConverter.convertDtoToModel(locationDto));
         log.trace("addLocation - method finished l={}",result);
         return locationConverter.convertModelToDto(result);
     }

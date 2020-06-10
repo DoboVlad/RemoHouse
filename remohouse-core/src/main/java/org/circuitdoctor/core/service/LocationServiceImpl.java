@@ -29,15 +29,10 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location addLocation(@Valid Location location, Long userID) {
-        log.trace("addLocation - method entered location={} userID={}",location,userID);
-        Optional<User> userOpt = userRepository.findById(userID);
-        AtomicReference<Location> locationResult = new AtomicReference<>();
-        userOpt.ifPresent(user->{
-            location.setUser(user);
-            locationResult.set(locationRepository.save(location));
-        });
-        log.trace("addLocation - method finished l={}",locationResult.get());
-        return locationResult.get();
+    public Location addLocation(@Valid Location location) {
+        log.trace("addLocation - method entered location={}",location);
+        Location locationResult = locationRepository.save(location);
+        log.trace("addLocation - method finished l={}",locationResult);
+        return locationResult;
     }
 }
