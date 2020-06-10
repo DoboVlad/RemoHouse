@@ -36,6 +36,4 @@ public class Location extends BaseEntity<Long> implements Serializable {
     @Min(2)
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    User user;
 }

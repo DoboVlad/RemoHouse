@@ -7,18 +7,16 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-
-
 @EqualsAndHashCode(callSuper = true)
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
 @Entity
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @Data
-@Table(name="user")
+@Getter
+@Setter
+@Builder
+@ToString
+@Table(name="user_account")
 public class User extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)
     @NotBlank(message = "name is mandatory")
@@ -30,7 +28,7 @@ public class User extends BaseEntity<Long> implements Serializable {
     private String surname;
     @Column(nullable = false,unique = true)
     @NotBlank(message = "phoneNumber is mandatory")
-            @Pattern(regexp = "[0-9]{10}")
+    @Pattern(regexp = "[0-9]{10}")
     private String phoneNumber;
     @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
