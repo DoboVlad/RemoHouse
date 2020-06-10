@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,15 +57,16 @@ public class UserServiceImpl implements UserService {
     public User changePassword(User user) {
         log.trace("changePassword - method entered user={}",user);
 
+        AtomicReference<User> newUser = new AtomicReference<>();
         Optional<User> userFromDB = userRepository.findById(user.getId());
         userFromDB.ifPresent(userDB->{
             userDB.setPassword(user.getPassword());
             userRepository.save(userDB);
+            newUser.set(userDB);
         });
-        User newUser=userFromDB.get();
 
         log.trace("\"changePassword - method finished user={}",newUser);
-        return newUser;
+        return newUser.get();
 
     }
 
