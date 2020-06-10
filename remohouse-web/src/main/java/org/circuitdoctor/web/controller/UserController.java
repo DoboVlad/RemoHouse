@@ -46,7 +46,7 @@ public class UserController {
         log.trace("signUp - method finished result={}",result);
         return userDto;
     }
-    @RequestMapping(value = "user/changePassword/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "user/changePassword", method = RequestMethod.PUT)
     public UserDto changePassword(@RequestBody @Valid UserDto userDto,Errors errors){
         log.trace("changePassword - method entered user={}",userDto);
         if(errors.hasErrors()){
@@ -56,8 +56,9 @@ public class UserController {
         }
         User user=userConverter.convertDtoToModel(userDto);
         User newUser = userService.changePassword(user);
-
-        UserDto newUserDto =userConverter.convertModelToDto(newUser);
+        UserDto newUserDto = null;
+        if(newUser!=null)
+            newUserDto =userConverter.convertModelToDto(newUser);
 
         log.trace("changePassword - method finished user={}",newUserDto);
         return newUserDto;
