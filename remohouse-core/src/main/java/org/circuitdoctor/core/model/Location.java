@@ -41,5 +41,7 @@ public class Location extends BaseEntity<Long> implements Serializable {
     @NotBlank(message = "Name is mandatory")
     @Size(min=2)
     private String name;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private User user;
 
 }

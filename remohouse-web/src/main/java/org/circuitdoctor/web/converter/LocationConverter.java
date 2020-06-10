@@ -1,10 +1,14 @@
 package org.circuitdoctor.web.converter;
 import org.circuitdoctor.core.model.Location;
+import org.circuitdoctor.core.repository.UserRepository;
 import org.circuitdoctor.web.dto.LocationDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LocationConverter extends BaseConverter<Location, LocationDto> {
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public Location convertDtoToModel(LocationDto dto) {
 
@@ -13,6 +17,7 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .latitude(dto.getLatitude())
                 .longitude(dto.getLongitude())
                 .name(dto.getName())
+                .user(userRepository.findById(dto.getUserID()).get())
                 .build();
         location.setId(dto.getId());
         return location;
@@ -27,6 +32,7 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .latitude(location.getLatitude())
                 .longitude(location.getLongitude())
                 .name(location.getName())
+                .userID(location.getUser().getId())
                 .build();
         return locationDto;
     }
