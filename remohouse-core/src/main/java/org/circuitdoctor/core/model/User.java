@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -19,26 +20,30 @@ import javax.validation.constraints.Pattern;
 @ToString
 @Table(name="user_account")
 public class User extends BaseEntity<Long> implements Serializable {
+
+    private final String EMAIL_REGEX="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$";//matches all kinds of emails
+    private final String PHONE_NUMBER_REGEX="[0-9]{10}";///to be apdated later
+    private final String NAME_SURNAME_REGEX="^[A-Za-z][A-Za-z'\\-]+";//matches names like O'Sullival or Ana-Maria
     @Column(nullable = false)
     @NotBlank(message = "name is mandatory")
-    @Pattern(regexp ="^[A-Za-z][A-Za-z'\\-]+")
+    @Pattern(regexp =NAME_SURNAME_REGEX)
     private String name;
     @Column(nullable = false)
     @NotBlank(message = "surname is mandatory")
-    @Pattern(regexp ="[A-Za-z][A-Za-z'\\-]+")
+    @Pattern(regexp =NAME_SURNAME_REGEX)
     private String surname;
     @Column(nullable = false,unique = true)
     @NotBlank(message = "phoneNumber is mandatory")
-    @Pattern(regexp = "[0-9]{10}")
+    @Pattern(regexp = PHONE_NUMBER_REGEX)
     private String phoneNumber;
     @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
-    @Min(7)
+    @Size(min = 7)
     private String password;
 
     @Column(nullable = false,unique = true)
     @NotBlank(message = "email is mandatory")
-    @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")
+    @Pattern(regexp = EMAIL_REGEX)
     private String email;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
