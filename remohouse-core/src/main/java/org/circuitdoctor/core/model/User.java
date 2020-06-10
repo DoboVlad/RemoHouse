@@ -4,10 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -21,8 +18,6 @@ import javax.validation.constraints.Size;
 @Table(name="user_account")
 public class User extends BaseEntity<Long> implements Serializable {
 
-    private final String EMAIL_REGEX="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$";//matches all kinds of emails
-    private final String PHONE_NUMBER_REGEX="[0-9]{10}";///to be apdated later
     private final String NAME_SURNAME_REGEX="^[A-Za-z][A-Za-z'\\-]+";//matches names like O'Sullival or Ana-Maria
     @Column(nullable = false)
     @NotBlank(message = "name is mandatory")
@@ -34,7 +29,7 @@ public class User extends BaseEntity<Long> implements Serializable {
     private String surname;
     @Column(nullable = false,unique = true)
     @NotBlank(message = "phoneNumber is mandatory")
-    @Pattern(regexp = PHONE_NUMBER_REGEX)
+    @Digits(fraction=0,integer=10)
     private String phoneNumber;
     @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
@@ -43,7 +38,7 @@ public class User extends BaseEntity<Long> implements Serializable {
 
     @Column(nullable = false,unique = true)
     @NotBlank(message = "email is mandatory")
-    @Pattern(regexp = EMAIL_REGEX)
+    @Email
     private String email;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
