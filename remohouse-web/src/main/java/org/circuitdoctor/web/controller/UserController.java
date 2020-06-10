@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 public class UserController {
+    /*
+    If the validation fails, it will trigger a MethodArgumentNotValidException.
+    By default, Spring will translate this exception to an HTTP status 400 (Bad Request)
+     */
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
@@ -24,7 +29,7 @@ public class UserController {
     private UserConverter userConverter;
 
     @RequestMapping(value = "user/login", method = RequestMethod.PUT)
-    boolean login(@RequestBody UserDto userDto){
+    boolean login(@Valid  @RequestBody UserDto userDto){
         //send the user's ID from db!!
         log.trace("login - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
@@ -34,10 +39,9 @@ public class UserController {
         return result.get();
     }
     @RequestMapping(value = "user/signUp", method = RequestMethod.POST)
-    UserDto signUp(@RequestBody UserDto userDto){
+    UserDto signUp(@Valid @RequestBody UserDto userDto){
         log.trace("signUp - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
-
         UserDto result= userConverter.convertModelToDto(userService.signUp(user));
         log.trace("signUp - method finished result={}",result);
 
