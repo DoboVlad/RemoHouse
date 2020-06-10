@@ -46,8 +46,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User signUp(User user) {
         log.trace("signUp - method entered user={}",user);
-
-
         User newUser=userRepository.save(user);
 
         log.trace("signUp - method finished newUser={}",newUser);
