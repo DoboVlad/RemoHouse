@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
             if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
                 result.set(true);
         });
+
         log.trace("login - method finished r={}",result.get());
         return result.get();
     }

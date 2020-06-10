@@ -1,13 +1,11 @@
 package org.circuitdoctor.web.converter;
 
 import org.circuitdoctor.core.model.User;
-import org.circuitdoctor.core.repository.UserRepository;
 import org.circuitdoctor.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
-
+@Component
 public class UserConverter extends BaseConverter<User, UserDto> {
     @Autowired
     private LocationConverter locationConverter;
