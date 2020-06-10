@@ -20,6 +20,7 @@ public class UserConverter extends BaseConverter<User, UserDto> {
                 .phoneNumber(dto.getPhoneNumber())
                 .surname(dto.getSurname())
                 .build();
+        userResult.setId(dto.getId());
         return userResult;
     }
 
