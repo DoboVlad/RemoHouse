@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userFromDB = userRepository.findById(user.getId());
         userFromDB.ifPresent(userDB->{
             userDB.setPassword(user.getPassword());
-
+            userRepository.save(userDB);
         });
         User newUser=userFromDB.get();
 
