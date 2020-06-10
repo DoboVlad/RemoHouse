@@ -25,6 +25,7 @@ public class UserController {
 
     @RequestMapping(value = "user/login", method = RequestMethod.PUT)
     boolean login(@RequestBody UserDto userDto){
+        //send the user's ID from db!!
         log.trace("login - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
         AtomicBoolean result = new AtomicBoolean(false);

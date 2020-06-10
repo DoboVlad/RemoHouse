@@ -1,7 +1,6 @@
 package org.circuitdoctor.web.converter;
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.web.dto.LocationDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
