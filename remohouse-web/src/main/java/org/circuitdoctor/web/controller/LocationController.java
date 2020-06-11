@@ -21,7 +21,7 @@ public class LocationController {
     @Autowired
     private LocationConverter locationConverter;
 
-    @RequestMapping(value = "location/addLocation",method = RequestMethod.PUT)
+    @RequestMapping(value = "location/addLocation",method = RequestMethod.POST)
     LocationDto addLocation(@RequestBody @Valid LocationDto locationDto, Errors errors){
         //receives a location already created
         log.trace("addLocation - method entered location={}",locationDto);

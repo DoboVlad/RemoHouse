@@ -1,7 +1,6 @@
 package org.circuitdoctor.core.service;
 
 import org.circuitdoctor.core.model.Location;
-import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
