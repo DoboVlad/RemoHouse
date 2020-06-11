@@ -1,0 +1,5 @@
+<dataset>
+    <user_account id="1" name="Ion" surname="Pop" phoneNumber="1234567890" password="passwd1" email="ion@gamil.com"/>
+    <user_account id="2" name="Andrei" surname="Bangau" phoneNumber="0987654321" password="passwdA" email="andrei@gamil.com"/>
+    <user_account id="3" name="Alex" surname="Bangau" phoneNumber="0987234321" password="passwdAl" email="alex@gamil.com"/>
+</dataset>
