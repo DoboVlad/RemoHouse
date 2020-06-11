@@ -7,7 +7,8 @@ dependencies {
     compile(group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion")
 
     compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
-
+    compile group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "$hibernateVersion"
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: "$hibernateJpa21Version"
     compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
 
     compile group: 'org.springframework', name: 'spring-jdbc', version: "$springVersion"
@@ -17,5 +18,13 @@ dependencies {
     compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
 
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
+
+    compile group: 'com.google.guava', name: 'guava', version: "$guavaVersion"
+
+    //dbunit-test-config
+    compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
+    compile group: 'org.dbunit', name: 'dbunit', version: "$dbUnitVersion"
+    compile group: 'com.h2database', name: 'h2', version: "$h2DbVersion"
+    compile group: 'com.github.springtestdbunit', name: 'spring-test-dbunit', version: "$springtestdbunitVersion"
 
 }
