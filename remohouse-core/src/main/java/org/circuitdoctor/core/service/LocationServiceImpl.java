@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,8 +17,6 @@ public class LocationServiceImpl implements LocationService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
     private Repository<Location,Long> locationRepository;
-    @Autowired
-    private Repository<User,Long> userRepository;
     @Override
     public Set<Location> getAllLocations(Long userID) {
         log.trace("getAllLocations - method entered id={}",userID);

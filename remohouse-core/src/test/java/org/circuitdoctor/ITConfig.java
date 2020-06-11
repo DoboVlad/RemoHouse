@@ -1,4 +1,4 @@
-package org.circuitdoctor.remohouse.core;
+package org.circuitdoctor;
 
 import org.circuitdoctor.core.config.JPAConfig;
 import org.springframework.context.annotation.*;

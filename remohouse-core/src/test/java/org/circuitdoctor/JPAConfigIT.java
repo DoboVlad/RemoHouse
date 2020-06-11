@@ -1,4 +1,4 @@
-package org.circuitdoctor.remohouse.core;
+package org.circuitdoctor;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +50,7 @@ public class JPAConfigIT {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("org.circuit.core.model");
+        factory.setPackagesToScan("org.circuitdoctor.core.model");
         factory.setDataSource(dataSource());
         factory.getJpaPropertyMap().put("hibernate.generate_statistics", true);
         factory.afterPropertiesSet();
