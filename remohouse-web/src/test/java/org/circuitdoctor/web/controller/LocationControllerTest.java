@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.User;
+import org.circuitdoctor.core.repository.LocationRepository;
 import org.circuitdoctor.core.service.LocationService;
 import org.circuitdoctor.web.converter.LocationConverter;
 import org.circuitdoctor.web.dto.LocationDto;
+import org.circuitdoctor.web.dto.UserDto;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -21,11 +24,23 @@ import java.util.Set;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BeanPropertyBindingResult;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
+
+import static org.junit.Assert.*;
+import org.springframework.validation.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 public class LocationControllerTest {
 
     private MockMvc mockMvc;
@@ -41,7 +56,7 @@ public class LocationControllerTest {
     private User user1;
     private LocationDto locationDto1;
     private LocationDto locationDto2;
-
+    private Validator validator;
     @Before
     public void setup() throws Exception {
         initMocks(this);
@@ -49,6 +64,10 @@ public class LocationControllerTest {
                 .standaloneSetup(locationController)
                 .build();
         initData();
+        validator  = Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory().getValidator();
     }
 
     private void initData() {
@@ -94,30 +113,58 @@ public class LocationControllerTest {
     }
 
     @Test
+    public void testValidations(){
+        LocationDto loc = LocationDto.builder()
+                .id(0L)
+                .image("a.jpeg")
+                .latitude("")
+                .longitude("")
+                .name("")
+                .userID(1L)
+                .build();
+        Set<ConstraintViolation<LocationDto>> violations = validator.validate(loc);
+        assertFalse("no empty fields",violations.isEmpty());
+
+        loc = LocationDto.builder()
+                .id(0L)
+                .image("a.jpeg")
+                .latitude("hj")
+                .longitude("(9.8,5.6)")
+                .name("gate")
+                .userID(1L)
+                .build();
+        violations = validator.validate(loc);
+        assertFalse("latitude wrong",violations.isEmpty());
+
+        loc = LocationDto.builder()
+                .id(0L)
+                .image("a.jpeg")
+                .longitude("hj")
+                .latitude("(9.8,5.6)")
+                .name("gate")
+                .userID(1L)
+                .build();
+        violations = validator.validate(loc);
+        assertFalse("longitude wrong",violations.isEmpty());
+
+        loc = LocationDto.builder()
+                .id(0L)
+                .image("a.jpeg")
+                .latitude("(1.2,4.5)")
+                .longitude("(9.8,5.6)")
+                .name("g")
+                .userID(1L)
+                .build();
+        violations = validator.validate(loc);
+        assertFalse("name wrong",violations.isEmpty());
+    }
+    @Test
     public void addLocation() throws Exception {
         when(locationService.addLocation(location1)).thenReturn(location1);
         when(locationConverter.convertModelToDto(location1)).thenReturn(locationDto1);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("/location/addLocation")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(locationDto1)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id",is(2)));
-        verify(locationService, times(1)).addLocation(location1);
-        verify(locationConverter, times(1)).convertModelToDto(location1);
-        verifyNoMoreInteractions(locationService, locationConverter);
+        String r = locationController.addLocation(locationDto1,new BeanPropertyBindingResult(locationDto1,"s"));
+        assertEquals(r,"null");
     }
-
-    private String toJsonString(LocationDto locationDto) {
-        try {
-            return new ObjectMapper().writeValueAsString(locationDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 
     @Test
     public void getLocations() throws Exception {

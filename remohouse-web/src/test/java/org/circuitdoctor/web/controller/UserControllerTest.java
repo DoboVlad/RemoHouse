@@ -1,38 +1,23 @@
 package org.circuitdoctor.web.controller;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.service.UserService;
 import org.circuitdoctor.web.converter.UserConverter;
-import org.circuitdoctor.web.dto.LocationDto;
 import org.circuitdoctor.web.dto.UserDto;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.junit.Assert.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import java.util.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
+import org.springframework.validation.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.Set;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 public class UserControllerTest {
     private MockMvc mockMvc;
     @InjectMocks
@@ -48,6 +33,7 @@ public class UserControllerTest {
     private UserDto userDto1;
     private UserDto userDto2;
     private UserDto userDto3;
+    private Validator validator;
 
     @Before
     public void setUp() throws Exception {
@@ -56,6 +42,10 @@ public class UserControllerTest {
                 .standaloneSetup(userController)
                 .build();
         initData();
+        validator  =Validation.byDefaultProvider()
+                .configure()
+                .messageInterpolator(new ParameterMessageInterpolator())
+                .buildValidatorFactory().getValidator();
     }
 
     private void initData() {
@@ -103,64 +93,81 @@ public class UserControllerTest {
     public void login() throws Exception {
         when(userService.login(user1)).thenReturn(true);
         when(userConverter.convertModelToDto(user1)).thenReturn(userDto1);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put("user/login")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto1)))
-                .andExpect(status().isOk());
-        verify(userService, times(1)).login(user1);
-        verify(userConverter, times(1)).convertModelToDto(user1);
-        verifyNoMoreInteractions(userService, userConverter);
+        boolean r = userController.login(userDto1);
+        assertFalse("should be false", r);
     }
-    private String toJsonString(UserDto studentDto) {
-        try {
-            return new ObjectMapper().writeValueAsString(studentDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    @Test
+    public void validationErrors(){
+        UserDto userNotOk = UserDto.builder()
+                .id(23L)
+                .email("email")
+                .name("nume")
+                .password("passwffsfsefefed")
+                .phoneNumber("0123456789")
+                .surname("prenume")
+                .build();
+        Set<ConstraintViolation<UserDto>> violations = validator.validate(userNotOk);
+        assertFalse("email is worng",violations.isEmpty());
 
+        userNotOk = UserDto.builder()
+                .id(23L)
+                .email("email@email.com")
+                .name("nume123")
+                .password("pasehreshseswd")
+                .phoneNumber("0123456789")
+                .surname("prenume")
+                .build();
+        violations = validator.validate(userNotOk);
+        assertFalse("name is worng",violations.isEmpty());
+
+        userNotOk = UserDto.builder()
+                .id(23L)
+                .email("email@email.com")
+                .name("nume")
+                .password("pd")
+                .phoneNumber("0123456789")
+                .surname("prenume")
+                .build();
+        violations = validator.validate(userNotOk);
+        assertFalse("password is worng",violations.isEmpty());
+
+        userNotOk = UserDto.builder()
+                .id(23L)
+                .email("email@email.com")
+                .name("nume")
+                .password("passrhsr5hs5hsswd")
+                .phoneNumber("0123456789")
+                .surname("prenume123")
+                .build();
+        violations = validator.validate(userNotOk);
+        assertFalse("surname is worng",violations.isEmpty());
+
+        userNotOk = UserDto.builder()
+                .id(23L)
+                .email("email@email.com")
+                .name("nume123")
+                .password("passsrththswd")
+                .phoneNumber("afds")
+                .surname("prenume")
+                .build();
+        violations = validator.validate(userNotOk);
+        assertFalse("phonenumber is worng",violations.isEmpty());
+    }
     @Test
     public void signUp() throws Exception {
         when(userService.signUp(user2)).thenReturn(user2);
         when(userConverter.convertModelToDto(user2)).thenReturn(userDto2);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("user/signUp")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto2)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id",is(2)));
-        verify(userService, times(1)).signUp(user2);
-        verify(userConverter, times(1)).convertModelToDto(user2);
-        verifyNoMoreInteractions(userService, userConverter);
+        BindingResult e = new BeanPropertyBindingResult(userDto1,"s");
+        String r = userController.signUp(userDto2,  e);
+        assertEquals(r,String.valueOf(user2.getId()));
+
     }
 
     @Test
     public void changePassword() throws Exception {
         when(userService.changePassword(user3)).thenReturn(user3);
         when(userConverter.convertModelToDto(user3)).thenReturn(userDto3);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put("user/changePassword")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto3)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.password",is("changedpassword")));
-        verify(userService, times(1)).changePassword(user3);
-        verify(userConverter, times(1)).convertModelToDto(user3);
-        verifyNoMoreInteractions(userService, userConverter);
+        String r = userController.changePassword(userDto3,new BeanPropertyBindingResult(userDto3,"s"));
+        assertEquals(r,"null");
     }
-
-    private String toJsonString(LocationDto locationDto) {
-        try {
-            return new ObjectMapper().writeValueAsString(locationDto);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
