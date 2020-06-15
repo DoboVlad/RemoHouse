@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
@@ -19,12 +20,12 @@ import java.io.Serializable;
 @ToString
 @Table(name="room")
 public class Room extends BaseEntity<Long> implements Serializable {
-    private final String NAME_REGEX="^[A-Za-z][A-Za-z0-9]*$";
+
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Location location;
     @Column
     @NotBlank(message = "name is mandatory")
-    @Pattern(regexp = NAME_REGEX)
+    @Size(min = 2)
     private String name;
 }

@@ -18,6 +18,7 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -135,6 +136,33 @@ public class LocationServiceTest {
 
 
 
+
+    }
+
+    @Test
+    public void checkAccessLocation(){
+        User user20 = User.builder()
+                .name("bbbbbbbb").surname("bbbbbb").password("passwd200")
+                .phoneNumber("2020202020").email("bbbbb@gmail.com").build();
+        user20.setId((long) 20);
+        User user10 = User.builder()
+                .name("aaaaa").surname("aaaaaa").password("passwd100")
+                .phoneNumber("1010102120").email("aaaaa@gmail.com").build();
+        user10.setId((long) 10);
+        Location location1=Location.builder()
+                .latitude("(123,345)").longitude("(234,567)").image("img1")
+                .name("nume1").user(user10).build();
+        location1.setId((long) 1);
+        Location location2=Location.builder()
+                .latitude("(123.23,345.43)").longitude("(123.12,4566.12)").image("img2")
+                .name("nume2").user(user10).build();
+        location2.setId((long) 2);
+        locationServie.addLocation(location1);
+        locationServie.addLocation(location2);
+
+
+        assertTrue(locationServie.checkAccessLocation(user10.getId(),location1.getId()));
+        assertFalse(locationServie.checkAccessLocation(user20.getId(),location1.getId()));
 
     }
 
