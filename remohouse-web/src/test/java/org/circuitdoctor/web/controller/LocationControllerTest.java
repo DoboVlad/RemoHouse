@@ -99,7 +99,7 @@ public class LocationControllerTest {
         when(locationConverter.convertModelToDto(location1)).thenReturn(locationDto1);
         ResultActions resultActions = mockMvc
                 .perform(MockMvcRequestBuilders
-                        .post("location/addLocation")
+                        .post("/location/addLocation")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(toJsonString(locationDto1)))
                 .andExpect(status().isOk())
