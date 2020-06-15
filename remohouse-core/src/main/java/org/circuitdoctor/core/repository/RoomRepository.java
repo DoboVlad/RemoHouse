@@ -1,4 +1,6 @@
 package org.circuitdoctor.core.repository;
 
-public interface RoomRepository {
+import org.circuitdoctor.core.model.Room;
+
+public interface RoomRepository extends Repository<Room,Long> {
 }
