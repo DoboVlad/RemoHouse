@@ -56,7 +56,12 @@ public class UserController {
             return "validation errors";
         }
         User user=userConverter.convertDtoToModel(userDto);
-        User newUser = userService.changePassword(user);
+
+
+        User newUser= userService.changePassword(user);
+
+
+
         UserDto newUserDto = null;
         if(newUser!=null)
             newUserDto =userConverter.convertModelToDto(newUser);

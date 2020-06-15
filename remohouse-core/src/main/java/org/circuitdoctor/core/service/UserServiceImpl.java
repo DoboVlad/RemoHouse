@@ -1,5 +1,6 @@
 package org.circuitdoctor.core.service;
 
+import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;
@@ -59,6 +60,12 @@ public class UserServiceImpl implements UserService {
 
         AtomicReference<User> newUser = new AtomicReference<>();
         Optional<User> userFromDB = userRepository.findById(user.getId());
+        if(userFromDB.get().getPassword().length()<7){
+            log.trace("changePassord - invalid Password size(<7)");
+            return userFromDB.get();
+
+        }
+
         userFromDB.ifPresent(userDB->{
             userDB.setPassword(user.getPassword());
             userRepository.save(userDB);
@@ -69,7 +76,4 @@ public class UserServiceImpl implements UserService {
         return newUser.get();
 
     }
-
-
-
 }
