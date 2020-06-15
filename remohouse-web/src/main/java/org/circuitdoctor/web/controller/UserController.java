@@ -47,24 +47,28 @@ public class UserController {
         log.trace("signUp - method finished result={}",result);
         return String.valueOf(userDto.getId());
     }
-    @RequestMapping(value = "user/changePassword", method = RequestMethod.PUT)
-    public String changePassword(@RequestBody @Valid UserDto userDto,BindingResult errors){
+    @RequestMapping(value = "user/changePassword/{userID}", method = RequestMethod.PUT)
+    public String changePassword(@RequestBody @Valid UserDto userDto, @PathVariable Long userID, BindingResult errors){
         log.trace("changePassword - method entered user={}",userDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
             log.trace("changePassword - validation error");
             return "validation errors";
         }
-        User user=userConverter.convertDtoToModel(userDto);
-        User newUser = userService.changePassword(user);
-        UserDto newUserDto = null;
-        if(newUser!=null)
-            newUserDto =userConverter.convertModelToDto(newUser);
+        if(userID.equals(userDto.getId())) {
+            User user = userConverter.convertDtoToModel(userDto);
+            User newUser = userService.changePassword(user);
+            UserDto newUserDto = null;
+            if (newUser != null)
+                newUserDto = userConverter.convertModelToDto(newUser);
 
-        log.trace("changePassword - method finished user={}",newUserDto);
-        if(newUser != null)
-            return String.valueOf(newUser.getId());
-        return "null";
+            log.trace("changePassword - method finished user={}", newUserDto);
+            if (newUser != null)
+                return String.valueOf(newUser.getId());
+            return "null";
+        }
+        log.warn("changePassword - user ids don't match");
+        return "user ids don't match";
     }
 
 
