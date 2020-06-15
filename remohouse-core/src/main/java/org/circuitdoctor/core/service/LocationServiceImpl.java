@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,5 +34,18 @@ public class LocationServiceImpl implements LocationService {
         Location locationResult = locationRepository.save(location);
         log.trace("addLocation - method finished l={}",locationResult);
         return locationResult;
+    }
+
+    @Override
+    public boolean checkAccessLocation(Long userID, Long locationID) {
+        log.trace("checkAccessLocation - method entered uid={} lid={}",userID,locationID);
+        Optional<Location> locationOpt = locationRepository.findById(locationID);
+        AtomicReference<Boolean> result = new AtomicReference<>(false);
+        locationOpt.ifPresent(location->{
+            if(location.getUser().getId()==userID)
+                result.set(true);
+        });
+        log.trace("checkAccessLocation - method finished r={}",result.get());
+        return result.get();
     }
 }
