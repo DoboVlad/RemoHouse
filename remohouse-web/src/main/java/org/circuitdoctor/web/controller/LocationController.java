@@ -7,6 +7,8 @@ import org.circuitdoctor.web.dto.LocationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,17 +24,19 @@ public class LocationController {
     private LocationConverter locationConverter;
 
     @RequestMapping(value = "location/addLocation",method = RequestMethod.POST)
-    LocationDto addLocation(@RequestBody @Valid LocationDto locationDto, Errors errors){
+    String addLocation(@RequestBody @Valid LocationDto locationDto, BindingResult bindingResult){
         //receives a location already created
         log.trace("addLocation - method entered location={}",locationDto);
-        if(errors.hasErrors()){
-            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
+        if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
             log.trace("addLocation - validation error occurred");
-            return null;
+            return "validation error";
         }
         Location result = locationService.addLocation(locationConverter.convertDtoToModel(locationDto));
         log.trace("addLocation - method finished l={}",result);
-        return locationConverter.convertModelToDto(result);
+        if(result!=null)
+            return String.valueOf(result.getId());
+        return "null";
     }
 
     @RequestMapping(value = "location/getLocations/{userID}",method = RequestMethod.GET)
@@ -42,4 +46,5 @@ public class LocationController {
         log.trace("getLocations - method finished l={}",locations);
         return locationConverter.convertModelsToDtos(locations);
     }
+
 }

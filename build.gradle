@@ -88,6 +88,11 @@ allprojects {
             exclude group:'org.hamcrest', module:'hamcrest-core'
         }
         testCompile group: 'org.springframework', name: 'spring-test', version: "$springVersion"
+// https://mvnrepository.com/artifact/javax.el/el-api
+        //testCompile group: 'javax.el', name: 'el-api', version: '2.2'
+        // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el
+        testCompile group: 'org.apache.tomcat', name: 'tomcat-jasper-el', version: '10.0.0-M6'
+        compile 'javax.el:javax.el-api:2.2.4'
 
     }
 }

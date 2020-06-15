@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,26 +34,26 @@ public class UserController {
         return result.get();
     }
     @RequestMapping(value = "user/signUp", method = RequestMethod.POST)
-    UserDto signUp(@RequestBody @Valid UserDto userDto, Errors errors){
+    String signUp(@RequestBody @Valid UserDto userDto, BindingResult errors){
         //return null if some error occurred
         log.trace("signUp - method entered user={}",userDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error-> log.error("error - {}",error.toString()));
             log.trace("signUp - validation error");
-            return null;
+            return "validation errors";
         }
         User user = userConverter.convertDtoToModel(userDto);
         UserDto result= userConverter.convertModelToDto(userService.signUp(user));
         log.trace("signUp - method finished result={}",result);
-        return userDto;
+        return String.valueOf(userDto.getId());
     }
     @RequestMapping(value = "user/changePassword", method = RequestMethod.PUT)
-    public UserDto changePassword(@RequestBody @Valid UserDto userDto,Errors errors){
+    public String changePassword(@RequestBody @Valid UserDto userDto,BindingResult errors){
         log.trace("changePassword - method entered user={}",userDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
             log.trace("changePassword - validation error");
-            return null;
+            return "validation errors";
         }
         User user=userConverter.convertDtoToModel(userDto);
         User newUser = userService.changePassword(user);
@@ -61,7 +62,9 @@ public class UserController {
             newUserDto =userConverter.convertModelToDto(newUser);
 
         log.trace("changePassword - method finished user={}",newUserDto);
-        return newUserDto;
+        if(newUser != null)
+            return String.valueOf(newUser.getId());
+        return "null";
     }
 
 
