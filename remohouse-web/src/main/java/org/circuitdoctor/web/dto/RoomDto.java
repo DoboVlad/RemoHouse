@@ -2,7 +2,7 @@ package org.circuitdoctor.web.dto;
 
 import lombok.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +15,6 @@ public class RoomDto extends BaseDto{
     private Long id;
     private Long locationID;
     @NotBlank(message = "name is mandatory")
-    @Pattern(regexp = NAME_REGEX)
+    @Size(min = 2)
     private String name;
 }

@@ -1,14 +1,10 @@
 package org.circuitdoctor.web.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.User;
-import org.circuitdoctor.core.repository.LocationRepository;
 import org.circuitdoctor.core.service.LocationService;
 import org.circuitdoctor.web.converter.LocationConverter;
 import org.circuitdoctor.web.dto.LocationDto;
-import org.circuitdoctor.web.dto.UserDto;
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,22 +21,15 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BeanPropertyBindingResult;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
 import static org.hamcrest.CoreMatchers.anyOf;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-
 import static org.junit.Assert.*;
-import org.springframework.validation.*;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 public class LocationControllerTest {
 
     private MockMvc mockMvc;

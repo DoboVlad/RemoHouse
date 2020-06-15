@@ -1,11 +1,7 @@
 package org.circuitdoctor.web.controller;
-
 import org.circuitdoctor.core.model.Room;
-import org.circuitdoctor.core.model.User;
-import org.circuitdoctor.core.repository.UserRepository;
 import org.circuitdoctor.core.service.LocationService;
 import org.circuitdoctor.core.service.RoomService;
-import org.circuitdoctor.core.service.UserService;
 import org.circuitdoctor.web.converter.RoomConverter;
 import org.circuitdoctor.web.dto.RoomDto;
 import org.slf4j.Logger;
@@ -13,9 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 public class RoomController {
@@ -41,6 +35,7 @@ public class RoomController {
             log.trace("addRoom - method finished r={}", r);
             return String.valueOf(r.getId());
         }
+        log.warn("addRoom - {} has no access",userID);
         return "user has no access";
     }
 
@@ -57,6 +52,7 @@ public class RoomController {
             log.trace("updateRoom - method finished r={}", r);
             return String.valueOf(r.getId());
         }
+        log.warn("updateRoom - {} has no access",id);
         return "user has no access";
     }
 }
