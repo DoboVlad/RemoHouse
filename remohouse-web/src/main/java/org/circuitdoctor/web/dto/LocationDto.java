@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @ToString(callSuper = true)
 @Builder
 public class LocationDto extends BaseDto {
-    private final String LAT_LONG_REGEX = "^(\\()([-+]?)([\\d]{1,2})(((\\.)(\\d+)(,)))(\\s*)(([-+]?)([\\d]{1,3})((\\.)(\\d+))?(\\)))$";
+    private final String LAT_LONG_REGEX = "^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$";
     private Long id;
     @NotBlank(message = "Longitude is mandatory")
     @Pattern(regexp = LAT_LONG_REGEX)
