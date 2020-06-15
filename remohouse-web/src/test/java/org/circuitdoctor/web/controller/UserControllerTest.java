@@ -12,27 +12,19 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.junit.Assert.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.containsString;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import java.util.*;
-import static org.hamcrest.Matchers.hasSize;
+
+import org.springframework.validation.BindException;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 public class UserControllerTest {
     private MockMvc mockMvc;
     @InjectMocks
@@ -103,15 +95,8 @@ public class UserControllerTest {
     public void login() throws Exception {
         when(userService.login(user1)).thenReturn(true);
         when(userConverter.convertModelToDto(user1)).thenReturn(userDto1);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put("user/login")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto1)))
-                .andExpect(status().isOk());
-        verify(userService, times(1)).login(user1);
-        verify(userConverter, times(1)).convertModelToDto(user1);
-        verifyNoMoreInteractions(userService, userConverter);
+        boolean r = userController.login(userDto1);
+        assertEquals("should be false",r,false);
     }
     private String toJsonString(UserDto studentDto) {
         try {
@@ -125,34 +110,17 @@ public class UserControllerTest {
     public void signUp() throws Exception {
         when(userService.signUp(user2)).thenReturn(user2);
         when(userConverter.convertModelToDto(user2)).thenReturn(userDto2);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .post("user/signUp")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto2)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.id",is(2)));
-        verify(userService, times(1)).signUp(user2);
-        verify(userConverter, times(1)).convertModelToDto(user2);
-        verifyNoMoreInteractions(userService, userConverter);
+        Errors e = new BeanPropertyBindingResult(userDto1,"s");
+        UserDto r = userController.signUp(userDto1,  e);
+        assertEquals(r,userDto1);
     }
 
     @Test
     public void changePassword() throws Exception {
         when(userService.changePassword(user3)).thenReturn(user3);
         when(userConverter.convertModelToDto(user3)).thenReturn(userDto3);
-        ResultActions resultActions = mockMvc
-                .perform(MockMvcRequestBuilders
-                        .put("user/changePassword")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(toJsonString(userDto3)))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.password",is("changedpassword")));
-        verify(userService, times(1)).changePassword(user3);
-        verify(userConverter, times(1)).convertModelToDto(user3);
-        verifyNoMoreInteractions(userService, userConverter);
+        UserDto r = userController.changePassword(userDto3,new BeanPropertyBindingResult(userDto3,"s"));
+        assertEquals(r,null);
     }
 
     private String toJsonString(LocationDto locationDto) {
