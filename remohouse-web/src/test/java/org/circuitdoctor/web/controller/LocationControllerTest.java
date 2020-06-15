@@ -151,7 +151,7 @@ public class LocationControllerTest {
     public void addLocation() throws Exception {
         when(locationService.addLocation(location1)).thenReturn(location1);
         when(locationConverter.convertModelToDto(location1)).thenReturn(locationDto1);
-        String r = locationController.addLocation(locationDto1,new BeanPropertyBindingResult(locationDto1,"s"));
+        String r = locationController.addLocation(locationDto1,location1.getUser().getId(),new BeanPropertyBindingResult(locationDto1,"s"));
         assertEquals(r,"null");
     }
 

@@ -18,11 +18,7 @@ import java.io.Serializable;
 @ToString
 @Table(name="location")
 public class Location extends BaseEntity<Long> implements Serializable {
-    /*
-    Latitude and longitude type:
-    (80.0123, -34.034)
-     */
-    private final String LAT_LONG_REGEX = "^(\\()([-+]?)([\\d]{1,2})(((\\.)(\\d+)(,)))(\\s*)(([-+]?)([\\d]{1,3})((\\.)(\\d+))?(\\)))$";
+    private final String LAT_LONG_REGEX = "^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$";
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Latitude is mandatory")
     @Pattern(regexp = LAT_LONG_REGEX,message = "Latitude has invalid format")
