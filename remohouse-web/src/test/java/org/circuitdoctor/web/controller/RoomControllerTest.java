@@ -73,8 +73,8 @@ public class RoomControllerTest {
         user.setId(1L);
         location = Location.builder()
                 .image("image.pdf")
-                .latitude("(1.2,3.4)")
-                .longitude("(8.6,5.4)")
+                .latitude("1.2")
+                .longitude("8.6")
                 .name("my house")
                 .user(user)
                 .build();

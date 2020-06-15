@@ -71,8 +71,8 @@ public class LocationControllerTest {
         location1 = Location.builder()
                 .user(user1)
                 .name("apartment1")
-                .longitude("(1.2,2.3)")
-                .latitude("(2.3,3.4)")
+                .longitude("1.2")
+                .latitude("2.3")
                 .image("image.jpeg")
                 .build();
         location1.setId(1L);
@@ -80,8 +80,8 @@ public class LocationControllerTest {
         location2 = Location.builder()
                 .user(user1)
                 .name("apartment12")
-                .longitude("(1.3,2.3)")
-                .latitude("(2.4,3.4)")
+                .longitude("1.3")
+                .latitude("2.4")
                 .image("image2.jpeg")
                 .build();
         location2.setId(2L);
@@ -118,7 +118,7 @@ public class LocationControllerTest {
                 .id(0L)
                 .image("a.jpeg")
                 .latitude("hj")
-                .longitude("(9.8,5.6)")
+                .longitude("9.8")
                 .name("gate")
                 .userID(1L)
                 .build();
@@ -129,7 +129,7 @@ public class LocationControllerTest {
                 .id(0L)
                 .image("a.jpeg")
                 .longitude("hj")
-                .latitude("(9.8,5.6)")
+                .latitude("9.85")
                 .name("gate")
                 .userID(1L)
                 .build();
@@ -139,8 +139,8 @@ public class LocationControllerTest {
         loc = LocationDto.builder()
                 .id(0L)
                 .image("a.jpeg")
-                .latitude("(1.2,4.5)")
-                .longitude("(9.8,5.6)")
+                .latitude("1.2")
+                .longitude("9.8")
                 .name("g")
                 .userID(1L)
                 .build();
@@ -151,7 +151,7 @@ public class LocationControllerTest {
     public void addLocation() throws Exception {
         when(locationService.addLocation(location1)).thenReturn(location1);
         when(locationConverter.convertModelToDto(location1)).thenReturn(locationDto1);
-        String r = locationController.addLocation(locationDto1,new BeanPropertyBindingResult(locationDto1,"s"));
+        String r = locationController.addLocation(locationDto1,location1.getUser().getId(),new BeanPropertyBindingResult(locationDto1,"s"));
         assertEquals(r,"null");
     }
 

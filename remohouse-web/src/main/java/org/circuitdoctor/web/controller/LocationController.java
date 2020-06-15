@@ -20,8 +20,8 @@ public class LocationController {
     @Autowired
     private LocationConverter locationConverter;
 
-    @RequestMapping(value = "location/addLocation",method = RequestMethod.POST)
-    String addLocation(@RequestBody @Valid LocationDto locationDto, BindingResult bindingResult){
+    @RequestMapping(value = "location/addLocation/{userID}",method = RequestMethod.POST)
+    String addLocation(@RequestBody @Valid LocationDto locationDto,@PathVariable Long userID, BindingResult bindingResult){
         //receives a location already created
         log.trace("addLocation - method entered location={}",locationDto);
         if(bindingResult.hasErrors()){
@@ -29,11 +29,15 @@ public class LocationController {
             log.trace("addLocation - validation error occurred");
             return "validation error";
         }
-        Location result = locationService.addLocation(locationConverter.convertDtoToModel(locationDto));
-        log.trace("addLocation - method finished l={}",result);
-        if(result!=null)
-            return String.valueOf(result.getId());
-        return "null";
+        if(userID.equals(locationDto.getUserID())) {
+            Location result = locationService.addLocation(locationConverter.convertDtoToModel(locationDto));
+            log.trace("addLocation - method finished l={}", result);
+            if (result != null)
+                return String.valueOf(result.getId());
+            return "null";
+        }
+        log.trace("addLocation - userID in path and userID in location are different");
+        return "different user ids";
     }
 
     @RequestMapping(value = "location/getLocations/{userID}",method = RequestMethod.GET)

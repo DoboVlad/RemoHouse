@@ -167,7 +167,7 @@ public class UserControllerTest {
     public void changePassword() throws Exception {
         when(userService.changePassword(user3)).thenReturn(user3);
         when(userConverter.convertModelToDto(user3)).thenReturn(userDto3);
-        String r = userController.changePassword(userDto3,new BeanPropertyBindingResult(userDto3,"s"));
+        String r = userController.changePassword(userDto3,userDto3.getId(),new BeanPropertyBindingResult(userDto3,"s"));
         assertEquals(r,"null");
     }
 }
