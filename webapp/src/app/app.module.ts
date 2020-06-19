@@ -38,6 +38,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import { TopClientsComponent } from './clients/top-clients/top-clients.component';
 import { TopBooksComponent } from './books/top-books/top-books.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { SignupLoginComponent } from './signup-login/signup-login.component';
+import { GetstartedComponent } from './getstarted/getstarted.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { AboutusComponent } from './aboutus/aboutus.component';
     UpdatePurchaseBookComponent,
     TopClientsComponent,
     TopBooksComponent,
-    AboutusComponent
+    AboutusComponent,
+    SignupLoginComponent,
+    GetstartedComponent
   ],
   imports: [
     BrowserModule,

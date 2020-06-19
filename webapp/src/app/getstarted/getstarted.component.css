@@ -1,0 +1,17 @@
+h1{top:25%;
+  left: 10%;
+  position:absolute;
+  color:rgb(139,200,219);
+  text-transform: uppercase;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+div.step{top: 55%;
+  left:10%;
+  color: rgb(255,255,255);
+  position: absolute;
+}
+p{font-size: 20px;
+  color:rgb(139,200,219);
+}
