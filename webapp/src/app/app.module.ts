@@ -16,10 +16,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import { AboutusComponent } from './aboutus/aboutus.component';
-import { SignupLoginComponent } from './signup-login/signup-login.component';
-import { GetstartedComponent } from './getstarted/getstarted.component';
-import { HomeComponent } from './home/home.component';
+import { AboutusComponent } from './components/aboutus/aboutus.component';
+import { SignupLoginComponent } from './components/signup-login/signup-login.component';
+import { GetstartedComponent } from './components/getstarted/getstarted.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
