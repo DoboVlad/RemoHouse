@@ -37,6 +37,7 @@ import { UpdatePurchaseBookComponent } from './purchases/update-purchase-book/up
 import {MatPaginatorModule} from "@angular/material/paginator";
 import { TopClientsComponent } from './clients/top-clients/top-clients.component';
 import { TopBooksComponent } from './books/top-books/top-books.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { TopBooksComponent } from './books/top-books/top-books.component';
     UpdatePurchaseClientComponent,
     UpdatePurchaseBookComponent,
     TopClientsComponent,
-    TopBooksComponent
+    TopBooksComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,
