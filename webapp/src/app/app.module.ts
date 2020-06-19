@@ -40,6 +40,7 @@ import { TopBooksComponent } from './books/top-books/top-books.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { SignupLoginComponent } from './signup-login/signup-login.component';
 import { GetstartedComponent } from './getstarted/getstarted.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { GetstartedComponent } from './getstarted/getstarted.component';
     TopBooksComponent,
     AboutusComponent,
     SignupLoginComponent,
-    GetstartedComponent
+    GetstartedComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
