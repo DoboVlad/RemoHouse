@@ -47,7 +47,6 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { SignupLoginComponent } from './signup-login/signup-login.component';
 import { GetstartedComponent } from './getstarted/getstarted.component';
 import { HomeComponent } from './home/home.component';
->>>>>>> parent of e094e7f... got rid of unnecessary components
 
 @NgModule({
   declarations: [
