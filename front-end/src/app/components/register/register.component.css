@@ -6,7 +6,8 @@
 }
 
 body {
-  background: #f6f5f7;
+  background: url("background.jpg") no-repeat;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
