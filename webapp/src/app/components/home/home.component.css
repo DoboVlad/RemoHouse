@@ -1,5 +1,5 @@
 .body{
-  background-image: url('src/assets/img/FUNDAL.jpeg') !important;
+  background-image: url('src/assets/backgroung.jpg') !important;
   background-size: cover;
   background-position: center center;
   position: fixed;
@@ -47,4 +47,36 @@ a{
   color:#F2F5EA;
   /*color:black;*/
   text-decoration:none;
+}
+.mat-display-2{
+  color: #ddd8c4;
+  letter-spacing: 2px;
+}
+
+nav {
+  padding-top:8%;
+  display: inline;
+}
+
+a:link {
+  color: #ddd8c4;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: #ddd8c4;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: #dc7233;
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: #ddd8c4;
+  text-decoration: none;
 }
