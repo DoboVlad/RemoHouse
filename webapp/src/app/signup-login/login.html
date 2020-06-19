@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<html>
+<head>
+  <!-- Meta tags -->
+  <style>
+    html{
+      min-height: 100% !important;
+      height: 100%;
+    }
+    body{
+      background: url("FUNDAL.jpeg") no-repeat center center fixed !important;
+      background-size: cover !important;
+      width: 100%;
+      min-height: 100% !important;
+      height: 100%;
+    }
+    iframe, #div1, #div2{
+      width: 100%;
+      height: 100%;
+    }
+    iframe{
+      border-radius: 5px;
+      border: none;
+    }
+
+    .vcenter {
+      display: flex;
+      align-items: center;
+    }
+
+    #wrapper{
+      height: 90%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media only screen and (max-width: 600px){
+      main{
+        width: 100% !important;
+      }
+    }
+
+    @media only screen and (min-width: 600px){
+      main{
+        width: 500px !important;
+      }
+    }
+
+  </style>
+  <meta charset = "utf-8">
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1, shrink-to-fit = no">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--body here-->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Home(Logo)</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="#">About us</a></li>
+      <li><a href="#">Get started</a></li>
+
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+<div id="wrapper">
+  <main id="main" class="container-fluid" style="height: 50%; width: 30%">
+    <div id="div1" class="container">
+      <div id="div2" class="col-1 center-block" style="float: none;">
+        <iframe src="login.html">
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

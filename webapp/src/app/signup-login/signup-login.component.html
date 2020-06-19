@@ -81,3 +81,64 @@
   </div>
 </div>
 
+
+<!--login iframe-->
+<!--idkman-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <!---head here-->
+  <title>Login</title>
+  <style>
+    body {
+      background: #181818 !important;
+      color: #b3b3b3 !important;
+    }
+    #button{
+      bottom:0;
+      position: fixed;
+    }
+  </style>
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1, shrink-to-fit = no">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+</head>
+<body>
+<!--body here-->
+<main ng-app="login">
+  <div class="h1">Log in</div>
+  <hr>
+  <div>
+    <form id="login-form" name="login">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="text" name="username" id="username" placeholder="Username or Phone Number" class="form-control input-lg" >
+      </div>
+      <span id="username-glyph" class="hidden"></span>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+        <input type="password" name="password" id="password" placeholder="Password" class="form-control input-lg">
+      </div>
+      <span id="password-glyph" class="hidden"></span>
+      <br>
+      <div class="container-fluid">
+        <div class="container">
+          <div class="col-1 center-block text-right">
+            <a href="#">
+              Don't have an account? Sign up
+            </a>
+          </div>
+        </div>
+      </div>
+      <div id="button" class="btn-group btn-group-justified">
+        <a href="#" class="btn btn-primary">Login</a>
+      </div>
+    </form>
+  </div>
+</main>
+</body>
+</html>
