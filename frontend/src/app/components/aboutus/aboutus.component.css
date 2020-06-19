@@ -1,0 +1,42 @@
+body{
+  min-height: 100vh;
+  height:auto;
+  margin:0;
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+div.about{
+  text-align: center;
+  width: 20%;
+  color: white;
+  font-size: 2em;
+  text-shadow: 4px 2px 3px black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li.dr{
+  float:right;
+  display: flex;
+  border: 1px solid yellow;
+}
+
+div.figura{
+  width:22%;
+  height:16%;
+  display: flex;
+}
+
+article{
+  width:22%;
+  color:white;
+  height:15%;
+  align-items: center;
+}
+
+span.nume{
+  margin-right: 8%;
+}
