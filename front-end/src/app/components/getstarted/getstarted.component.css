@@ -12,14 +12,13 @@ div.step{top: 55%;
   left:10%;
   color: black;
   position: absolute;
-
 }
 p{
   font-size: 20px;
   color:black;
 }
 body{
-  background-image: url("background.jpg");
+  background-image: url("background.jpg") !important;
   background-repeat: no-repeat;
   background-size: cover;
 }
