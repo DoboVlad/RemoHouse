@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,21 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit{
   title = 'REMO';
 
+  constructor(private router: Router) {
+    router.events.subscribe((val)=>{
+      if(val instanceof  NavigationStart && router.navigated){
+        const x = document.getElementById("nav");
+        if (x.className === "navbar") {
+          x.className += " responsive";
+        } else {
+          x.className = "navbar";
+        }
+      }
+    });
+  }
+
   ngOnInit(): void {
+    //responsive navbar for mobile
     function show() {
       const x = document.getElementById("nav");
       if (x.className === "navbar") {
@@ -21,6 +36,7 @@ export class AppComponent implements OnInit{
     const icon = document.getElementById("icon");
     icon.addEventListener("click", show);
 
+    //sticky navbar
     window.onscroll = function() {fixNav()};
 
     var header = document.getElementById("nav");
