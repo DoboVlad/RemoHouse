@@ -32,7 +32,24 @@ public class GSMControllerController {
     @Autowired
     private LocationService locationService;
 
-
+    @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
+    public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
+        log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
+            log.trace("addRoom - validation error");
+            return "validation errors";
+        }
+        GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
+        boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
+        if(userHasAccessToThisLocation) {
+            GSMController g = gsmControllerService.addGSMController(gsmController);
+            log.trace("addRoom - method finished gsm={}", g);
+            return String.valueOf(g.getId());
+        }
+        log.warn("addGSMController - {} has no access",userID);
+        return "user has no access";
+    }
     @RequestMapping(value = "gsm/open/{userID}/{message}", method = RequestMethod.PUT)
     String openGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         log.trace("entered openGSM message={}",message);
@@ -45,23 +62,25 @@ public class GSMControllerController {
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
         boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
         if(!userHasAccessToThisLocation){
-            log.trace("openGSM -  user has no access to room");
+            log.warn("openGSM -  user has no access to room");
             return "error: user has no access to this location";
         }
 
         //check if gsm is already opened
         if(gsmController.getStatus().equals(GSMStatus.ON)){
-            log.trace("openGSM - gsmController is already opened");
+            log.warn("openGSM - gsmController is already opened");
             return "gsmController already opened";
         }
 
 
         String responseMessage=gsmControllerService.sendMessage(message);
         if(responseMessage.equals("ok")){
-            gsmControllerService.setGSMControllerON(gsmController.getId());
+            gsmControllerService.setGSMControllerON(gsmController);
+            log.trace("finished openGSM ");
             return "ok";
         }
-        log.trace("finished openGSM ");
+        log.warn("something went wrong when the open message was sent");
+
 
         return "something went wrong when the open message was sent";
     }
@@ -77,24 +96,25 @@ public class GSMControllerController {
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
         boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
         if(!userHasAccessToThisLocation){
-            log.trace("openGSM -  user has no access to room");
+            log.warn("closeGSM -  user has no access to room");
             return "error: user has no access to this location";
         }
 
         //check if gsm is already closed
         if(gsmController.getStatus().equals(GSMStatus.OFF)){
-            log.trace("openGSM - gsmController is already closed");
+            log.warn("closeGSM - gsmController is already closed");
             return "gsmController already closed";
         }
 
 
         String responseMessage=gsmControllerService.sendMessage(message);
         if(responseMessage.equals("ok")){
-            gsmControllerService.setGSMControllerOFF(gsmController.getId());
+            gsmControllerService.setGSMControllerOFF(gsmController);
+            log.trace("finished closeGSM ");
             return "ok";
         }
-        log.trace("finished closeGSM ");
 
+        log.warn("something went wrong when the close message was sent");
         return "something went wrong when the close message was sent";
     }
 }

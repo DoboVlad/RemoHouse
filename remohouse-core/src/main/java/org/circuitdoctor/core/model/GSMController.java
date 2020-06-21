@@ -26,6 +26,7 @@ public class GSMController extends BaseEntity<Long> implements Serializable {
     @Digits(fraction=0,integer=10)
     private String phoneNumber;
     @Column(nullable = false)
+    @Builder.Default
     private GSMStatus status=OFF;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

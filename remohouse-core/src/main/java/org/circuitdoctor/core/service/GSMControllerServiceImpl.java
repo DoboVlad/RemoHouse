@@ -1,15 +1,15 @@
 package org.circuitdoctor.core.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.circuitdoctor.core.model.GSMController;
-import org.circuitdoctor.core.model.GSMStatus;
-import org.circuitdoctor.core.model.Location;
-import org.circuitdoctor.core.model.User;
+import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.repository.GSMControllerRepository;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -18,16 +18,16 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-
+@Service
 public class GSMControllerServiceImpl implements GSMControllerService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
-    private Repository<GSMController,Long> gsmRepository;
+    private GSMControllerRepository gsmRepository;
     @Override
-    public GSMController setGSMControllerON(Long gsmID) {
-        log.trace("entered setGSMControllerON gsmID={}",gsmID);
+    public GSMController setGSMControllerON(GSMController gsmCtrl) {
+        log.trace("entered setGSMControllerON gsmCtrl={}",gsmCtrl);
         AtomicReference<GSMController> newGSMCtrl = new AtomicReference<>();
-        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmID);
+        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmCtrl.getId());
 
 
         gsmFromDB.ifPresent(gsmDB->{
@@ -35,15 +35,15 @@ public class GSMControllerServiceImpl implements GSMControllerService {
             gsmRepository.save(gsmDB);
             newGSMCtrl.set(gsmDB);
         });
-        log.trace("finished setGSMControllerON");
+        log.trace("finished setGSMControllerON gsmCtrl={}",newGSMCtrl);
         return newGSMCtrl.get();
     }
 
     @Override
-    public GSMController setGSMControllerOFF(Long gsmID) {
-        log.trace("entered setGSMControllerOFF gsmID={}",gsmID);
+    public GSMController setGSMControllerOFF(GSMController gsmCtrl) {
+        log.trace("entered setGSMControllerOFF gsmCtrl={}",gsmCtrl);
         AtomicReference<GSMController> newGSMCtrl = new AtomicReference<>();
-        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmID);
+        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmCtrl.getId());
 
 
         gsmFromDB.ifPresent(gsmDB->{
@@ -53,6 +53,14 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         });
         log.trace("finished setGSMControllerOFF");
         return newGSMCtrl.get();
+    }
+
+    @Override
+    public GSMController addGSMController(@Valid GSMController gsmCtrl) {
+        log.trace("addGSMController - method entered gsm={}",gsmCtrl);
+        GSMController result =gsmRepository.save(gsmCtrl);
+        log.trace("addGSMController - method finished newGSM={}",gsmCtrl);
+        return result;
     }
 
 
