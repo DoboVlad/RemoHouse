@@ -1,5 +1,5 @@
 h1{
-  top:25%;
+  top:10%;
   left:2%;
   /*position:absolute;*/
   color:#9FC490;
@@ -19,7 +19,7 @@ p{
 }
 
 div.container-fluid {
-  top: 55%;
+  padding-bottom:10%;
   /*left:10%;*/
   color:#C0DFA1;
   /*position: absolute;*/
@@ -28,7 +28,7 @@ div.container-fluid {
 @media screen and (max-width: 600px){
   h1{
     top:15%;
-    left:10%;
+    padding-left:8%;
     font-size:30px;
   }
   p{
@@ -41,10 +41,19 @@ div.container-fluid {
     color:#C0DFA1;
     /*position: absolute;*/
     font-size:15px;
-  }
-
+  }}
+@media screen and (min-width: 700px){
+    h1{
+      padding-bottom:6vw;
+      padding-left:40px;
+      font-size:4vw;
+    }
 }
 body{
+  background-image: url(background.jpg);
+  height: 2300px;
+  background-repeat: no-repeat;
+  background-size: cover;
   /*background-image: url(background.jpg);*/
   /*height: 900px;*/
   /*background-repeat: no-repeat;*/
