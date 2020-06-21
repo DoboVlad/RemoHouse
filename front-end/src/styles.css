@@ -2,5 +2,22 @@
 html, body{
   margin: 0;
   padding: 0;
-  max-height: 97.25vh; /*asta o sa se modifice dupa ce facem navbarul*/
+}
+
+html{
+  background: url("app/background.jpg") no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+@media screen and (min-width: 600px){
+  html{
+    background: url("app/background.jpg") no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 }
