@@ -1,24 +1,52 @@
 h1{
   top:25%;
-  left: 10%;
+  left:2%;
   position:absolute;
-  color:black;
+  color:#9FC490;
   text-transform: uppercase;
-  font-size: 40px;
+  font-size: 4vw;
   font-weight: bold;
+  font-family: "Book Antiqua", "serif";
+}
+ @font-face {
+   font-family: "CustomFont";
+   src: url('Merriweather-BlackItalic.ttf');
+ }
+p{
+  font-family: 'CustomFont','sans-serif';
+  font-size: 3vw;
+  color:#C6E0FF;
 }
 
-div.step{top: 55%;
-  left:10%;
-  color: black;
+div.container-fluid {
+  top: 55%;
+  /*left:10%;*/
+  color:#C0DFA1;
   position: absolute;
+  font-size: 1.5vw;
 }
-p{
-  font-size: 20px;
-  color:black;
+@media screen and (max-width: 600px){
+  h1{
+    top:15%;
+    left:10%;
+    font-size:30px;
+  }
+  p{
+    font-size:20px;
+    padding-top: 50px;
+  }
+
+  div.container-fluid{top: 30%;
+    /*left:10%;*/
+    color:#C0DFA1;
+    position: absolute;
+    font-size:15px;
+  }
+
 }
 body{
-  background-image: url("background.jpg") !important;
+  background-image: url(background.jpg);
+  height: 900px;
   background-repeat: no-repeat;
   background-size: cover;
 }
