@@ -1,10 +1,20 @@
-<ul>
-  <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-  <li><a routerLink="/about" routerLinkActive="active">About</a></li>
-  <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
-  <li><a routerLink="/getstarted" routerLinkActive="active">Get Started</a></li>
-</ul>
-
+<nav id="nav" class="navbar">
+  <div class="navbar-left">
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    </ul>
+  </div>
+  <div class="navbar-right">
+    <ul>
+      <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+      <li><a routerLink="/getstarted" routerLinkActive="active">Get Started</a></li>
+    </ul>
+  </div>
+  <a href="javascript:void(0);" id="icon" class="icon">
+    <i class="fa fa-bars"></i>
+  </a>
+</nav>
 <router-outlet></router-outlet>
 
 

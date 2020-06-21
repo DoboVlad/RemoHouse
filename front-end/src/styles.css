@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  background: url("app/background.jpg") no-repeat;
+  background-size: cover;
+  /*height: 100vh;*/
+}
+
+@media screen and (min-width: 600px){
+  html{
+    background: url("app/background.jpg") no-repeat;
+    background-size: cover;
+    /*height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}

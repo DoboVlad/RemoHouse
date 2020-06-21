@@ -23,4 +23,4 @@ import {GetstartedComponent} from "./components/getstarted/getstarted.component"
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
