@@ -8,6 +8,7 @@ body{
   background: url("app/background.jpg") no-repeat;
   background-size: cover;
   /*height: 100vh;*/
+  background-position: center center;
 }
 
 @media screen and (min-width: 600px){
