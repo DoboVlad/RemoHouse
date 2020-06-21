@@ -1,0 +1,33 @@
+package org.circuitdoctor.core.model;
+
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+
+import static org.circuitdoctor.core.model.GSMStatus.OFF;
+
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Getter
+@Setter
+@Builder
+@ToString
+@Table(name="gsm_controller")
+public class GSMController extends BaseEntity<Long> implements Serializable {
+    @Column(nullable = false,unique = true)
+    @NonNull
+    @NotBlank(message = "phoneNumber is mandatory")
+    @Digits(fraction=0,integer=10)
+    private String phoneNumber;
+    @Column(nullable = false)
+    private GSMStatus status=OFF;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Room room;
+}

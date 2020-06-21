@@ -1,4 +1,6 @@
 package org.circuitdoctor.web.controller;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.service.UserService;
 import org.circuitdoctor.web.converter.UserConverter;
@@ -6,6 +8,7 @@ import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,6 +16,15 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
@@ -47,6 +59,10 @@ public class UserController {
         log.trace("signUp - method finished result={}",result);
         return String.valueOf(userDto.getId());
     }
+
+
+
+
     @RequestMapping(value = "user/changePassword/{userID}", method = RequestMethod.PUT)
     public String changePassword(@RequestBody @Valid UserDto userDto, @PathVariable Long userID, BindingResult errors){
         log.trace("changePassword - method entered user={}",userDto);
