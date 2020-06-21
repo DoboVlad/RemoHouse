@@ -1,7 +1,7 @@
 h1{
   top:25%;
   left:2%;
-  position:absolute;
+  /*position:absolute;*/
   color:#9FC490;
   text-transform: uppercase;
   font-size: 4vw;
@@ -22,7 +22,7 @@ div.container-fluid {
   top: 55%;
   /*left:10%;*/
   color:#C0DFA1;
-  position: absolute;
+  /*position: absolute;*/
   font-size: 1.5vw;
 }
 @media screen and (max-width: 600px){
@@ -39,14 +39,16 @@ div.container-fluid {
   div.container-fluid{top: 30%;
     /*left:10%;*/
     color:#C0DFA1;
-    position: absolute;
+    /*position: absolute;*/
     font-size:15px;
   }
 
 }
 body{
-  background-image: url(background.jpg);
-  height: 900px;
-  background-repeat: no-repeat;
-  background-size: cover;
+  /*background-image: url(background.jpg);*/
+  /*height: 900px;*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+  background: transparent;
+  height: 100vh;
 }
