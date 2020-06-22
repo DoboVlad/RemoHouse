@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
 
 export class RegisterComponent implements OnInit {
   private user : User;
+  //validators
   nameControl= new FormControl("",
     [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z'\-]+/)]);
   phoneNoControl = new FormControl('',
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
       Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i)]);
   passwordControl = new FormControl('',
     [Validators.required, Validators.minLength(7)]);
+  errorLogIn: boolean;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private userService : UserService) {
   }
@@ -41,6 +43,7 @@ export class RegisterComponent implements OnInit {
     this.passwordControl.markAsPristine();
     this.emailControl.markAsPristine();
     this.phoneNoControl.markAsPristine();
+    this.errorLogIn = false;
   }
 
 
@@ -70,7 +73,7 @@ export class RegisterComponent implements OnInit {
       if(response)
         this.router.navigate(["/mainpage",{user:response}]);
       else
-        alert("Your email or password is invalid.");
+        this.errorLogIn = true;
     },error => {
       console.log("validation error", error);
     });
