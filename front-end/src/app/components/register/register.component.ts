@@ -33,7 +33,10 @@ export class RegisterComponent implements OnInit {
     this.user = new User(0,name,surname,phoneNo,password,email);
     this.userService.signup(this.user).subscribe(response=>{
       this.router.navigate(["/mainpage",{user:this.user}]);
-    },error => console.log("validation error", error));
+    },error => {
+      console.log("validation error", error);
+      alert("Please try again with valid details.")
+    });
 
   }
 
@@ -43,8 +46,13 @@ export class RegisterComponent implements OnInit {
     else
       this.user = new User(0,"","",credential,password,"");
     this.userService.login(this.user).subscribe(response=>{
-      this.router.navigate(["/mainpage",{user:response}]);
-    },error => console.log("validation error", error));
+      if(response)
+        this.router.navigate(["/mainpage",{user:response}]);
+      else
+        alert("Your email or password is invalid.");
+    },error => {
+      console.log("validation error", error);
+    });
 
   }
 }
