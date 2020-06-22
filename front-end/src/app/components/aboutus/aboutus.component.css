@@ -9,16 +9,7 @@ body{
   /*background-position: center center;*/
   background: transparent;
 }
-@font-face {
-  font-family: "CustomFont";
-  src: url('Merriweather-BlackItalic.ttf');
-}
 
-p{
-  font-family: 'CustomFont','sans-serif';
-  font-size: 1em;
-  color:#C6E0FF;
-}
 
 .caption{
   text-align: center;
@@ -40,8 +31,6 @@ div.about{
 }
 div.col-md-4{
   background: transparent;
-  width:50vh;
-  height:50vh;
   margin-left: auto !important;
   margin-right: auto !important;
 }
