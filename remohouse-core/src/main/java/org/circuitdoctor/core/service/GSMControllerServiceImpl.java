@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -66,40 +68,46 @@ public class GSMControllerServiceImpl implements GSMControllerService {
 
     public String sendMessage(String message) {
         log.trace("sendMessage - method entered");
-        var values = new HashMap<String, String>() {{
-            put("user", "579042");
-            put ("parola", "ca00ddee9a532243928f16c22b49002b");
-            put("telefon","0759021544");
-            put("text",message);
-        }};
+        String user="579042";
+        String parola="ca00ddee9a532243928f16c22b49002b";
+        String telefon="0759021544";
+        String text=message;
 
-        var objectMapper = new ObjectMapper();
-        String requestBody = null;
-        HttpResponse<String> response = null;
+
+        StringBuilder command = new StringBuilder("curl -X POST https://www.clickphone.ro/api/sms");
+
+        StringBuilder param=new StringBuilder();
+        param.append(" --data ").append("user=").append(user);
+        param.append(" --data ").append("parola=").append(parola);
+        param.append(" --data ").append("telefon=").append(telefon);
+        param.append(" --data ").append("text=").append(text);
+        command.append(param);
+        System.out.println(command);
+
+
+        Process process = null;
         try {
-            requestBody = objectMapper
-                    .writeValueAsString(values);
-
-
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://www.clickphone.ro/api/sms"))
-                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                    .build();
-
-
-
-            response = client.send(request,
-                    HttpResponse.BodyHandlers.ofString());
-
-            log.trace("response"+response.body());
-            log.trace("sendMessage - method finished,response={}",response.body());
-            if(response.body().contains("succes")){
+            process = Runtime.getRuntime().exec(command.toString());
+            process.waitFor();
+            BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = null;
+            StringBuilder response=new StringBuilder();
+            try {
+                while ((line = input.readLine()) != null)
+                    response.append(line).append("\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(response.toString().contains("<result>success</result>")){
                 return "ok";
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+
         }
+
+
+
         log.trace("sendMessage API- something is wrong");
         return "something went wrong";
     }
