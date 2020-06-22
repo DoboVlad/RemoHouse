@@ -2,38 +2,28 @@ package org.circuitdoctor.web.controller;
 
 import org.circuitdoctor.core.model.GSMController;
 import org.circuitdoctor.core.model.GSMStatus;
-import org.circuitdoctor.core.model.Room;
 import org.circuitdoctor.core.service.GSMControllerService;
-import org.circuitdoctor.core.service.LocationService;
-import org.circuitdoctor.core.service.RoomService;
 import org.circuitdoctor.web.converter.GSMControllerConverter;
-import org.circuitdoctor.web.converter.RoomConverter;
 import org.circuitdoctor.web.dto.GSMControllerDto;
-import org.circuitdoctor.web.dto.RoomDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+@RestController
 public class GSMControllerController {
-    private static final Logger log = LoggerFactory.getLogger(RoomController.class);
-    @Autowired
-    private RoomService roomService;
+    private static final Logger log = LoggerFactory.getLogger(GSMControllerController.class);
+
     @Autowired
     private GSMControllerConverter gsmControllerConverter;
     @Autowired
     private GSMControllerService gsmControllerService;
-    @Autowired
-    private LocationService locationService;
 
-    @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
-    public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
+
+    @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.POST)
+    String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -41,8 +31,8 @@ public class GSMControllerController {
             return "validation errors";
         }
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
-        boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
-        if(userHasAccessToThisLocation) {
+
+        if(userID.equals(gsmController.getRoom().getLocation().getUser().getId())) {
             GSMController g = gsmControllerService.addGSMController(gsmController);
             log.trace("addRoom - method finished gsm={}", g);
             return String.valueOf(g.getId());
@@ -60,8 +50,8 @@ public class GSMControllerController {
         }
         //validate access of user to room
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
-        boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
-        if(!userHasAccessToThisLocation){
+
+        if(!userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
             log.warn("openGSM -  user has no access to room");
             return "error: user has no access to this location";
         }
@@ -82,6 +72,7 @@ public class GSMControllerController {
         log.warn("something went wrong when the open message was sent");
 
 
+
         return "something went wrong when the open message was sent";
     }
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
@@ -94,8 +85,8 @@ public class GSMControllerController {
         }
         //validate access of user to room
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
-        boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,gsmController.getRoom().getLocation().getId());
-        if(!userHasAccessToThisLocation){
+
+        if(userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
             log.warn("closeGSM -  user has no access to room");
             return "error: user has no access to this location";
         }

@@ -22,6 +22,6 @@ public class GSMControllerDto extends BaseDto {
     @NotBlank(message = "phoneNumber is mandatory")
     @Digits(fraction=0,integer=10)
     private String phoneNumber;
-
+    @Builder.Default
     private GSMStatus status=OFF;
 }

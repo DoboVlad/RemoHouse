@@ -94,7 +94,7 @@ public class GSMControllerServiceImpl implements GSMControllerService {
 
             log.trace("response"+response.body());
             log.trace("sendMessage - method finished,response={}",response.body());
-            if(response.body().contains("<result>succes</result>")){
+            if(response.body().contains("succes")){
                 return "ok";
             }
         } catch (IOException | InterruptedException e) {
