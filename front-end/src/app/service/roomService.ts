@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {Room} from "../model/Room";
 
 @Injectable({providedIn: 'root'})
-export class UserService {
+export class RoomService {
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };

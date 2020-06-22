@@ -33,8 +33,12 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword();
         String email = user.getEmail();
         AtomicBoolean result = new AtomicBoolean(false);
-        Optional<User> userFromDB = userRepository.findById(user.getId());
-        log.trace("user={}",userFromDB.get());
+        Optional<User> userFromDB;
+        if(user.getEmail()!=null){
+            userFromDB = userRepository.findAllByEmail(user.getEmail());
+        }else{
+            userFromDB = userRepository.findAllByPhoneNumber(user.getPhoneNumber());
+        }
         userFromDB.ifPresent(userDB->{
             if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
                 result.set(true);
