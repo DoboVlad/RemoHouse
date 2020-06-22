@@ -8,7 +8,16 @@ body{
   /*background-size: cover;*/
   /*background-position: center center;*/
   background: transparent;
+}
+@font-face {
+  font-family: "CustomFont";
+  src: url('Merriweather-BlackItalic.ttf');
+}
 
+p{
+  font-family: 'CustomFont','sans-serif';
+  font-size: 1em;
+  color:#C6E0FF;
 }
 
 .caption{
@@ -21,6 +30,7 @@ body{
 }
 div.about{
   text-align: center;
+  font-family: 'CustomFont','sans-serif';
   width: 20%;
   color: #C0DFA1;
   font-size: 2em;
