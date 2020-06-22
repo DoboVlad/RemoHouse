@@ -37,8 +37,11 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  signIn(email: string, password: string) {
-    this.user = new User(0,"","","",password,email);
+  signIn(credential: string, password: string) {
+    if(credential.indexOf("@")!=-1)
+      this.user = new User(0,"","","",password,credential);
+    else
+      this.user = new User(0,"","",credential,password,"");
     this.userService.login(this.user).subscribe(response=>{
       this.router.navigate(["/mainpage",{user:response}]);
     },error => console.log("validation error", error));
