@@ -7,6 +7,11 @@ import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {AboutusComponent} from "./components/aboutus/aboutus.component";
 import {GetstartedComponent} from "./components/getstarted/getstarted.component";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {UserService} from "./service/userService";
+import {RoomService} from "./service/roomService";
+import {LocationService} from "./service/locationService";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -18,9 +23,12 @@ import {GetstartedComponent} from "./components/getstarted/getstarted.component"
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UserService, RoomService, LocationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

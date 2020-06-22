@@ -9,8 +9,6 @@ html{
 }
 
 body {
-  /*background: url("background.jpg") no-repeat;*/
-  /*background-size: cover;*/
   background: transparent;
   display: flex;
   justify-content: center;
