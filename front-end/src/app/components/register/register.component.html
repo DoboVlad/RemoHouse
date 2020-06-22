@@ -1,21 +1,33 @@
   <body>
   <div class="container" id="container">
+    <!--SIGN UP FORM-->
     <div class="form-container sign-up-container">
       <form (ngSubmit)="signUp(name.value,surname.value,phoneNo.value,email.value,password.value)" >
         <h1>Create Account</h1>
-        <input #name type="text" placeholder="Name" />
-        <input #surname type="text" placeholder="Surname" />
-        <input #phoneNo type="text" placeholder="Phone Number"/>
-        <input #email type="text" placeholder="Email or phone number"/>
-        <input #password type="password" placeholder="Password" />
+        <input #name type="text" placeholder="Name" [formControl]="nameControl" required/>
+        <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{getNameErrorMessage()}}</mat-error>
+
+        <input #surname type="text" placeholder="Surname" [formControl]="nameControl"/>
+        <mat-error *ngIf="nameControl.invalid && nameControl.touched">{{getNameErrorMessage()}}</mat-error>
+
+        <input #phoneNo type="text" placeholder="Phone Number" [formControl]="phoneNoControl"/>
+        <mat-error *ngIf="phoneNoControl.invalid && phoneNoControl.touched">{{getPhoneNoErrorMessage()}}</mat-error>
+
+        <input #email type="text" placeholder="Email" [formControl]="emailControl"/>
+        <mat-error *ngIf="emailControl.invalid && emailControl.touched">{{getEmailErrorMessage()}}</mat-error>
+
+        <input #password type="password" placeholder="Password" [formControl]="passwordControl"/>
+        <mat-error *ngIf="passwordControl.invalid && passwordControl.touched">{{getPasswordErrorMessage()}}</mat-error>
+
         <button type="submit">Sign Up</button>
       </form>
     </div>
+    <!--SIGN IN FORM-->
     <div class="form-container sign-in-container">
       <form (ngSubmit)="signIn(emailSignIn.value,passwordSignIn.value)" >
         <h1>Sign in</h1>
-        <input #emailSignIn type="email" placeholder="Email" required/> <!--or phone number-->
-        <input #passwordSignIn type="password" placeholder="Password" required />
+        <input #emailSignIn type="email" placeholder="Email or phone number" />
+        <input #passwordSignIn type="password" placeholder="Password"/>
         <a href="#">Forgot your password?</a>
         <button type="submit">Sign In</button>
       </form>

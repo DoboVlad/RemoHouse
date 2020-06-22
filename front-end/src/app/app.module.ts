@@ -11,8 +11,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "./service/userService";
 import {RoomService} from "./service/roomService";
 import {LocationService} from "./service/locationService";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-
+import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {RouterModule} from "@angular/router";
+import {MatFormFieldModule} from "@angular/material/form-field";
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,10 +25,13 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
   ],
   imports: [
     BrowserModule,
+    RouterModule,
+    HttpClientModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule
   ],
   providers: [UserService, RoomService, LocationService],
   bootstrap: [AppComponent]
