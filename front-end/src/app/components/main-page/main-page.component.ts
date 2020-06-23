@@ -27,16 +27,16 @@ export class MainPageComponent implements OnInit {
 
   getImage() {
     if(this.door1 && this.window1){
-      return "assets/Claudia1.png"
+      return "assets/openHouse.png"
     }
     else if(this.door1 && !this.window1){
-      return "assets/Roxana1.png"
+      return "assets/openDoor.png"
     }
     else if(!this.door1 && this.window1){
-      return "assets/Maria1.png"
+      return "assets/openWindow.png"
     }
     else{
-      return "assets/Andreea1.png"
+      return "assets/closedHouse.png"
     }
   }
 

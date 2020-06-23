@@ -26,7 +26,7 @@ mat-divider{
 }
 
 img{
-  height: inherit;
+  width: inherit;
 }
 
 mat-slide-toggle{
