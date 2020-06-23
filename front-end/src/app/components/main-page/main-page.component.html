@@ -1,4 +1,38 @@
-<mat-grid-list cols="2" rowHeight="fit">
-  <mat-grid-tile>1</mat-grid-tile>
-  <mat-grid-tile>2</mat-grid-tile>
+<mat-grid-list class="wrapper" cols="3" rowHeight="fit">
+  <mat-grid-tile colspan="2">
+    <mat-grid-list class="left-side" cols="1" rowHeight="fit">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile class="location">
+        <p class="room-name left">{{getLocationName()}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="room">
+        <p class="room-name">{{getRoomName()}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="image" rowspan="10">
+        <img matListAvatar [src]="getImage()" alt="room-image">
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-grid-list class="right-side" cols="1" rowHeight="fit">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile class="date">
+        <p>{{ CurrentDate | date:'MMM d, y HH:mm'}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="button-area" rowspan="6">
+        <mat-list class="left">
+          <mat-list-item>
+            <mat-slide-toggle id="door1" (change)="onChange($event)">Door</mat-slide-toggle>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <mat-slide-toggle id="window1" (change)="onChange($event)">Window</mat-slide-toggle>
+          </mat-list-item>
+        </mat-list>
+      </mat-grid-tile>
+      <mat-grid-tile class="weather" rowspan="5">
+        <p>Weather widget</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-grid-tile>
 </mat-grid-list>

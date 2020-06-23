@@ -18,6 +18,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MainPageComponent} from "./components/main-page/main-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatListModule} from "@angular/material/list";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,18 +29,20 @@ import {MatGridListModule} from "@angular/material/grid-list";
     GetstartedComponent,
     MainPageComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSidenavModule,
-    MatGridListModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule,
+        HttpClientModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSidenavModule,
+        MatGridListModule,
+        MatListModule,
+        MatSlideToggleModule
+    ],
   providers: [UserService, RoomService, LocationService],
   bootstrap: [AppComponent]
 })

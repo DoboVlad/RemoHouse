@@ -1,3 +1,50 @@
-mat-grid-list{
+.wrapper{
   height: 100vh;
+}
+
+mat-grid-list{
+  background-color: #465362;
+}
+
+p{
+  color: white;
+  font-size: 2em;
+}
+
+.left-side{
+  height: inherit;
+  width: 75vw;
+}
+
+.right-side{
+  height: inherit;
+  width: 50vw;
+}
+
+mat-divider{
+  margin-right: 1em;
+}
+
+img{
+  height: inherit;
+}
+
+mat-slide-toggle{
+  color: white;
+}
+
+.date, .button-area, .weather{
+  background-color: rgba(192, 223, 161, 0.2);
+  border: rgba(192, 223, 161, 0.2);
+  border-radius: 1em;
+}
+
+.location{
+  text-align: left;
+}
+
+.left{
+  width: 100%;
+  text-align: left;
+  margin-left: 1em;
 }
