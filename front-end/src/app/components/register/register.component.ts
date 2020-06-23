@@ -55,6 +55,7 @@ export class RegisterComponent implements OnInit {
     if (this.nameControl.valid && this.phoneNoControl.valid && this.emailControl.valid && this.passwordControl.valid) {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
+        localStorage.setItem("user",this.user.email);
         this.router.navigate(["/mainpage", {user: this.user}]);
       }, error => {
         console.log("validation error", error);
@@ -70,8 +71,11 @@ export class RegisterComponent implements OnInit {
     else
       this.user = new User(0,"","",credential,password,"");
     this.userService.login(this.user).subscribe(response=>{
-      if(response)
-        this.router.navigate(["/mainpage",{user:response}]);
+      if(response) {
+        //see how to get user out of response and add to session
+        //localStorage.setItem('user',userFromResponse);
+        this.router.navigate(["/mainpage", {user: response}]);
+      }
       else
         this.errorLogIn = true;
     },error => {
