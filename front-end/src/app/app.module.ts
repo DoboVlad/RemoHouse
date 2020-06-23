@@ -15,13 +15,17 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MainPageComponent} from "./components/main-page/main-page.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatGridListModule} from "@angular/material/grid-list";
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RegisterComponent,
     AboutusComponent,
-    GetstartedComponent
+    GetstartedComponent,
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +35,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSidenavModule,
+    MatGridListModule
   ],
   providers: [UserService, RoomService, LocationService],
   bootstrap: [AppComponent]
