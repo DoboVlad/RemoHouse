@@ -51,6 +51,6 @@ import { UnauthorizedAccessComponent } from './components/unauthorized-access/un
         MatSnackBarModule
     ],
   providers: [UserService, RoomService, LocationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}

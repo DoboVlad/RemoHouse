@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-page',
@@ -14,7 +15,7 @@ export class MainPageComponent implements OnInit {
   CurrentDate = new Date();
   WeatherData: any;
 
-  constructor(public snackBar: MatSnackBar) {}
+  constructor(public snackBar: MatSnackBar,private router:Router) {}
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
@@ -96,5 +97,14 @@ export class MainPageComponent implements OnInit {
     this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
     this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
     this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
+  }
+
+  isUserLoggedIn() {
+    if(localStorage.getItem("user")=="null") {
+      this.router.navigate(["/unauthorizedaccess"]);
+      return false;
+    }
+    return true;
+
   }
 }

@@ -10,6 +10,7 @@ export class UnauthorizedAccessComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }
