@@ -21,7 +21,6 @@ nav ul {
   float: left;
 }
 
-
 @media screen and (min-width: 600px) {
   .navbar-right ul{
     right: 0;
@@ -39,8 +38,6 @@ nav ul {
     position: fixed;
   }
 }
-
-
 
 .navbar-right ul li{
   float: right;

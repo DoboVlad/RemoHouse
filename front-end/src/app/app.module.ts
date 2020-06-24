@@ -21,6 +21,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AccountComponent } from './components/account/account.component';
+import { UnauthorizedAccessComponent } from './components/unauthorized-access/unauthorized-access.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     RegisterComponent,
     AboutusComponent,
     GetstartedComponent,
-    MainPageComponent
+    MainPageComponent,
+    AccountComponent,
+    UnauthorizedAccessComponent
   ],
     imports: [
         BrowserModule,
@@ -47,6 +51,6 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
         MatSnackBarModule
     ],
   providers: [UserService, RoomService, LocationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}

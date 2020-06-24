@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-<mat-grid-list class="wrapper" cols="5" rowHeight="fit">
+<mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
     <mat-grid-list class="left-side" cols="1" rowHeight="fit">
       <mat-grid-tile></mat-grid-tile>
