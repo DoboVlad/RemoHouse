@@ -4,7 +4,7 @@
   height: 100vh;
 }
 
-mat-grid-list{
+.wrapper{
   background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -13,6 +13,12 @@ mat-grid-list{
 p{
   color: white;
   font-size: 2em;
+}
+
+.date-time{
+  color: #011936;
+  font-weight: bold;
+  text-shadow: 1px 1px #82A3A1;
 }
 
 .left-side{
@@ -25,22 +31,28 @@ p{
   width: 50vw;
 }
 
-mat-divider{
-  margin-right: 1em;
+img{
+  /*height: 100%;*/
+  /*transform: scale(1.5);*/
+  margin-top: -20em;
+  width: 100%;
 }
 
-img{
+.img-wrapper{
+  height: inherit;
   width: 100%;
 }
 
 mat-slide-toggle{
-  color: white;
+  color: #011936;
+  text-shadow: 1px 1px #82A3A1;
+  font-weight: bold;
   font-size: 2em;
 }
 
 .date, .button-area, .weather{
-  background-color: rgba(192, 223, 161, 0.2);
-  border: rgba(192, 223, 161, 0.2);
+  background-color: rgba(130, 163, 161, 0.6);
+  border: rgba(130, 163, 161, 0.6);
   border-radius: 1em;
 }
 
@@ -59,7 +71,9 @@ mat-slide-toggle{
 
 #weather{
   display: block;
-  color: white;
+  color: #011936;
+  text-shadow: 1px 1px #82A3A1;
+  font-weight: bold;
   width: 100%;
 }
 
@@ -87,7 +101,7 @@ mat-slide-toggle{
 }
 
 .cloud{
-  color: rgb(104, 175, 197);
+  color: rgb(132, 215, 238);
   filter: drop-shadow( 1px 1px 5px rgb(104, 175, 197));
   animation-name: cloudMovement;
   animation-iteration-count: infinite;
