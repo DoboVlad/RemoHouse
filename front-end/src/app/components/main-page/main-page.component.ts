@@ -15,7 +15,11 @@ export class MainPageComponent implements OnInit {
   CurrentDate = new Date();
   WeatherData: any;
 
-  constructor(public snackBar: MatSnackBar,private router:Router) {}
+  constructor(public snackBar: MatSnackBar,private router:Router) {
+    setInterval(() =>{
+      this.CurrentDate=new Date();
+    },1);
+  }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
