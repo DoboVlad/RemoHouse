@@ -6,6 +6,7 @@ import {AboutusComponent} from "./components/aboutus/aboutus.component";
 import {GetstartedComponent} from "./components/getstarted/getstarted.component";
 import {MainPageComponent} from "./components/main-page/main-page.component";
 import {AccountComponent} from "./components/account/account.component";
+import {UnauthorizedAccessComponent} from "./components/unauthorized-access/unauthorized-access.component";
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'about', component: AboutusComponent},
   {path: 'getstarted', component: GetstartedComponent},
   {path: 'mainpage', component: MainPageComponent},
-  {path: 'account', component: AccountComponent}
+  {path: 'account', component: AccountComponent},
+  {path: 'unauthorizedaccess', component: UnauthorizedAccessComponent}
 ];
 
 @NgModule({

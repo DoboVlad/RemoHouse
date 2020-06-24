@@ -22,6 +22,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AccountComponent } from './components/account/account.component';
+import { UnauthorizedAccessComponent } from './components/unauthorized-access/unauthorized-access.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AccountComponent } from './components/account/account.component';
     AboutusComponent,
     GetstartedComponent,
     MainPageComponent,
-    AccountComponent
+    AccountComponent,
+    UnauthorizedAccessComponent
   ],
     imports: [
         BrowserModule,

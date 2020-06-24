@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
         localStorage.setItem("user",this.user.email);
-        this.router.navigate(["/mainpage", {user: this.user}]);
+        this.router.navigate(["/mainpage"]);
       }, error => {
         console.log("validation error", error);
         alert("Please try again with valid details.")
@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit {
     this.userService.login(this.user).subscribe(response=>{
       if(response) {
         localStorage.setItem('user',credential);
-        this.router.navigate(["/mainpage", {user: response}]);
+        this.router.navigate(["/mainpage"]);
       }
       else
         this.errorLogIn = true;
