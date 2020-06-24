@@ -21,6 +21,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     RegisterComponent,
     AboutusComponent,
     GetstartedComponent,
-    MainPageComponent
+    MainPageComponent,
+    AccountComponent
   ],
     imports: [
         BrowserModule,

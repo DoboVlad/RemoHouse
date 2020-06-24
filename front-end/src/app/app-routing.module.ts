@@ -5,6 +5,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {AboutusComponent} from "./components/aboutus/aboutus.component";
 import {GetstartedComponent} from "./components/getstarted/getstarted.component";
 import {MainPageComponent} from "./components/main-page/main-page.component";
+import {AccountComponent} from "./components/account/account.component";
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'about', component: AboutusComponent},
   {path: 'getstarted', component: GetstartedComponent},
-  {path: 'mainpage', component: MainPageComponent}
+  {path: 'mainpage', component: MainPageComponent},
+  {path: 'account', component: AccountComponent}
 ];
 
 @NgModule({

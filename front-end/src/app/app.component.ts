@@ -51,4 +51,13 @@ export class AppComponent implements OnInit{
       }
     }
   }
+
+  isUserLoggedIn() {
+    console.log("condition account navbar ",localStorage.getItem("user"));
+    return localStorage.getItem("user")!="null";
+  }
+
+  isUserLoggedOut() {
+    return localStorage.getItem("user")=="null";
+  }
 }
