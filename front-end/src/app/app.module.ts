@@ -20,6 +20,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
         MatSidenavModule,
         MatGridListModule,
         MatListModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSnackBarModule
     ],
   providers: [UserService, RoomService, LocationService],
   bootstrap: [AppComponent]

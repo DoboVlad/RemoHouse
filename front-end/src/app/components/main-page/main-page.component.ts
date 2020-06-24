@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-main-page',
@@ -12,7 +13,12 @@ export class MainPageComponent implements OnInit {
   window1 = false;
   CurrentDate = new Date();
 
-  constructor() { }
+  constructor(public snackBar: MatSnackBar) {}
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -47,11 +53,20 @@ export class MainPageComponent implements OnInit {
   onChange($event: MatSlideToggleChange) {
     // console.log($event.checked); -> true if the slide is toggled
     // console.log($event.source.id); -> id of the toggle (door1, window1)
+    let message = "";
     if($event.source.id==="door1"){
       this.door1 = $event.checked;
+      message = "door";
     }
     else if($event.source.id==="window1"){
       this.window1 = $event.checked;
+      message = "window";
+    }
+    if($event.checked){
+      this.openSnackBar("Opened " + message, "OK");
+    }
+    else{
+      this.openSnackBar("Closed " + message, "OK");
     }
   }
 }
