@@ -12,6 +12,7 @@ export class MainPageComponent implements OnInit {
   door1 = false;
   window1 = false;
   CurrentDate = new Date();
+  WeatherData: any;
 
   constructor(public snackBar: MatSnackBar) {}
   openSnackBar(message: string, action: string) {
@@ -21,6 +22,11 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.WeatherData ={
+      main: {},
+      isDay: true
+    };
+    this.getWeatherData();
   }
 
   getLocationName() {
@@ -68,5 +74,27 @@ export class MainPageComponent implements OnInit {
     else{
       this.openSnackBar("Closed " + message, "OK");
     }
+  }
+
+  getWeatherData(){
+    //API key 2ab187c4fc0fb4ea8bb6308cfb4d2324
+    fetch('http://api.openweathermap.org/data/2.5/weather?q=Bucharest&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
+      .then(response => response.json())
+      .then(data => {this.setWeatherData(data);});
+    // let data = JSON.parse("{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"weather\":[{\"id\":801,\"main\":\"Clouds\",\"description\":\"few clouds\",\"icon\":\"02d\"}],\"base\":\"stations\",\"main\":{\"temp\":287.329,\"pressure\":1012.69,\"humidity\":67,\"temp_min\":287.329,\"temp_max\":287.329,\"sea_level\":1020.15,\"grnd_level\":1012.69},\"wind\":{\"speed\":4.76,\"deg\":95.0004},\"clouds\":{\"all\":12},\"dt\":1476443177,\"sys\":{\"message\":0.004,\"country\":\"GB\",\"sunrise\":1476426249,\"sunset\":1476464855},\"id\":2643743,\"name\":\"London\",\"cod\":200}");
+    // this.setWeatherData(data);
+  }
+
+  setWeatherData(data){
+    this.WeatherData = data;
+    let sunsetTime = new Date(this.WeatherData.sys.sunset * 1000);
+    let sunriseTime = new Date(this.WeatherData.sys.sunrise * 1000);
+    this.WeatherData.sunset_time = sunsetTime.toLocaleTimeString();
+    let currentDate = new Date();
+    this.WeatherData.isDay = (currentDate.getTime() < sunsetTime.getTime() && currentDate.getTime() > sunriseTime.getTime());
+    this.WeatherData.temp_celsius = (this.WeatherData.main.temp - 273.15).toFixed(0);
+    this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
+    this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
+    this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
   }
 }

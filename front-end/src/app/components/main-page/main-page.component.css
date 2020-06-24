@@ -1,3 +1,5 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
 .wrapper{
   height: 100vh;
 }
@@ -26,11 +28,12 @@ mat-divider{
 }
 
 img{
-  width: inherit;
+  width: 100%;
 }
 
 mat-slide-toggle{
   color: white;
+  font-size: 2em;
 }
 
 .date, .button-area, .weather{
@@ -47,4 +50,51 @@ mat-slide-toggle{
   width: 100%;
   text-align: left;
   margin-left: 1em;
+}
+.weather{
+  height: 100%;
+}
+
+#weather{
+  display: block;
+  color: white;
+  width: 100%;
+}
+
+.weatherWidgetRow{
+  display:block;
+  margin:0 auto;
+  width: fit-content;
+}
+
+.sun{
+  margin-top: 10px;
+  color: yellow;
+  filter: drop-shadow( 1px 1px 10px yellow);
+}
+
+.moon{
+  margin-top: 10px;
+  color: white;
+  filter: drop-shadow( 1px 1px 10px white);
+}
+
+
+.cloudDiv{
+  margin-top: -40px;
+}
+
+.cloud{
+  color: rgb(104, 175, 197);
+  filter: drop-shadow( 1px 1px 5px rgb(104, 175, 197));
+  animation-name: cloudMovement;
+  animation-iteration-count: infinite;
+  animation-duration: 10s;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+
+@keyframes cloudMovement{
+  from{margin-left: -55px;}
+  to{margin-left: 65px;}
 }
