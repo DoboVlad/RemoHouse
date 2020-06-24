@@ -1,11 +1,9 @@
 package org.circuitdoctor.core.model;
 
 import lombok.*;
-
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import javax.validation.constraints.*;
 
 import static org.circuitdoctor.core.model.GSMStatus.OFF;
 

@@ -3,9 +3,8 @@ package org.circuitdoctor.web.dto;
 import lombok.*;
 import org.circuitdoctor.core.model.GSMStatus;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
+
 
 import static org.circuitdoctor.core.model.GSMStatus.OFF;
 @NoArgsConstructor

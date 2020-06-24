@@ -1,8 +1,7 @@
 package org.circuitdoctor.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.circuitdoctor.core.model.*;
-import org.circuitdoctor.core.repository.GSMControllerRepository;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +12,13 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class GSMControllerServiceImpl implements GSMControllerService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
-    private GSMControllerRepository gsmRepository;
+    private Repository<GSMController,Long> gsmRepository;
     @Override
     public GSMController setGSMControllerON(GSMController gsmCtrl) {
         log.trace("entered setGSMControllerON gsmCtrl={}",gsmCtrl);

@@ -1,5 +1,6 @@
 
 dependencies {
+
     //jpa
     compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
 
@@ -25,8 +26,6 @@ dependencies {
     compile group: 'com.h2database', name: 'h2', version: "$h2DbVersion"
     compile group: 'com.github.springtestdbunit', name: 'spring-test-dbunit', version: "$springtestdbunitVersion"
 
-
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
 
 
 }

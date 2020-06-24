@@ -9,6 +9,7 @@ war {
 
 dependencies {
     compile project(':remohouse-core')
+
     compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonDatabindVersion"

@@ -5,7 +5,7 @@ package org.circuitdoctor.core.service;
 
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;

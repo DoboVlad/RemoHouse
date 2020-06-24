@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 @RestController
 public class GSMControllerController {
     private static final Logger log = LoggerFactory.getLogger(GSMControllerController.class);
@@ -22,8 +23,8 @@ public class GSMControllerController {
     private GSMControllerService gsmControllerService;
 
 
-    @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.POST)
-    String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
+    @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
+    public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -31,10 +32,10 @@ public class GSMControllerController {
             return "validation errors";
         }
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
-
+        log.trace("gsmController id= "+gsmController.getId());
         if(userID.equals(gsmController.getRoom().getLocation().getUser().getId())) {
             GSMController g = gsmControllerService.addGSMController(gsmController);
-            log.trace("addRoom - method finished gsm={}", g);
+            log.trace("addGSMController - method finished gsm={}", g);
             return String.valueOf(g.getId());
         }
         log.warn("addGSMController - {} has no access",userID);
@@ -63,17 +64,15 @@ public class GSMControllerController {
         }
 
 
-        String responseMessage=gsmControllerService.sendMessage(message);
-        if(responseMessage.equals("ok")){
-            gsmControllerService.setGSMControllerON(gsmController);
-            log.trace("finished openGSM ");
-            return "ok";
-        }
-        log.warn("something went wrong when the open message was sent");
+        //String responseMessage=gsmControllerService.sendMessage(message);
 
+        //log.warn("something went wrong when the open message was sent");
 
+        GSMController g=gsmControllerService.setGSMControllerON(gsmController);
+        log.trace("finished openGSM gsm={}",g);
+        return "ok";
 
-        return "something went wrong when the open message was sent";
+        //return "something went wrong when the open message was sent";
     }
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     String closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
@@ -97,15 +96,17 @@ public class GSMControllerController {
             return "gsmController already closed";
         }
 
-
+        /*
         String responseMessage=gsmControllerService.sendMessage(message);
         if(responseMessage.equals("ok")){
-            gsmControllerService.setGSMControllerOFF(gsmController);
-            log.trace("finished closeGSM ");
-            return "ok";
+
         }
 
-        log.warn("something went wrong when the close message was sent");
-        return "something went wrong when the close message was sent";
+         */
+        GSMController g=gsmControllerService.setGSMControllerOFF(gsmController);
+        log.trace("finished closeGSM gsm={}",g);
+        return "ok";
+        //log.warn("something went wrong when the close message was sent");
+        //return "something went wrong when the close message was sent";
     }
 }
