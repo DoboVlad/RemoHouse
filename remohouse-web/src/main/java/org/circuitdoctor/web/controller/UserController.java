@@ -52,8 +52,6 @@ public class UserController {
     }
 
 
-
-
     @RequestMapping(value = "user/changePassword/{userID}", method = RequestMethod.PUT)
     public String changePassword(@RequestBody @Valid UserDto userDto, @PathVariable Long userID, BindingResult errors){
         log.trace("changePassword - method entered user={}",userDto);

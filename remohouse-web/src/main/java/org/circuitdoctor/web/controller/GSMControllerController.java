@@ -85,7 +85,7 @@ public class GSMControllerController {
         //validate access of user to room
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
 
-        if(userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
+        if(!userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
             log.warn("closeGSM -  user has no access to room");
             return "error: user has no access to this location";
         }
