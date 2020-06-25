@@ -17,4 +17,7 @@ export class GsmControllerService {
   closeGSM(gsm : GSMController, userID : number) : Observable<Response>{
     return this.http.put<Response>(this.url+"/close/"+userID+"/close",gsm);
   }
+  getGSMs(userID : number, roomID : number) : Observable<Array<GSMController>>{
+    return this.http.get<Array<GSMController>>(this.url+"/getGSMs/"+userID+"/"+roomID);
+  }
 }
