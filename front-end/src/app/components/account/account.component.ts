@@ -46,27 +46,20 @@ export class AccountComponent implements OnInit {
       //result can be null on cancel
       if(result!=null) {
         //check if old password is right
-        if (result.oldPassword === this.user.password) {
+        if (result.oldPassword == this.user.password) {
           //check length password (just to be)
-          if(result.newPassword.length<7){
-            this.snackBar.open("New password is invalid","Ok",{
-              duration:2000
-            });
-          }
+          if(result.newPassword.length<7)
+            this.snackBar.open("The new password is too short.","Ok",{duration:2000});
           else {
             this.user.password = result.newPassword;
-            this.userService.changePassword(this.user.id, this.user);
+            console.log("changing password ",result.newPassword);
+            this.userService.changePassword(this.user.id, this.user).subscribe(response=>{
+              console.log(response);
+              this.snackBar.open("Password changed.","Ok",{duration:2000});
+            });
           }
-        } else {
-          this.snackBar.open("Old password is incorrect","Ok",{
-            duration:2000
-          });
-        }
-      }
-      else {
-        this.snackBar.open("Test snackBar", "Ok", {
-          duration: 2000
-        });
+        } else
+          this.snackBar.open("The old password is incorrect","Ok",{duration:2000});
       }
     });
 
