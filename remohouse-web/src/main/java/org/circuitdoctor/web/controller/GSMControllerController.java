@@ -63,16 +63,19 @@ public class GSMControllerController {
             return "gsmController already opened";
         }
 
+        String responseMessage=gsmControllerService.sendMessage("open");
+        if(responseMessage.equals("ok")){
+            GSMController g=gsmControllerService.setGSMControllerON(gsmController);
+            log.trace("finished openGSM gsm={}",g);
+            return "ok";
+        }
 
-        //String responseMessage=gsmControllerService.sendMessage(message);
 
-        //log.warn("something went wrong when the open message was sent");
 
-        GSMController g=gsmControllerService.setGSMControllerON(gsmController);
-        log.trace("finished openGSM gsm={}",g);
-        return "ok";
+        log.warn("something went wrong when the open message was sent");
 
-        //return "something went wrong when the open message was sent";
+
+        return "something went wrong when the open message was sent";
     }
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     String closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
@@ -96,17 +99,19 @@ public class GSMControllerController {
             return "gsmController already closed";
         }
 
-        /*
-        String responseMessage=gsmControllerService.sendMessage(message);
-        if(responseMessage.equals("ok")){
 
+        String responseMessage=gsmControllerService.sendMessage("close");
+        if(responseMessage.equals("ok")){
+            GSMController g=gsmControllerService.setGSMControllerOFF(gsmController);
+            log.trace("finished closeGSM gsm={}",g);
+            return "ok";
         }
 
-         */
-        GSMController g=gsmControllerService.setGSMControllerOFF(gsmController);
-        log.trace("finished closeGSM gsm={}",g);
-        return "ok";
-        //log.warn("something went wrong when the close message was sent");
-        //return "something went wrong when the close message was sent";
+
+
+
+
+        log.warn("something went wrong when the close message was sent");
+        return "something went wrong when the close message was sent";
     }
 }

@@ -92,7 +92,8 @@ public class GSMControllerServiceImpl implements GSMControllerService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(response.toString().contains("<result>success</result>")){
+            process.destroy();
+            if(response.toString().contains("success")){
                 return "ok";
             }
         } catch (IOException | InterruptedException e) {
