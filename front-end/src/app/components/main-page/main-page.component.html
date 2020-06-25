@@ -25,13 +25,15 @@
       </mat-grid-tile>
       <mat-grid-tile class="button-area" rowspan="8">
         <mat-list class="left">
-          <mat-list-item>
-            <mat-slide-toggle id="door1" (change)="onChange($event)">Door</mat-slide-toggle>
-          </mat-list-item>
+          <div class="border"><mat-list-item>
+            <div class="row">Door</div></mat-list-item>
+            <mat-list-item><mat-slide-toggle id="door1" (change)="onChange($event)"></mat-slide-toggle>
+          </mat-list-item></div>
           <mat-divider></mat-divider>
-          <mat-list-item>
-            <mat-slide-toggle id="window1" (change)="onChange($event)">Window</mat-slide-toggle>
-          </mat-list-item>
+          <div class="border"><mat-list-item>
+            <div class="row">Window</div></mat-list-item>
+            <mat-list-item><mat-slide-toggle id="window1" (change)="onChange($event)"></mat-slide-toggle>
+          </mat-list-item></div>
         </mat-list>
       </mat-grid-tile>
       <mat-grid-tile class="weather" rowspan="5">
