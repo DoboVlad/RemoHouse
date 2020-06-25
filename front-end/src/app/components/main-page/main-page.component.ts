@@ -74,13 +74,13 @@ export class MainPageComponent implements OnInit {
   }
 
   getImage() {
-    if(this.door1 && this.window1){
+    if(this.door.status=="ON" && this.window.status=="ON"){
       return "assets/openHouse.png"
     }
-    else if(this.door1 && !this.window1){
+    else if(this.door.status=="ON" && this.window.status=="OFF"){
       return "assets/openDoor.png"
     }
-    else if(!this.door1 && this.window1){
+    else if(this.door.status=="OFF" && this.window.status=="ON"){
       return "assets/openWindow.png"
     }
     else{
