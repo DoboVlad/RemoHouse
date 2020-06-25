@@ -25,4 +25,5 @@ export class LocationService {
     // some validation errors in the server
     return this.http.get<Array<Location>>(this.url+"/getLocations/"+userID,this.httpOptions);
   }
+
 }
