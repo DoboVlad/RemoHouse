@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
-import {UserService} from "../../service/userService";
+import {GSMController} from "../../model/GSMController";
+import {Room} from "../../model/Room";
 import {LocationService} from "../../service/locationService";
 import {RoomService} from "../../service/roomService";
+import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
-import {Room} from "../../model/Room";
-import {Location} from "../../model/Location";
+import {UserService} from "../../service/userService";
 
 @Component({
   selector: 'app-main-page',
@@ -20,21 +21,34 @@ export class MainPageComponent implements OnInit {
   window1 = false;
   CurrentDate = new Date();
   WeatherData: any;
-  user: User;
-  location: Location;
-  room: Room;
+  location : Location;
+  room : Room;
+  window: GSMController;
+  door : GSMController;
+  user : User;
 
-  constructor
-  (
-    public snackBar: MatSnackBar,
-    private router:Router,
-    private userService: UserService,
-    private locationService: LocationService,
-    private roomService : RoomService
-  ) {
+  constructor(public snackBar: MatSnackBar,private router:Router, private locationService : LocationService,
+              private roomService : RoomService, private gsmService:GsmControllerService,
+              private userService : UserService) {
     setInterval(() =>{
       this.CurrentDate=new Date();
     },1);
+    userService.getUserByCredential(localStorage.getItem("user")).subscribe(user=>{
+      this.user=user;
+      locationService.getLocations(user.id).subscribe(locations=>{
+        this.location = locations[0];
+        roomService.getRooms(user.id,this.location.id).subscribe(rooms=>{
+          this.room = rooms[0];
+          gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
+            //fix this later
+            this.door = gsms[0];
+            this.window = gsms[1];
+            console.log(this.user,this.location,this.room,this.door,this.window);
+          })
+        })
+      })
+    })
+
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -48,16 +62,6 @@ export class MainPageComponent implements OnInit {
       isDay: true
     };
     this.getWeatherData();
-    var credential=localStorage.getItem("user");
-    this.userService.getUserByCredential(credential).subscribe(user=>{
-      this.user = user;
-    });
-    this.locationService.getLocations(this.user.id).subscribe(loc => {
-      // this.location = loc[0]; -> exception because of the colision of classes Location and local Location
-    });
-    this.roomService.getRooms(this.user.id, this.location.id).subscribe(room =>{
-      this.room = room[0];
-    });
   }
 
   getLocationName() {
@@ -65,7 +69,7 @@ export class MainPageComponent implements OnInit {
   }
 
   getRoomName() {
-    return "camera"
+    return "camera";
   }
 
   getImage() {
