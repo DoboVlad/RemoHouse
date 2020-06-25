@@ -14,21 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-<<<<<<< HEAD
 import java.util.Optional;
-=======
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.HashMap;
->>>>>>> back_end
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
@@ -94,5 +81,14 @@ public class UserController {
         log.warn("changePassword - user ids don't match");
         return "user ids don't match";
     }
-    
+
+    @RequestMapping(value = "user/getUserByCredential/{credential}", method = RequestMethod.GET)
+    public UserDto getUserByCredential(@PathVariable String credential){
+        log.trace("getUserByCredential - method entered c={}",credential);
+        Optional<User> result = userService.getUserByCredential(credential);
+        log.trace("getUserByCredential - method finished r={}",result);
+        return userConverter.convertModelToDto(result.get());
+    }
+
+
 }
