@@ -29,4 +29,8 @@ export class UserService {
     // some validation errors in the server
     return this.http.put<Response>(this.url+"/changePassword/"+userID,user);
   }
+
+  getUserByCredential(credential : string) : Observable<User>{
+    return this.http.get<User>(this.url+"/getUserByCredential/"+credential);
+  }
 }

@@ -3,12 +3,14 @@ package org.circuitdoctor.core.service;
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.Room;
 import org.circuitdoctor.core.repository.Repository;
+import org.circuitdoctor.core.repository.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 @Service
@@ -17,7 +19,7 @@ public class RoomServiceImpl implements RoomService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
 
     @Autowired
-    private Repository<Room,Long> roomRepository;
+    private RoomRepository roomRepository;
 
     @Override
     public Room addRoom(@Valid Room room) {
@@ -42,5 +44,13 @@ public class RoomServiceImpl implements RoomService {
 
         log.trace("\"updateRoom - method finished room={}",newRoom);
         return newRoom.get();
+    }
+
+    @Override
+    public List<Room> getRooms(Location location) {
+        log.trace("getRooms - method entered l={}",location);
+        List<Room> result =  roomRepository.findAllByLocation(location);
+        log.trace("getRooms - method finished r={}",result);
+        return result;
     }
 }

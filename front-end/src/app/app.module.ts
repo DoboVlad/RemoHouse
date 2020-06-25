@@ -21,8 +21,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatListModule} from "@angular/material/list";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { AccountComponent } from './components/account/account.component';
+import {AccountComponent, ChangePasswordDialog} from './components/account/account.component';
 import { UnauthorizedAccessComponent } from './components/unauthorized-access/unauthorized-access.component';
+import {GsmControllerService} from "./service/gsmControllerService";
+import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -48,9 +51,12 @@ import { UnauthorizedAccessComponent } from './components/unauthorized-access/un
         MatGridListModule,
         MatListModule,
         MatSlideToggleModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+      MatDialogModule,
+      MatButtonModule
     ],
-  providers: [UserService, RoomService, LocationService],
+  entryComponents:[ChangePasswordDialog],
+  providers: [UserService, RoomService, LocationService, GsmControllerService],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}

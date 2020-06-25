@@ -1,5 +1,7 @@
 package org.circuitdoctor.web.controller;
+import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.Room;
+import org.circuitdoctor.core.repository.LocationRepository;
 import org.circuitdoctor.core.service.LocationService;
 import org.circuitdoctor.core.service.RoomService;
 import org.circuitdoctor.web.converter.RoomConverter;
@@ -10,6 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 public class RoomController {
@@ -20,6 +27,8 @@ public class RoomController {
     private RoomConverter roomConverter;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private LocationRepository locationRepository;
 
     @RequestMapping(value = "room/addRoom/{userID}",method = RequestMethod.PUT)
     public String addRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long userID, BindingResult errors){
@@ -54,5 +63,27 @@ public class RoomController {
         }
         log.warn("updateRoom - {} has no access",id);
         return "user has no access";
+    }
+
+
+    @RequestMapping(value = "room/getRooms/{userID}/{locationID}",method = RequestMethod.GET)
+    public Set<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
+        log.trace("getRooms - method entered uid={} lid={}",userID,locationID);
+        Optional<Location> locationOptional = locationRepository.findById(locationID);
+        log.trace(locationOptional.toString());
+        AtomicBoolean locationBool = new AtomicBoolean(false);
+        AtomicReference<List<Room>> result = new AtomicReference<>();
+        locationOptional.ifPresent(location -> {
+            locationBool.set(true);
+            if(userID.equals(location.getUser().getId()))
+                result.set(roomService.getRooms(location));
+            else
+                log.trace("getRooms - user does not have access to this location");
+        });
+        if(!locationBool.get()){
+            log.trace("getRoom - locationID invalid");
+            return null;
+        }
+        return roomConverter.convertModelsToDtos(result.get());
     }
 }

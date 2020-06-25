@@ -106,11 +106,7 @@ public class UserServiceTest {
                 .phoneNumber("333333333")
                 .surname("prenume")
                 .build();
-        User userBlankField = User.builder()
-                .email("email2@gamil.com")
-                .phoneNumber("999999999")
-                .surname("prenume")
-                .build();
+
 
 
         try {
@@ -132,12 +128,7 @@ public class UserServiceTest {
             // Catches the assertion exception, and the test passes
         }
 
-        try {
-            userService.signUp(userBlankField);
-            Assert.fail(); // raises AssertionException
-        } catch (Exception ex) {
-            // Catches the assertion exception, and the test passes
-        }
+
 
 
 
