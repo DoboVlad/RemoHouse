@@ -3,6 +3,7 @@ package org.circuitdoctor.core.model;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
+import javax.print.DocFlavor;
 import javax.validation.constraints.*;
 
 import static org.circuitdoctor.core.model.GSMStatus.OFF;
@@ -26,7 +27,8 @@ public class GSMController extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)
     @Builder.Default
     private GSMStatus status=OFF;
-
+    @Column(nullable = false)
+    private String type;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Room room;
 }
