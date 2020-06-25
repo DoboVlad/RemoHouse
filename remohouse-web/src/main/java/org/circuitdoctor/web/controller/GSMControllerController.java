@@ -100,7 +100,6 @@ public class GSMControllerController {
         GSMController g=gsmControllerService.setGSMControllerON(gsmController);
         log.trace("finished openGSM gsm={}",g);
         return "ok";
-
         //return "something went wrong when the open message was sent";
     }
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
