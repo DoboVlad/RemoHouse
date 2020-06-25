@@ -1,5 +1,11 @@
 package org.circuitdoctor.core.service;
 
+
+
+
+
+
+
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;
@@ -8,6 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -68,6 +80,12 @@ public class UserServiceImpl implements UserService {
 
         AtomicReference<User> newUser = new AtomicReference<>();
         Optional<User> userFromDB = userRepository.findById(user.getId());
+        if(userFromDB.get().getPassword().length()<7){
+            log.trace("changePassord - invalid Password size(<7)");
+            return userFromDB.get();
+
+        }
+
         userFromDB.ifPresent(userDB->{
             userDB.setPassword(user.getPassword());
             userRepository.save(userDB);
@@ -90,6 +108,7 @@ public class UserServiceImpl implements UserService {
         log.trace("getUserByCredential - method finished r={}",result);
         return result;
     }
+
 
 
 }

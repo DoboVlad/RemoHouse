@@ -65,6 +65,7 @@ public class RoomController {
         return "user has no access";
     }
 
+<<<<<<< HEAD
     @RequestMapping(value = "room/getRooms/{userID}/{locationID}",method = RequestMethod.GET)
     public Set<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
         log.trace("getRooms - method entered uid={} lid={}",userID,locationID);
@@ -85,4 +86,6 @@ public class RoomController {
         }
         return roomConverter.convertModelsToDtos(result.get());
     }
+=======
+>>>>>>> back_end
 }
