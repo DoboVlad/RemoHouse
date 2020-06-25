@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Room} from "../model/Room";
+import {LocationModel} from "../model/LocationModel";
 
 @Injectable({providedIn: 'root'})
 export class LocationService {
@@ -14,16 +15,16 @@ export class LocationService {
   constructor(private http: HttpClient) {
   }
 
-  addLocation(userID : number, location : Location) : Observable<Response>{
+  addLocation(userID : number, location : LocationModel) : Observable<Response>{
     // here you have to be careful of the 400 error : t means that there
     // some validation errors in the server
     return this.http.post<Response>(this.url+"/addLocation/"+userID,location,this.httpOptions);
   }
 
-  getLocations(userID : number) : Observable<Array<Location>>{
+  getLocations(userID : number) : Observable<Array<LocationModel>>{
     // here you have to be careful of the 400 error : t means that there
     // some validation errors in the server
-    return this.http.get<Array<Location>>(this.url+"/getLocations/"+userID,this.httpOptions);
+    return this.http.get<Array<LocationModel>>(this.url+"/getLocations/"+userID,this.httpOptions);
   }
 
 }

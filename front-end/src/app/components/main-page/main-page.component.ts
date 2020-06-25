@@ -9,6 +9,7 @@ import {RoomService} from "../../service/roomService";
 import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
+import {LocationModel} from "../../model/LocationModel";
 
 @Component({
   selector: 'app-main-page',
@@ -21,7 +22,7 @@ export class MainPageComponent implements OnInit {
   window1 = false;
   CurrentDate = new Date();
   WeatherData: any;
-  location : Location;
+  location : LocationModel;
   room : Room;
   window: GSMController;
   door : GSMController;

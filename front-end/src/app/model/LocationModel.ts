@@ -1,4 +1,4 @@
-export class Location {
+export class LocationModel {
   LAT_LONG_REGEX : string = "^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$";
   id : number;
   latitude : string;
