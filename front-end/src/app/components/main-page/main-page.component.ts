@@ -18,8 +18,6 @@ import {LocationModel} from "../../model/LocationModel";
 })
 export class MainPageComponent implements OnInit {
 
-  door1 = false;
-  window1 = false;
   CurrentDate = new Date();
   WeatherData: any;
   location : LocationModel;
