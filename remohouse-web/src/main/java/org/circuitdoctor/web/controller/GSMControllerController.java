@@ -2,6 +2,8 @@ package org.circuitdoctor.web.controller;
 
 import org.circuitdoctor.core.model.GSMController;
 import org.circuitdoctor.core.model.GSMStatus;
+import org.circuitdoctor.core.model.Room;
+import org.circuitdoctor.core.repository.RoomRepository;
 import org.circuitdoctor.core.service.GSMControllerService;
 import org.circuitdoctor.web.converter.GSMControllerConverter;
 import org.circuitdoctor.web.dto.GSMControllerDto;
@@ -12,6 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 public class GSMControllerController {
@@ -21,8 +29,29 @@ public class GSMControllerController {
     private GSMControllerConverter gsmControllerConverter;
     @Autowired
     private GSMControllerService gsmControllerService;
+    @Autowired
+    private RoomRepository roomRepository;
 
-
+    @RequestMapping(value = "gsm/getGSMs/{userID}/{roomID}",method = RequestMethod.GET)
+    Set<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
+        log.trace("getGSMs - method entered u={} r={}",userID, roomID);
+        Optional<Room> roomOptional = roomRepository.findById(roomID);
+        AtomicBoolean ok = new AtomicBoolean(false);
+        AtomicReference<List<GSMController>> result = new AtomicReference<>();
+        roomOptional.ifPresent(room->{
+            if(!room.getLocation().getUser().getId().equals(userID)) {
+                log.trace("user has no access here");
+            }
+            else{
+                ok.set(true);
+                result.set(gsmControllerService.findAllByRoom(room));
+            }
+        });
+        if(!ok.get())
+            return null;
+        log.trace("getGSMs - method finished r={}",result.get());
+        return gsmControllerConverter.convertModelsToDtos(result.get());
+    }
     @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
     public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);

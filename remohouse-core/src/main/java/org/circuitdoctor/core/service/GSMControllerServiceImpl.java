@@ -1,7 +1,9 @@
 package org.circuitdoctor.core.service;
 
 
+import org.apache.poi.hssf.util.HSSFColor;
 import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.repository.GSMControllerRepository;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +14,14 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class GSMControllerServiceImpl implements GSMControllerService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
-    private Repository<GSMController,Long> gsmRepository;
+    private GSMControllerRepository gsmRepository;
     @Override
     public GSMController setGSMControllerON(GSMController gsmCtrl) {
         log.trace("entered setGSMControllerON gsmCtrl={}",gsmCtrl);
@@ -104,5 +107,13 @@ public class GSMControllerServiceImpl implements GSMControllerService {
 
         log.trace("sendMessage API- something is wrong");
         return "something went wrong";
+    }
+
+    @Override
+    public List<GSMController> findAllByRoom(Room room) {
+        log.trace("findAllByRoom - method entered r-{}",room);
+        List<GSMController> result = gsmRepository.findAllByRoom(room);
+        log.trace("findAllByRoom - method finished r={}",result);
+        return result;
     }
 }
