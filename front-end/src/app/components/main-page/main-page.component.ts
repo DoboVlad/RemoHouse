@@ -88,29 +88,34 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  onChange($event: MatSlideToggleChange) {
-    // console.log($event.checked); -> true if the slide is toggled
-    // console.log($event.source.id); -> id of the toggle (door1, window1)
-    let message = "";
-    if($event.source.id==="door1"){
-      this.door1 = $event.checked;
-      message = "door";
-    }
-    else if($event.source.id==="window1"){
-      this.window1 = $event.checked;
-      message = "window";
-    }
+  doorChange($event: MatSlideToggleChange) {
     if($event.checked){
-      this.openSnackBar("Opened " + message, "OK");
+      this.gsmService.openGSM(this.door,this.user.id).subscribe(response=>{
+        console.log(response);
+      });
+      this.openSnackBar("Opened door", "OK");
     }
     else{
-      this.openSnackBar("Closed " + message, "OK");
+      this.gsmService.closeGSM(this.door,this.user.id).subscribe(response=>{
+        console.log(response);
+      });
+      this.openSnackBar("Closed door", "OK");
+    }
+  }
+  windowChange($event: MatSlideToggleChange) {
+    if($event.checked){
+      this.gsmService.openGSM(this.window,this.user.id);
+      this.openSnackBar("Opened window", "OK");
+    }
+    else{
+      this.gsmService.closeGSM(this.window,this.user.id);
+      this.openSnackBar("Closed window", "OK");
     }
   }
 
   getWeatherData(){
     //API key 2ab187c4fc0fb4ea8bb6308cfb4d2324
-    fetch('http://api.openweathermap.org/data/2.5/weather?q=lat='+this.location.latitude+'&lon='+this.location.longitude+'&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
+    fetch('http://api.openweathermap.org/data/2.5/weather?lat=41.40338&lon=2.17403&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
       .then(response => response.json())
       .then(data => {this.setWeatherData(data);});
     // let data = JSON.parse("{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"weather\":[{\"id\":801,\"main\":\"Clouds\",\"description\":\"few clouds\",\"icon\":\"02d\"}],\"base\":\"stations\",\"main\":{\"temp\":287.329,\"pressure\":1012.69,\"humidity\":67,\"temp_min\":287.329,\"temp_max\":287.329,\"sea_level\":1020.15,\"grnd_level\":1012.69},\"wind\":{\"speed\":4.76,\"deg\":95.0004},\"clouds\":{\"all\":12},\"dt\":1476443177,\"sys\":{\"message\":0.004,\"country\":\"GB\",\"sunrise\":1476426249,\"sunset\":1476464855},\"id\":2643743,\"name\":\"London\",\"cod\":200}");
@@ -138,4 +143,5 @@ export class MainPageComponent implements OnInit {
     return true;
 
   }
+
 }
