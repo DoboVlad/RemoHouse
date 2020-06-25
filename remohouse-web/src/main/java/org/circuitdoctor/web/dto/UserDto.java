@@ -6,7 +6,8 @@ import javax.validation.constraints.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Builder
@@ -21,7 +22,6 @@ public class UserDto extends BaseDto {
     @NotBlank(message = "phoneNumber is mandatory")
     @Digits(fraction=0,integer=10)
     private String phoneNumber;
-    @Column(nullable = false)
     @NotBlank(message = "password is mandatory")
     @Size(min=7)
     private String password;

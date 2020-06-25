@@ -1,13 +1,10 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user";
 import {Observable} from "rxjs";
 
 @Injectable({providedIn: 'root'})
-export class UserService {
-  // httpOptions = {
-  //   headers: new HttpHeaders({'Content-Type': 'application/json'})
-  // };
+export class GsmControllerService {
 
   private url = 'http://localhost:8080/api/user';
 

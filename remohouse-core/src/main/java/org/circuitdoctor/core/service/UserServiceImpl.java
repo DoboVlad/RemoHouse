@@ -79,6 +79,17 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Optional<User> getUserByCredential(String credential) {
+        log.trace("getUserByCredential - method entered c={}",credential);
+        Optional<User> result;
+        if(credential.contains("@"))
+            result =  userRepository.findAllByEmailStartsWith(credential);
+        else
+            result = userRepository.findAllByPhoneNumber(credential);
+        log.trace("getUserByCredential - method finished r={}",result);
+        return result;
+    }
 
 
 }

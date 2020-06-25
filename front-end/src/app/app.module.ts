@@ -23,6 +23,7 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import { AccountComponent } from './components/account/account.component';
 import { UnauthorizedAccessComponent } from './components/unauthorized-access/unauthorized-access.component';
+import {GsmControllerService} from "./service/gsmControllerService";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { UnauthorizedAccessComponent } from './components/unauthorized-access/un
         MatSlideToggleModule,
         MatSnackBarModule
     ],
-  providers: [UserService, RoomService, LocationService],
+  providers: [UserService, RoomService, LocationService, GsmControllerService],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}
