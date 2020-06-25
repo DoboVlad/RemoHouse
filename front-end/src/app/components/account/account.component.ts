@@ -16,14 +16,7 @@ export interface DialogData {
 })
 export class AccountComponent implements OnInit {
 
-  name:string;
-  surname:string;
-  email:string;
-  phone:string;
-
   user: User;
-
-
   constructor(
     public dialog:MatDialog,
     private router : Router,
@@ -36,19 +29,6 @@ export class AccountComponent implements OnInit {
     this.userService.getUserByCredential(aux).subscribe(user=>{
       this.user=user;
     });
-    if(this.user!=null)
-    {
-      this.name=this.user.name;
-      this.surname=this.user.surname;
-      this.email=this.user.email;
-      this.phone=this.user.phoneNumber;
-    }
-    else {
-      this.name = "Bob";
-      this.surname = "Ross";
-      this.email = "bob.ross@happy_accidents.com";
-      this.phone = "07ceva0123";
-    }
   }
 
   logOut() {
@@ -69,7 +49,7 @@ export class AccountComponent implements OnInit {
         if (result.oldPassword === this.user.password) {
           //check length password (just to be)
           if(result.newPassword.length<7){
-            this.snackBar.open("Parola noua nu este valida","Ok",{
+            this.snackBar.open("New password is invalid","Ok",{
               duration:2000
             });
           }
@@ -78,7 +58,7 @@ export class AccountComponent implements OnInit {
             this.userService.changePassword(this.user.id, this.user);
           }
         } else {
-          this.snackBar.open("Parola veche nu este corecta","Ok",{
+          this.snackBar.open("Old password is incorrect","Ok",{
             duration:2000
           });
         }
@@ -105,7 +85,6 @@ export class ChangePasswordDialog{
   }
 
   parse(oldPassword: string, newPassword: string) {
-    //console.log("Dew it: ",oldPassword);
     this.data.oldPassword=oldPassword;
     this.data.newPassword=newPassword;
     this.dialogRef.close(this.data)
