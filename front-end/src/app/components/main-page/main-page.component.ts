@@ -66,11 +66,11 @@ export class MainPageComponent implements OnInit {
   }
 
   getLocationName() {
-    return "locatie";
+    return this.location.name;
   }
 
   getRoomName() {
-    return "camera";
+    return this.room.name;
   }
 
   getImage() {
@@ -86,10 +86,6 @@ export class MainPageComponent implements OnInit {
     else{
       return "assets/closedHouse.png"
     }
-  }
-
-  getDate() {
-    return "DATE&HOUR"
   }
 
   onChange($event: MatSlideToggleChange) {
@@ -114,7 +110,7 @@ export class MainPageComponent implements OnInit {
 
   getWeatherData(){
     //API key 2ab187c4fc0fb4ea8bb6308cfb4d2324
-    fetch('http://api.openweathermap.org/data/2.5/weather?q=Bucharest&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
+    fetch('http://api.openweathermap.org/data/2.5/weather?q=lat='+this.location.latitude+'&lon='+this.location.longitude+'&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
       .then(response => response.json())
       .then(data => {this.setWeatherData(data);});
     // let data = JSON.parse("{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"weather\":[{\"id\":801,\"main\":\"Clouds\",\"description\":\"few clouds\",\"icon\":\"02d\"}],\"base\":\"stations\",\"main\":{\"temp\":287.329,\"pressure\":1012.69,\"humidity\":67,\"temp_min\":287.329,\"temp_max\":287.329,\"sea_level\":1020.15,\"grnd_level\":1012.69},\"wind\":{\"speed\":4.76,\"deg\":95.0004},\"clouds\":{\"all\":12},\"dt\":1476443177,\"sys\":{\"message\":0.004,\"country\":\"GB\",\"sunrise\":1476426249,\"sunset\":1476464855},\"id\":2643743,\"name\":\"London\",\"cod\":200}");
