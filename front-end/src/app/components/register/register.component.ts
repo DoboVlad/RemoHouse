@@ -46,6 +46,11 @@ export class RegisterComponent implements OnInit {
     this.errorLogIn = false;
   }
 
+  /*
+  ******************IMPORTANT**********************
+  localStorage.getItem("user") can be the email, or the phone number of the user
+  *************************************************
+   */
 
   signUp(name: string, surname: string, phoneNo: string, email: string, password: string) {
     this.nameControl.markAsTouched();
@@ -56,7 +61,7 @@ export class RegisterComponent implements OnInit {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
         localStorage.setItem("user",this.user.email);
-        this.router.navigate(["/mainpage", {user: this.user}]);
+        this.router.navigate(["/mainpage"]);
       }, error => {
         console.log("validation error", error);
         alert("Please try again with valid details.")
@@ -72,9 +77,8 @@ export class RegisterComponent implements OnInit {
       this.user = new User(0,"","",credential,password,"");
     this.userService.login(this.user).subscribe(response=>{
       if(response) {
-        //see how to get user out of response and add to session
-        //localStorage.setItem('user',userFromResponse);
-        this.router.navigate(["/mainpage", {user: response}]);
+        localStorage.setItem('user',credential);
+        this.router.navigate(["/mainpage"]);
       }
       else
         this.errorLogIn = true;

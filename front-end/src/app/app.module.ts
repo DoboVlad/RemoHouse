@@ -15,25 +15,42 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {MainPageComponent} from "./components/main-page/main-page.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatListModule} from "@angular/material/list";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { AccountComponent } from './components/account/account.component';
+import { UnauthorizedAccessComponent } from './components/unauthorized-access/unauthorized-access.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RegisterComponent,
     AboutusComponent,
-    GetstartedComponent
+    GetstartedComponent,
+    MainPageComponent,
+    AccountComponent,
+    UnauthorizedAccessComponent
   ],
-  imports: [
-    BrowserModule,
-    RouterModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule
-  ],
+    imports: [
+        BrowserModule,
+        RouterModule,
+        HttpClientModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatSidenavModule,
+        MatGridListModule,
+        MatListModule,
+        MatSlideToggleModule,
+        MatSnackBarModule
+    ],
   providers: [UserService, RoomService, LocationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}

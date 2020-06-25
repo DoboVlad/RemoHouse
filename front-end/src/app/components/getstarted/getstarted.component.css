@@ -50,14 +50,8 @@ div.container-fluid {
     }
 }
 body{
-  background-image: url(background.jpg);
   height: 2300px;
-  background-repeat: no-repeat;
   background-size: cover;
-  /*background-image: url(background.jpg);*/
-  /*height: 900px;*/
-  /*background-repeat: no-repeat;*/
-  /*background-size: cover;*/
-  background: transparent;
+  background: transparent no-repeat;
   height: 100vh;
 }

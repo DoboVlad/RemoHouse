@@ -1,0 +1,66 @@
+.body{
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
+  background-size: cover;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info {
+  border-radius: 25px;
+  height: 70%;
+  min-width: 30vmax;
+  text-align: center;
+  background-color: white;
+  margin: auto;
+}
+.data{
+  height: 100%;
+  width: 100%;
+  border-collapse: collapse;
+}
+.data th{
+  font-size: 35px;
+  text-align: center;
+  height: 70px;
+  vertical-align: center;
+}
+.data tr:not(:nth-child(1)):not(:nth-last-child(1)):not(:nth-last-child(2)){
+  border-bottom: 1px solid black;
+}
+.data td{
+  font-size: 15px;
+}
+.left{
+  font-weight: bold;
+  text-align: left;
+  padding-left: 10px;
+}
+.right{
+  text-align: right;
+  padding-right: 10px;
+}
+.center{
+  text-align: center;
+}
+p{
+  border-radius: 25px;
+  font-weight: normal;
+  font-size: 20px;
+  display: inline-block;
+  text-align: center;
+  background-color: gray;
+  color: white;
+  padding: 4px;
+}
+p:hover{
+  background-color: #9FC490;
+  color: black;
+}
+

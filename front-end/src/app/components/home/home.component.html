@@ -1,8 +1,4 @@
-<div layout="column" class="main-div">
-  <!--
-  <div class="mat-display-4">R.E.M.O.</div>
-  <div class="mat-display-2">Real-time Enclosure Management & Observation</div>
-  -->
+<div *ngIf="isUserLoggedOut()" layout="column" class="main-div">
   <table class="title">
     <tr class="mat-display-4"><th>R</th><th>E</th><th>M</th><th>O</th></tr>
     <tr class="mat-display-2"><td>Real-time</td> <td>Enclosure</td>
@@ -16,24 +12,5 @@
       <a routerLink="/getstarted" routerLinkActive="active">GET STARTED</a>
     </div>
   </nav>
-  <!--
-  <table class="title">
-    <tr class="mat-display-4"><th>R</th><th>E</th><th>M</th><th>O</th></tr>
-    <tr class="mat-display-2"><td>Real-time</td> <td>Enclosure</td>
-      <td>Management &</td> <td>Observation</td></tr>
-  </table>
-  <nav>
-    <div>
-      <a class="mat-display-2" routerLink="/register" routerLinkActive="active">SIGN UP</a>
-      <a class="mat-display-2">  |  </a>
-      <a class="mat-display-2" routerLink="/register" routerLinkActive="active">LOG IN</a>
-      <a class="mat-display-2">  |  </a>
-      <a class="mat-display-2" routerLink="/about" routerLinkActive="active">ABOUT US</a>
-      <a class="mat-display-2">  |  </a>
-      <a class="mat-display-2" routerLink="/getstarted" routerLinkActive="active">GET STARTED</a>
-    </div>
-  </nav>
-  -->
-  <router-outlet></router-outlet>
 </div>
-<p>home works!</p>
+<div *ngIf="isUserLoggedIn()"></div>
