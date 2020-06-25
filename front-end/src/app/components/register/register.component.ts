@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
     if (this.nameControl.valid && this.phoneNoControl.valid && this.emailControl.valid && this.passwordControl.valid) {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
-        localStorage.setItem("user",this.user.email);
+        localStorage.setItem("user",this.user.phoneNumber);
         this.router.navigate(["/mainpage"]);
       }, error => {
         console.log("validation error", error);
@@ -77,6 +77,9 @@ export class RegisterComponent implements OnInit {
       this.user = new User(0,"","",credential,password,"");
     this.userService.login(this.user).subscribe(response=>{
       if(response) {
+        if(credential.indexOf("@")!=-1)
+          credential = credential.split(".")[0];
+        console.log(credential);
         localStorage.setItem('user',credential);
         this.router.navigate(["/mainpage"]);
       }
