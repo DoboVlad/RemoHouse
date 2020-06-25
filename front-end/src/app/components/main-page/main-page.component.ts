@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {UserService} from "../../service/userService";
+import {LocationService} from "../../service/locationService";
+import {RoomService} from "../../service/roomService";
+import {User} from "../../model/user";
+import {Room} from "../../model/Room";
+import {Location} from "../../model/Location";
 
 @Component({
   selector: 'app-main-page',
@@ -14,8 +20,18 @@ export class MainPageComponent implements OnInit {
   window1 = false;
   CurrentDate = new Date();
   WeatherData: any;
+  user: User;
+  location: Location;
+  room: Room;
 
-  constructor(public snackBar: MatSnackBar,private router:Router) {
+  constructor
+  (
+    public snackBar: MatSnackBar,
+    private router:Router,
+    private userService: UserService,
+    private locationService: LocationService,
+    private roomService : RoomService
+  ) {
     setInterval(() =>{
       this.CurrentDate=new Date();
     },1);
@@ -32,6 +48,16 @@ export class MainPageComponent implements OnInit {
       isDay: true
     };
     this.getWeatherData();
+    var credential=localStorage.getItem("user");
+    this.userService.getUserByCredential(credential).subscribe(user=>{
+      this.user = user;
+    });
+    this.locationService.getLocations(this.user.id).subscribe(loc => {
+      // this.location = loc[0]; -> exception because of the colision of classes Location and local Location
+    });
+    this.roomService.getRooms(this.user.id, this.location.id).subscribe(room =>{
+      this.room = room[0];
+    });
   }
 
   getLocationName() {
@@ -39,7 +65,7 @@ export class MainPageComponent implements OnInit {
   }
 
   getRoomName() {
-    return "camera";
+    return "camera"
   }
 
   getImage() {
