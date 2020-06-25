@@ -92,24 +92,48 @@ export class MainPageComponent implements OnInit {
     if($event.checked){
       this.gsmService.openGSM(this.door,this.user.id).subscribe(response=>{
         console.log(response);
+        if(response) {
+          this.openSnackBar("Opened door", "OK");
+          this.door.status="ON";
+        }
+        else
+          this.openSnackBar("Something went wrong", "OK");
+
       });
-      this.openSnackBar("Opened door", "OK");
     }
     else{
       this.gsmService.closeGSM(this.door,this.user.id).subscribe(response=>{
-        console.log(response);
+        if(response) {
+          this.openSnackBar("Closed door", "OK");
+          this.door.status = "OFF";
+        }else
+          this.openSnackBar("Something went wrong", "OK");
       });
-      this.openSnackBar("Closed door", "OK");
+
     }
   }
   windowChange($event: MatSlideToggleChange) {
     if($event.checked){
-      this.gsmService.openGSM(this.window,this.user.id);
-      this.openSnackBar("Opened window", "OK");
+      this.gsmService.openGSM(this.window,this.user.id).subscribe(response=>{
+        console.log(response);
+        if(response) {
+          this.openSnackBar("Opened window", "OK");
+          this.window.status="ON";
+        }
+        else
+          this.openSnackBar("Something went wrong", "OK");
+
+      });
     }
     else{
-      this.gsmService.closeGSM(this.window,this.user.id);
-      this.openSnackBar("Closed window", "OK");
+      this.gsmService.closeGSM(this.window,this.user.id).subscribe(response=>{
+        if(response) {
+          this.openSnackBar("Closed window", "OK");
+          this.window.status = "OFF";
+        }else
+          this.openSnackBar("Something went wrong", "OK");
+      });
+
     }
   }
 
