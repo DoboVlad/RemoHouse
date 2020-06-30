@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {User} from "../../model/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ChangePasswordDialogComponent} from "../change-password-dialog/change-password-dialog.component";
 
 export interface DialogData {
    oldPassword: string;
@@ -36,8 +37,18 @@ export class AccountComponent implements OnInit {
     this.router.navigate(["/home"]);
   }
 
+  checkPassword(password: string):boolean{
+    //just to play around
+    var rez=true;
+    if(password.length<7){
+      rez=false;
+    }
+    return rez;
+
+  }
+
   changePassword() {
-    const dialogRef=this.dialog.open(ChangePasswordDialog,{
+    const dialogRef=this.dialog.open(ChangePasswordDialogComponent,{
       data:{}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -48,7 +59,7 @@ export class AccountComponent implements OnInit {
         //check if old password is right
         if (result.oldPassword == this.user.password) {
           //check length password (just to be)
-          if(result.newPassword.length<7)
+          if(!this.checkPassword(result.newPassword))
             this.snackBar.open("The new password is too short.","Ok",{duration:2000});
           else {
             this.user.password = result.newPassword;
@@ -66,20 +77,3 @@ export class AccountComponent implements OnInit {
   }
 }
 
-@Component({
-  selector: 'dialogChangePassword',
-  templateUrl: 'dialog.html',
-  styleUrls: ['./dialog.css']
-})
-export class ChangePasswordDialog{
-  constructor(public dialogRef:MatDialogRef<ChangePasswordDialog>,@Inject(MAT_DIALOG_DATA) public data:DialogData) {}
-  onCloseClick() {
-    this.dialogRef.close(null);
-  }
-
-  parse(oldPassword: string, newPassword: string) {
-    this.data.oldPassword=oldPassword;
-    this.data.newPassword=newPassword;
-    this.dialogRef.close(this.data)
-  }
-}

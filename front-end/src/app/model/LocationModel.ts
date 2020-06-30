@@ -5,14 +5,16 @@ export class LocationModel {
   longitude : string;
   image : string;
   name : string;
+  city : string
   userID : number;
 
-  constructor(id: number, latitude: string, longitude: string, image: string, name: string, userID: number) {
+  constructor(id: number, latitude: string, longitude: string, image: string, name: string, city:string, userID: number) {
     this.id = id;
     this.latitude = latitude;
     this.longitude = longitude;
     this.image = image;
     this.name = name;
+    this.city = city;
     this.userID = userID;
   }
 }

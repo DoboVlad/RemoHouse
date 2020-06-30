@@ -18,8 +18,6 @@ import {LocationModel} from "../../model/LocationModel";
 })
 export class MainPageComponent implements OnInit {
 
-  door1 = false;
-  window1 = false;
   CurrentDate = new Date();
   WeatherData: any;
   location : LocationModel;
@@ -74,13 +72,13 @@ export class MainPageComponent implements OnInit {
   }
 
   getImage() {
-    if(this.door1 && this.window1){
+    if(this.door.status=="ON" && this.window.status=="ON"){
       return "assets/openHouse.png"
     }
-    else if(this.door1 && !this.window1){
+    else if(this.door.status=="ON" && this.window.status=="OFF"){
       return "assets/openDoor.png"
     }
-    else if(!this.door1 && this.window1){
+    else if(this.door.status=="OFF" && this.window.status=="ON"){
       return "assets/openWindow.png"
     }
     else{
@@ -92,24 +90,48 @@ export class MainPageComponent implements OnInit {
     if($event.checked){
       this.gsmService.openGSM(this.door,this.user.id).subscribe(response=>{
         console.log(response);
+        if(response) {
+          this.openSnackBar("Opened door", "OK");
+          this.door.status="ON";
+        }
+        else
+          this.openSnackBar("Something went wrong", "OK");
+
       });
-      this.openSnackBar("Opened door", "OK");
     }
     else{
       this.gsmService.closeGSM(this.door,this.user.id).subscribe(response=>{
-        console.log(response);
+        if(response) {
+          this.openSnackBar("Closed door", "OK");
+          this.door.status = "OFF";
+        }else
+          this.openSnackBar("Something went wrong", "OK");
       });
-      this.openSnackBar("Closed door", "OK");
+
     }
   }
   windowChange($event: MatSlideToggleChange) {
     if($event.checked){
-      this.gsmService.openGSM(this.window,this.user.id);
-      this.openSnackBar("Opened window", "OK");
+      this.gsmService.openGSM(this.window,this.user.id).subscribe(response=>{
+        console.log(response);
+        if(response) {
+          this.openSnackBar("Opened window", "OK");
+          this.window.status="ON";
+        }
+        else
+          this.openSnackBar("Something went wrong", "OK");
+
+      });
     }
     else{
-      this.gsmService.closeGSM(this.window,this.user.id);
-      this.openSnackBar("Closed window", "OK");
+      this.gsmService.closeGSM(this.window,this.user.id).subscribe(response=>{
+        if(response) {
+          this.openSnackBar("Closed window", "OK");
+          this.window.status = "OFF";
+        }else
+          this.openSnackBar("Something went wrong", "OK");
+      });
+
     }
   }
 
