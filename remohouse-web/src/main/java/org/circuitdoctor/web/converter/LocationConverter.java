@@ -18,6 +18,7 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .longitude(dto.getLongitude())
                 .name(dto.getName())
                 .user(userRepository.findById(dto.getUserID()).get())
+                .city(dto.getCity())
                 .build();
         location.setId(dto.getId());
         return location;
@@ -33,6 +34,7 @@ public class LocationConverter extends BaseConverter<Location, LocationDto> {
                 .longitude(location.getLongitude())
                 .name(location.getName())
                 .userID(location.getUser().getId())
+                .city(location.getCity())
                 .build();
         return locationDto;
     }

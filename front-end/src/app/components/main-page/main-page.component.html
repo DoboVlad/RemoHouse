@@ -1,0 +1,59 @@
+<head><meta name="pinterest" content="nopin" /></head>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<div id="wrapper1">
+  <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
+  <mat-grid-tile colspan="4">
+    <mat-grid-list class="left-side" cols="1" rowHeight="fit">
+<!--      <mat-grid-tile></mat-grid-tile>-->
+      <mat-grid-tile class="location" rowspan="2">
+        <p class="room-name left">{{getLocationName()}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="room">
+        <p class="room-name">{{getRoomName()}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="image" rowspan="12">
+          <img matListAvatar [src]="getImage()" alt="room-image" class="img-responsive">
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-grid-list class="right-side" cols="1" rowHeight="fit">
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile class="date">
+        <p class="date-time">{{ CurrentDate | date:'MMM d, y HH:mm'}}</p>
+      </mat-grid-tile>
+      <mat-grid-tile class="button-area" rowspan="8">
+        <mat-list class="left">
+          <div class="border"><mat-list-item>
+            <div class="row">Door</div></mat-list-item>
+            <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
+          </mat-list-item></div>
+          <mat-divider></mat-divider>
+          <div class="border"><mat-list-item>
+            <div class="row">Window</div></mat-list-item>
+            <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
+          </mat-list-item></div>
+        </mat-list>
+      </mat-grid-tile>
+      <mat-grid-tile class="weather" rowspan="5">
+        <div id="weather">
+          <div *ngIf="WeatherData.isDay" class="weatherWidgetRow">
+            <i class="fas fa-3x fa-sun sun"></i>
+          </div>
+          <div *ngIf="!WeatherData.isDay" class="weatherWidgetRow">
+            <i class="fas fa-3x fa-moon moon"></i>
+          </div>
+          <div class="weatherWidgetRow cloudDiv">
+            <i class="fas fa-cloud fa-3x cloud"></i>
+          </div>
+          <div class="weatherWidgetRow" style="font-size: 32px;margin-top: 5px;">{{WeatherData.temp_celsius}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 12px;">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 12px;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 25px;margin-top: 10px;">{{WeatherData.name}}</div>
+          <div class="weatherWidgetRow" style="font-size: 12px;">Humidity: {{WeatherData.main.humidity}}%</div>
+          </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-grid-tile>
+</mat-grid-list>
+</div>

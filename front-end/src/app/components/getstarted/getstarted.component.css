@@ -1,0 +1,57 @@
+h1{
+  top:10%;
+  left:2%;
+  /*position:absolute;*/
+  color:#9FC490;
+  text-transform: uppercase;
+  font-size: 4vw;
+  font-weight: bold;
+  font-family: "Book Antiqua", "serif";
+}
+ @font-face {
+   font-family: "CustomFont";
+   src: url('Merriweather-BlackItalic.ttf');
+ }
+p{
+  font-family: 'CustomFont','sans-serif';
+  font-size: 3vw;
+  color:#C6E0FF;
+}
+
+div.container-fluid {
+  padding-bottom:10%;
+  /*left:10%;*/
+  color:#C0DFA1;
+  /*position: absolute;*/
+  font-size: 1.5vw;
+}
+@media screen and (max-width: 600px){
+  h1{
+    top:15%;
+    padding-left:8%;
+    font-size:30px;
+  }
+  p{
+    font-size:20px;
+    padding-top: 50px;
+  }
+
+  div.container-fluid{top: 30%;
+    /*left:10%;*/
+    color:#C0DFA1;
+    /*position: absolute;*/
+    font-size:15px;
+  }}
+@media screen and (min-width: 700px){
+    h1{
+      padding-bottom:6vw;
+      padding-left:40px;
+      font-size:4vw;
+    }
+}
+body{
+  height: 2300px;
+  background-size: cover;
+  background: transparent no-repeat;
+  height: 100vh;
+}

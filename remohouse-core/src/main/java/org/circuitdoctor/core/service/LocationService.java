@@ -6,4 +6,10 @@ import java.util.Set;
 public interface LocationService {
     Set<Location> getAllLocations(Long userID);
     Location addLocation(Location location);
+    
+    boolean checkAccessLocation(Long userID, Long locationID);
+
+    boolean deleteLocation(Long locationID);
+
+    boolean updateLocation(Location location);
 }

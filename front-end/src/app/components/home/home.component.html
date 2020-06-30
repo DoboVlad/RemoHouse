@@ -1,0 +1,16 @@
+<div *ngIf="isUserLoggedOut()" layout="column" class="main-div">
+  <table class="title">
+    <tr class="mat-display-4"><th>R</th><th>E</th><th>M</th><th>O</th></tr>
+    <tr class="mat-display-2"><td>Real-time</td> <td>Enclosure</td>
+      <td>Management &</td> <td>Observation</td></tr>
+  </table>
+  <nav>
+    <div class="mat-display-3">
+      <a routerLink="/register" routerLinkActive="active">SIGN UP</a>
+      <a routerLink="/register" routerLinkActive="active">LOG IN</a>
+      <a routerLink="/about" routerLinkActive="active">ABOUT US</a>
+      <a routerLink="/getstarted" routerLinkActive="active">GET STARTED</a>
+    </div>
+  </nav>
+</div>
+<div *ngIf="isUserLoggedIn()"></div>

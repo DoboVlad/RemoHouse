@@ -2,4 +2,5 @@ rootProject.name = 'RemoHouse'
 include 'remohouse-core'
 include 'remohouse-web'
 include 'webapp'
+include 'frontend'
 

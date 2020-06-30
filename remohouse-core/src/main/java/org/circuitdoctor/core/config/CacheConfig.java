@@ -3,8 +3,7 @@ package org.circuitdoctor.core.config;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.CaffeineSpec;
 import com.github.benmanes.caffeine.cache.RemovalCause;
-import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
+import com.github.benmanes.caffeine.cache.RemovalListener;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +39,7 @@ public class CacheConfig {
                 .recordStats();
     }
 
-    class CustomRemovalListener implements com.github.benmanes.caffeine.cache.RemovalListener<Object, Object>{
+    class CustomRemovalListener implements RemovalListener<Object, Object> {
         @Override
         public void onRemoval(Object key, Object value, RemovalCause cause) {
             System.out.format("removal listerner called with key [%s], cause [%s], evicted [%S]\n",

@@ -8,12 +8,13 @@ import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Builder
 public class LocationDto extends BaseDto {
-    private final String LAT_LONG_REGEX = "^(\\()([-+]?)([\\d]{1,2})(((\\.)(\\d+)(,)))(\\s*)(([-+]?)([\\d]{1,3})((\\.)(\\d+))?(\\)))$";
+    private final String LAT_LONG_REGEX = "^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$";
     private Long id;
     @NotBlank(message = "Longitude is mandatory")
     @Pattern(regexp = LAT_LONG_REGEX)
@@ -25,5 +26,6 @@ public class LocationDto extends BaseDto {
     @NotBlank(message = "Name is mandatory")
     @Size(min=2)
     private String name;
+    private String city;
     private Long userID;
 }

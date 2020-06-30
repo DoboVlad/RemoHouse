@@ -1,0 +1,15 @@
+<div class="body">
+  <div class="info">
+    <table class="data" cellspacing="0">
+      <tr><th colspan="2">Your account</th></tr>
+      <tr><td class="left">Name:</td><td class="right">{{user.name}}</td> </tr>
+
+      <tr><td class="left">Surname:</td><td class="right">{{user.surname}}</td> </tr>
+
+      <tr><td class="left">Email:</td><td class="right">{{user.email}}</td> </tr>
+
+      <tr><td class="left">Phone number:</td><td class="right">{{user.phoneNumber}}</td> </tr>
+      <tr><td class="left"><p (click)="changePassword()"> Change password</p></td><td class="right"><p (click)="logOut()"> Log out</p></td></tr>
+    </table>
+  </div>
+</div>

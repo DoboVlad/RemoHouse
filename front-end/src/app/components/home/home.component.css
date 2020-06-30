@@ -1,0 +1,86 @@
+.main-div{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: visible;
+  z-index: 1000;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("Lovepik_com-401462586-3d-tech-grid-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+table{
+  align-content: center;
+  text-align: center;
+  margin-left: 10vmin;
+  margin-right: 10vmin;
+}
+td{
+  padding-left: 2vmin;
+  padding-right: 2vmin;
+}
+.mat-display-4{
+  color: #ddd8c4 ;
+  font-weight: bold;
+  text-shadow: 6px 3px 3px black;
+  letter-spacing: 2vmin;
+  font-size: 20vmin;
+
+}
+
+.mat-display-3{
+  text-align: center;
+  color: #ddd8c4;
+  word-spacing: 0.5vmin;
+  font-size: 7vmin;
+  text-shadow: 3px 3px 3px black;
+}
+
+.mat-display-2{
+  color: #ddd8c4;
+  word-spacing: 0.5vmin;
+  font-size: 3vmin;
+  text-shadow: 3px 3px 3px black;
+}
+
+nav {
+  padding-top:8%;
+  display: inline;
+}
+a{
+  display: inline-block;
+  margin: 1vmin;
+}
+a:link {
+  color: #ddd8c4;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: #ddd8c4;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: #82A3A1;
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: #ddd8c4;
+  text-decoration: none;
+}
+a:not(:last-child):after{
+  content:"|";
+  color: #ddd8c4;
+  margin:0 0 0 2vmin;
+}

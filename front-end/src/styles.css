@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+html, body{
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  background: url("app/Lovepik_com-401462586-3d-tech-grid-background.jpg") no-repeat;
+  background-size: cover;
+  /*height: 100vh;*/
+  background-position: center center;
+}
+
+@media screen and (min-width: 600px){
+  body{
+    background: url("app/Lovepik_com-401462586-3d-tech-grid-background.jpg") no-repeat;
+    background-size: cover;
+    /*height: 100vh;*/
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+    flex-direction: column;
+    background-position: center center;
+  }
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+}
+
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

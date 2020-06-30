@@ -1,0 +1,110 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
+li a:visited, a:link {
+  color: white;
+}
+
+nav {
+  position: relative;
+  z-index: 200;
+}
+
+nav ul {
+  list-style-type: none;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.navbar-left ul li{
+  float: left;
+}
+
+@media screen and (min-width: 600px) {
+  .navbar-right ul{
+    right: 0;
+    top: 0;
+    position: fixed;
+  }
+
+  .navbar-left ul li{
+    float: left;
+  }
+
+  .navbar-left{
+    left: 0;
+    top: 0;
+    position: fixed;
+  }
+}
+
+.navbar-right ul li{
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: black;
+  background-color: #9FC490;
+}
+a:active {
+  color: gray;
+}
+
+.icon{
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-right {display: none;}
+  a.icon {
+    right: 1em;
+    top: 1em;
+    display: block;
+    position: fixed;
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .navbar.responsive {
+    position: relative;
+    z-index: 200;
+  }
+
+  .navbar.responsive a.icon {
+    position: fixed;
+    right: 1em;
+    top: 1em;
+  }
+  .navbar.responsive .navbar-left ul{
+  width: inherit;
+  }
+  .navbar.responsive .navbar-right{
+    display: block;
+    float: none;
+  }
+  .navbar.responsive .navbar-right ul{
+  clear: both;
+    right: 0;
+  }
+  .navbar.responsive .navbar-right li {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+  .navbar.responsive .navbar-right li a{
+    text-align: left;
+  }
+}
+
+
