@@ -124,13 +124,11 @@ public class GSMControllerController {
             return false;
         }
 
-        /*
-        String responseMessage=gsmControllerService.sendMessage(message);
-        if(responseMessage.equals("ok")){
 
-        }
-
-         */
+        //String responseMessage=gsmControllerService.sendMessage(message);
+//        if(responseMessage.equals("ok")){
+//
+//        }
         GSMController g=gsmControllerService.setGSMControllerOFF(gsmController);
         log.trace("finished closeGSM gsm={}",g);
         return true;

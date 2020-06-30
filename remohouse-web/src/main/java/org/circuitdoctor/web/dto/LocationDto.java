@@ -26,5 +26,6 @@ public class LocationDto extends BaseDto {
     @NotBlank(message = "Name is mandatory")
     @Size(min=2)
     private String name;
+    private String city;
     private Long userID;
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -47,5 +48,25 @@ public class LocationServiceImpl implements LocationService {
         });
         log.trace("checkAccessLocation - method finished r={}",result.get());
         return result.get();
+    }
+
+    @Override
+    public boolean deleteLocation(Long locationID) {
+        log.trace("deleteLocation - method entered l={}",locationID);
+        AtomicBoolean result = new AtomicBoolean(false);
+        locationRepository.findById(locationID).ifPresent(location->{
+            result.set(true);
+            locationRepository.delete(location);
+        });
+        log.trace("deleteLocation - method finished {}",result.get());
+        return result.get();
+    }
+
+    @Override
+    public boolean updateLocation(Location location) {
+        log.trace("updateLocation - method entered l={}",location);
+        Location r = locationRepository.save(location);
+        log.trace("updateLocation - method finished {}",r!=null);
+        return r!=null;
     }
 }
