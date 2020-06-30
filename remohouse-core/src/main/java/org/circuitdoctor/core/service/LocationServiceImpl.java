@@ -2,6 +2,7 @@ package org.circuitdoctor.core.service;
 
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.repository.Repository;
+import org.circuitdoctor.core.repository.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class LocationServiceImpl implements LocationService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
     private Repository<Location,Long> locationRepository;
+    @Autowired
+    private RoomService roomService;
     @Override
     public Set<Location> getAllLocations(Long userID) {
         log.trace("getAllLocations - method entered id={}",userID);
@@ -56,6 +59,7 @@ public class LocationServiceImpl implements LocationService {
         AtomicBoolean result = new AtomicBoolean(false);
         locationRepository.findById(locationID).ifPresent(location->{
             result.set(true);
+            roomService.deleteRoomsWithLocation(location);
             locationRepository.delete(location);
         });
         log.trace("deleteLocation - method finished {}",result.get());

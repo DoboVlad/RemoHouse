@@ -22,7 +22,7 @@ import java.io.Serializable;
 public class Room extends BaseEntity<Long> implements Serializable {
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Location location;
     @Column
     @NotBlank(message = "name is mandatory")

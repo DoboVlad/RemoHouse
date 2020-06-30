@@ -66,22 +66,20 @@ public class RoomController {
         return "user has no access";
     }
     
-    @RequestMapping(value = "room/deleteRoom/{id}",method = RequestMethod.PUT)
-    public String deleteRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long id, BindingResult errors){
-        log.trace("deleteRoom(controller) - method entered roomdto={}",roomDto);
+    @RequestMapping(value = "room/deleteRoom/{id}/{roomID}",method = RequestMethod.DELETE)
+    public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id, BindingResult errors){
+        log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
             log.trace("deleteRoom(controller) - validation error");
             return "validation errors";
         }
-        if(locationService.checkAccessLocation(id,roomDto.getLocationID())) {
-            boolean result = roomService.deleteRoom(roomConverter.convertDtoToModel(roomDto));
+        if(roomService.checkAccessRoom(id,roomID)) {
+            boolean result = roomService.deleteRoom(roomID);
             log.trace("deleteRoom(controller) - method finished r={}", result);
             if(result){
                 return "room deleted";
             }
-
-
         }
         log.warn("deleteRoom(controller)- {} has no access",id);
         return "user has no access";

@@ -2,7 +2,6 @@ package org.circuitdoctor.core.service;
 
 import org.circuitdoctor.core.model.Location;
 import org.circuitdoctor.core.model.Room;
-import org.circuitdoctor.core.repository.Repository;
 import org.circuitdoctor.core.repository.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,15 +55,37 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean deleteRoom(Room room) {
+    public boolean deleteRoom(Long room) {
         log.trace("deleteRoom - method entered r={} ",room);
         AtomicReference<Boolean> roomFound = new AtomicReference<>(false);
-        Optional<Room> roomFromDB = roomRepository.findById(room.getId());
+        Optional<Room> roomFromDB = roomRepository.findById(room);
         roomFromDB.ifPresent(roomDB->{
             roomRepository.delete(roomDB);
             roomFound.set(true);
         });
         log.trace("deleteRoom - method finished");
         return roomFound.get();
+    }
+
+    @Override
+    public void deleteRoomsWithLocation(Location location) {
+        log.trace("deleteRoomsWithLocation - method entered l={}",location);
+        List<Room> roomsToBeDeleted = roomRepository.findAllByLocation(location);
+        roomsToBeDeleted.forEach(room->{
+            roomRepository.delete(room);
+            log.trace("deleteRoomWithLocation - delete room r={}",room.getId());
+        });
+        log.trace("deleteRoomWithLocation - method finished");
+    }
+
+    @Override
+    public boolean checkAccessRoom(Long id, Long roomID) {
+        log.trace("checkAccessRoom - method entered u={} r={}",id,roomID);
+        AtomicBoolean r = new AtomicBoolean(false);
+        roomRepository.findById(roomID).ifPresent(room->{
+            r.set(room.getLocation().getUser().getId().equals(id));
+        });
+        log.trace("deleteRoomsWithLocation - method finished r={}",r.get());
+        return r.get();
     }
 }
