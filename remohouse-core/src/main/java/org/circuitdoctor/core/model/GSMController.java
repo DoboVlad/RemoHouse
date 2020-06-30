@@ -29,6 +29,6 @@ public class GSMController extends BaseEntity<Long> implements Serializable {
     private GSMStatus status=OFF;
     @Column(nullable = false)
     private String type;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Room room;
 }

@@ -40,8 +40,14 @@ export class MainPageComponent implements OnInit {
           this.room = rooms[0];
           gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
             //fix this later
-            this.door = gsms[0];
-            this.window = gsms[1];
+            if(gsms[0].type == "door") {
+              this.door = gsms[0];
+              this.window = gsms[1];
+            }
+            else {
+              this.door = gsms[1];
+              this.window = gsms[0];
+            }
             console.log(this.user,this.location,this.room,this.door,this.window);
           })
         })

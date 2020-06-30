@@ -65,17 +65,9 @@ public class GSMControllerServiceImpl implements GSMControllerService {
     @Override
     public GSMController updateGSMController(GSMController gsmCtrl) {
         log.trace("updateGSMController - method entered gsm={}",gsmCtrl);
-        AtomicReference<GSMController> newGSM = new AtomicReference<>();
-        Optional<GSMController> gsmControllerFromDB = gsmRepository.findById(gsmCtrl.getId());
-        gsmControllerFromDB.ifPresent(gsmControllerDB->{
-
-            gsmControllerDB.setPhoneNumber(gsmControllerDB.getPhoneNumber());
-            gsmControllerDB.setType(gsmControllerDB.getType());
-            gsmRepository.save(gsmControllerDB);
-            newGSM.set(gsmControllerDB);
-        });
+        gsmRepository.save(gsmCtrl);
         log.trace("updateGSMController - method finished newGSM={}",gsmCtrl);
-        return newGSM.get();
+        return gsmCtrl;
     }
 
     @Override
@@ -152,5 +144,16 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         List<GSMController> result = gsmRepository.findAllByRoom(room);
         log.trace("findAllByRoom - method finished r={}",result);
         return result;
+    }
+
+    @Override
+    public void deleteGSMsWithRoom(Room room) {
+        log.trace("deleteGSMsWithRoom - method entered r={}",room);
+        List<GSMController> controllersToDelete  = gsmRepository.findAllByRoom(room);
+        controllersToDelete.stream().forEach(controller->{
+            log.trace("deleteGSMsWithRoom - delete gsm={}",controller.getId());
+            gsmRepository.delete(controller);
+        });
+        log.trace("deleteGSMsWithRoom - method finished");
     }
 }

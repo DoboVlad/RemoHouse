@@ -20,7 +20,8 @@ public class RoomServiceImpl implements RoomService {
 
     @Autowired
     private RoomRepository roomRepository;
-
+    @Autowired
+    private GSMControllerService gsmControllerService;
     @Override
     public Room addRoom(@Valid Room room) {
         log.trace("addRoom - method entered room={}",room);
@@ -60,6 +61,7 @@ public class RoomServiceImpl implements RoomService {
         AtomicReference<Boolean> roomFound = new AtomicReference<>(false);
         Optional<Room> roomFromDB = roomRepository.findById(room);
         roomFromDB.ifPresent(roomDB->{
+            gsmControllerService.deleteGSMsWithRoom(roomDB);
             roomRepository.delete(roomDB);
             roomFound.set(true);
         });

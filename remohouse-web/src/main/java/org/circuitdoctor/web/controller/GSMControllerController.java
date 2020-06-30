@@ -155,32 +155,20 @@ public class GSMControllerController {
             return "user has no acces to room";
         }
 
-
         GSMController g=gsmControllerService.updateGSMController(gsmController);
         log.trace("finished updateGSM gsm={}",g);
         return "gsm updated";
 
     }
     @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
-    String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID, BindingResult errors){
+    String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID){
         log.trace("entered deleteGSM gsmID={}",gsmID);
-        if(errors.hasErrors()){
-            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
-            log.trace("deleteGSM - validation error");
-            return "validation error";
-        }
-
-
-
         if(!userID.equals(gsmControllerService.findByID(gsmID).getRoom().getLocation().getUser().getId())){
-            log.warn("deleteGSM -  user has no access to room");
-            return "user has no acces to room";
+            log.warn("deleteGSM - user has no access to room");
+            return "user has no access to room";
         }
-
-
         boolean result=gsmControllerService.deleteGSMController(gsmID);
         log.trace("finished deleteGSM result={}",result);
         return "gsm deleted";
-
     }
 }

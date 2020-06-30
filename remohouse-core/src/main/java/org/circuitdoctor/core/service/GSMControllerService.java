@@ -14,4 +14,5 @@ public interface GSMControllerService {
     boolean deleteGSMController(Long gsmID);
     String sendMessage(String message);
     List<GSMController> findAllByRoom(Room room);
+    void deleteGSMsWithRoom(Room roomDB);
 }
