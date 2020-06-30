@@ -9,4 +9,5 @@ public interface RoomService {
     Room addRoom(Room room);
     Room updateRoom(Room room);
     List<Room> getRooms(Location location);
+    boolean deleteRoom(Room room);
 }

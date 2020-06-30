@@ -38,6 +38,7 @@ public class RoomController {
             log.trace("addRoom - validation error");
             return "validation errors";
         }
+
         boolean userHasAccessToThisLocation = locationService.checkAccessLocation(userID,roomDto.getLocationID());
         if(userHasAccessToThisLocation) {
             Room r = roomService.addRoom(roomConverter.convertDtoToModel(roomDto));
@@ -62,6 +63,27 @@ public class RoomController {
             return String.valueOf(r.getId());
         }
         log.warn("updateRoom - {} has no access",id);
+        return "user has no access";
+    }
+    
+    @RequestMapping(value = "room/deleteRoom/{id}",method = RequestMethod.PUT)
+    public String deleteRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long id, BindingResult errors){
+        log.trace("deleteRoom(controller) - method entered roomdto={}",roomDto);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
+            log.trace("deleteRoom(controller) - validation error");
+            return "validation errors";
+        }
+        if(locationService.checkAccessLocation(id,roomDto.getLocationID())) {
+            boolean result = roomService.deleteRoom(roomConverter.convertDtoToModel(roomDto));
+            log.trace("deleteRoom(controller) - method finished r={}", result);
+            if(result){
+                return "room deleted";
+            }
+
+
+        }
+        log.warn("deleteRoom(controller)- {} has no access",id);
         return "user has no access";
     }
 

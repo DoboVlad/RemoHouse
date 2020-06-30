@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -52,5 +53,18 @@ public class RoomServiceImpl implements RoomService {
         List<Room> result =  roomRepository.findAllByLocation(location);
         log.trace("getRooms - method finished r={}",result);
         return result;
+    }
+
+    @Override
+    public boolean deleteRoom(Room room) {
+        log.trace("deleteRoom - method entered r={} ",room);
+        AtomicReference<Boolean> roomFound = new AtomicReference<>(false);
+        Optional<Room> roomFromDB = roomRepository.findById(room.getId());
+        roomFromDB.ifPresent(roomDB->{
+            roomRepository.delete(roomDB);
+            roomFound.set(true);
+        });
+        log.trace("deleteRoom - method finished");
+        return roomFound.get();
     }
 }
