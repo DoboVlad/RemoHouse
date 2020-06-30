@@ -145,22 +145,42 @@ public class GSMControllerController {
             return "validation error";
         }
         //validate access of user to room
+        if(gsmControllerService.findByID(gsmControllerDto.getId()).getStatus().equals(GSMStatus.ON)){
+            gsmControllerDto.setStatus(GSMStatus.ON);
+        }
         GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
 
         if(!userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
-            log.warn("openGSM -  user has no access to room");
+            log.warn("updateGSM -  user has no access to room");
             return "user has no acces to room";
         }
 
 
-
-
-
-
-
         GSMController g=gsmControllerService.updateGSMController(gsmController);
-        log.trace("finished openGSM gsm={}",g);
+        log.trace("finished updateGSM gsm={}",g);
         return "gsm updated";
-        //return "something went wrong when the open message was sent";
+
+    }
+    @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
+    String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID, BindingResult errors){
+        log.trace("entered deleteGSM gsmID={}",gsmID);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
+            log.trace("deleteGSM - validation error");
+            return "validation error";
+        }
+
+
+
+        if(!userID.equals(gsmControllerService.findByID(gsmID).getRoom().getLocation().getUser().getId())){
+            log.warn("deleteGSM -  user has no access to room");
+            return "user has no acces to room";
+        }
+
+
+        boolean result=gsmControllerService.deleteGSMController(gsmID);
+        log.trace("finished deleteGSM result={}",result);
+        return "gsm deleted";
+
     }
 }

@@ -79,8 +79,24 @@ public class GSMControllerServiceImpl implements GSMControllerService {
     }
 
     @Override
+    public GSMController findByID(Long id) {
+        log.trace("findByID -gsm - method entered id={}",id);
+        Optional<GSMController> result=gsmRepository.findById(id);
+        log.trace("findByID -gsm - method finished gsm={}",result.get());
+        return result.get();
+    }
+
+    @Override
     public boolean deleteGSMController(Long gsmID) {
-        return false;
+        log.trace("delete gsm - method entered id={}",gsmID);
+        AtomicReference<Boolean> gsmFound = new AtomicReference<>(false);
+        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmID);
+        gsmFromDB.ifPresent(gsmDB->{
+            gsmRepository.delete(gsmDB);
+            gsmFound.set(true);
+        });
+        log.trace("delete gsm - method finished result={}",gsmFound.get());
+        return gsmFound.get();
     }
 
 
