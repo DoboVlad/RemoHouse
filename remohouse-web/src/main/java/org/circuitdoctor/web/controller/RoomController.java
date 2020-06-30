@@ -65,7 +65,7 @@ public class RoomController {
         log.warn("updateRoom - {} has no access",id);
         return "user has no access";
     }
-    
+
     @RequestMapping(value = "room/deleteRoom/{id}",method = RequestMethod.PUT)
     public String deleteRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long id, BindingResult errors){
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomDto);

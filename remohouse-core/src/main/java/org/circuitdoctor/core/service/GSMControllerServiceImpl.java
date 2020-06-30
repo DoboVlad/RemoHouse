@@ -62,6 +62,27 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         return result;
     }
 
+    @Override
+    public GSMController updateGSMController(GSMController gsmCtrl) {
+        log.trace("updateGSMController - method entered gsm={}",gsmCtrl);
+        AtomicReference<GSMController> newGSM = new AtomicReference<>();
+        Optional<GSMController> gsmControllerFromDB = gsmRepository.findById(gsmCtrl.getId());
+        gsmControllerFromDB.ifPresent(gsmControllerDB->{
+
+            gsmControllerDB.setPhoneNumber(gsmControllerDB.getPhoneNumber());
+            gsmControllerDB.setType(gsmControllerDB.getType());
+            gsmRepository.save(gsmControllerDB);
+            newGSM.set(gsmControllerDB);
+        });
+        log.trace("updateGSMController - method finished newGSM={}",gsmCtrl);
+        return newGSM.get();
+    }
+
+    @Override
+    public boolean deleteGSMController(Long gsmID) {
+        return false;
+    }
+
 
     public String sendMessage(String message) {
         log.trace("sendMessage - method entered");

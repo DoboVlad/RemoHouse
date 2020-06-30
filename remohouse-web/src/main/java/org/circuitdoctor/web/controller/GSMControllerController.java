@@ -135,4 +135,32 @@ public class GSMControllerController {
         //log.warn("something went wrong when the close message was sent");
         //return "something went wrong when the close message was sent";
     }
+
+    @RequestMapping(value = "gsm/update/{userID}", method = RequestMethod.PUT)
+    String updateGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, BindingResult errors){
+        log.trace("entered updateGSM gsmDTO={}",gsmControllerDto);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
+            log.trace("updateGSM - validation error");
+            return "validation error";
+        }
+        //validate access of user to room
+        GSMController gsmController=gsmControllerConverter.convertDtoToModel(gsmControllerDto);
+
+        if(!userID.equals(gsmController.getRoom().getLocation().getUser().getId())){
+            log.warn("openGSM -  user has no access to room");
+            return "user has no acces to room";
+        }
+
+
+
+
+
+
+
+        GSMController g=gsmControllerService.updateGSMController(gsmController);
+        log.trace("finished openGSM gsm={}",g);
+        return "gsm updated";
+        //return "something went wrong when the open message was sent";
+    }
 }
