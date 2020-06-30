@@ -41,6 +41,7 @@ export class MainPageComponent implements OnInit {
           gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
             //fix this later
             if(gsms[0].type == "door") {
+              console.log("door");
               this.door = gsms[0];
               this.window = gsms[1];
             }
