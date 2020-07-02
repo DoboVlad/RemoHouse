@@ -7,7 +7,7 @@ import {GetstartedComponent} from "./components/getstarted/getstarted.component"
 import {MainPageComponent} from "./components/main-page/main-page.component";
 import {AccountComponent} from "./components/account/account.component";
 import {UnauthorizedAccessComponent} from "./components/unauthorized-access/unauthorized-access.component";
-
+import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -17,7 +17,8 @@ const routes: Routes = [
   {path: 'getstarted', component: GetstartedComponent},
   {path: 'mainpage', component: MainPageComponent},
   {path: 'account', component: AccountComponent},
-  {path: 'unauthorizedaccess', component: UnauthorizedAccessComponent}
+  {path: 'unauthorizedaccess', component: UnauthorizedAccessComponent},
+  {path: 'forgot-password', component: ForgotPasswordComponent}
 ];
 
 @NgModule({
