@@ -20,8 +20,11 @@ export class MainPageComponent implements OnInit {
 
   CurrentDate = new Date();
   WeatherData: any;
-  location : LocationModel;
-  room : Room;
+  locations : Array<LocationModel>;
+  currentLocation : LocationModel;
+  rooms : Array<Room>;
+  currentRoom : Room;
+  gsmControllers : Array<GSMController>;
   window: GSMController;
   door : GSMController;
   user : User;
@@ -33,25 +36,25 @@ export class MainPageComponent implements OnInit {
       this.CurrentDate=new Date();
     },1);
     userService.getUserByCredential(localStorage.getItem("user")).subscribe(user=>{
-      this.user=user;
+      this.user = user;
       locationService.getLocations(user.id).subscribe(locations=>{
-        this.location = locations[0];
-        roomService.getRooms(user.id,this.location.id).subscribe(rooms=>{
-          this.room = rooms[0];
-          gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
-            //fix this later
-            if(gsms[0].type == "door") {
-              console.log("door");
-              this.door = gsms[0];
-              this.window = gsms[1];
-            }
-            else {
-              this.door = gsms[1];
-              this.window = gsms[0];
-            }
-            console.log(this.user,this.location,this.room,this.door,this.window);
-          })
-        })
+        this.locations = locations;
+        // roomService.getRooms(user.id,this.location.id).subscribe(rooms=>{
+        //   this.room = rooms[0];
+        //   gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
+        //     //fix this later
+        //     if(gsms[0].type == "door") {
+        //       console.log("door");
+        //       this.door = gsms[0];
+        //       this.window = gsms[1];
+        //     }
+        //     else {
+        //       this.door = gsms[1];
+        //       this.window = gsms[0];
+        //     }
+        //     console.log(this.user,this.location,this.room,this.door,this.window);
+        //   })
+        // })
       })
     })
 
@@ -71,11 +74,11 @@ export class MainPageComponent implements OnInit {
   }
 
   getLocationName() {
-    return this.location.name;
+    return this.currentLocation.name;
   }
 
   getRoomName() {
-    return this.room.name;
+    return this.currentRoom.name;
   }
 
   getImage() {
@@ -170,7 +173,6 @@ export class MainPageComponent implements OnInit {
       return false;
     }
     return true;
-
   }
 
 }
