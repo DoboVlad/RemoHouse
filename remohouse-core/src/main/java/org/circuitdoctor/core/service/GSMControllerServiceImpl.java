@@ -5,6 +5,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.circuitdoctor.core.model.*;
 import org.circuitdoctor.core.repository.GSMControllerRepository;
 import org.circuitdoctor.core.repository.Repository;
+import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -22,16 +24,32 @@ public class GSMControllerServiceImpl implements GSMControllerService {
     private static final Logger log = LoggerFactory.getLogger(LocationServiceImpl.class);
     @Autowired
     private GSMControllerRepository gsmRepository;
+    @Autowired
+    private ActionLogGSMService actionLogGSMService;
+    @Autowired
+    private UserRepository userRepository;
+
+
     @Override
-    public GSMController setGSMControllerON(GSMController gsmCtrl) {
+    public GSMController setGSMControllerON(GSMController gsmCtrl,Long userID) {
         log.trace("entered setGSMControllerON gsmCtrl={}",gsmCtrl);
         AtomicReference<GSMController> newGSMCtrl = new AtomicReference<>();
         Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmCtrl.getId());
 
+        //build the action Log
+        ActionLogGSM actionLogGSM=ActionLogGSM.builder()
+                .operationType("open")
+                .dateTime(LocalDateTime.now())
+                .gsmController(gsmCtrl)
+                .user(userRepository.findById(userID).get())
+                .build();
 
         gsmFromDB.ifPresent(gsmDB->{
             gsmDB.setStatus(GSMStatus.ON);
             gsmRepository.save(gsmDB);
+            //add actionLog
+
+            actionLogGSMService.addActionLogGSM(actionLogGSM);
             newGSMCtrl.set(gsmDB);
         });
         log.trace("finished setGSMControllerON gsmCtrl={}",newGSMCtrl);
@@ -39,15 +57,23 @@ public class GSMControllerServiceImpl implements GSMControllerService {
     }
 
     @Override
-    public GSMController setGSMControllerOFF(GSMController gsmCtrl) {
+    public GSMController setGSMControllerOFF(GSMController gsmCtrl,Long userID) {
         log.trace("entered setGSMControllerOFF gsmCtrl={}",gsmCtrl);
         AtomicReference<GSMController> newGSMCtrl = new AtomicReference<>();
         Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmCtrl.getId());
-
+        //build the action Log
+        ActionLogGSM actionLogGSM=ActionLogGSM.builder()
+                .operationType("close")
+                .dateTime(LocalDateTime.now())
+                .gsmController(gsmCtrl)
+                .user(userRepository.findById(userID).get())
+                .build();
 
         gsmFromDB.ifPresent(gsmDB->{
             gsmDB.setStatus(GSMStatus.OFF);
             gsmRepository.save(gsmDB);
+            //add action log
+            actionLogGSMService.addActionLogGSM(actionLogGSM);
             newGSMCtrl.set(gsmDB);
         });
         log.trace("finished setGSMControllerOFF");
@@ -85,6 +111,7 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmID);
         gsmFromDB.ifPresent(gsmDB->{
             gsmRepository.delete(gsmDB);
+            actionLogGSMService.deleteActionsWithGSMController(gsmDB);
             gsmFound.set(true);
         });
         log.trace("delete gsm - method finished result={}",gsmFound.get());

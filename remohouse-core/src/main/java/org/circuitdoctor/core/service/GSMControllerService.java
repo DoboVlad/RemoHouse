@@ -6,8 +6,8 @@ import org.circuitdoctor.core.model.Room;
 import java.util.List;
 
 public interface GSMControllerService {
-    GSMController setGSMControllerON(GSMController gsmCtrl);
-    GSMController setGSMControllerOFF(GSMController gsmCtrl);
+    GSMController setGSMControllerON(GSMController gsmCtrl,Long userID);
+    GSMController setGSMControllerOFF(GSMController gsmCtrl,Long userID);
     GSMController addGSMController(GSMController gsmCtrl);
     GSMController updateGSMController(GSMController gsmCtrl);
     GSMController findByID(Long id);

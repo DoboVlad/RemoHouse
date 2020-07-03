@@ -1,5 +1,6 @@
 package org.circuitdoctor.web.controller;
 
+import org.circuitdoctor.core.model.ActionLogGSM;
 import org.circuitdoctor.core.model.GSMController;
 import org.circuitdoctor.core.model.GSMStatus;
 import org.circuitdoctor.core.model.Room;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,7 +99,7 @@ public class GSMControllerController {
 
         //log.warn("something went wrong when the open message was sent");
 
-        GSMController g=gsmControllerService.setGSMControllerON(gsmController);
+        GSMController g=gsmControllerService.setGSMControllerON(gsmController,userID);
         log.trace("finished openGSM gsm={}",g);
         return true;
         //return "something went wrong when the open message was sent";
@@ -129,7 +131,7 @@ public class GSMControllerController {
 //        if(responseMessage.equals("ok")){
 //
 //        }
-        GSMController g=gsmControllerService.setGSMControllerOFF(gsmController);
+        GSMController g=gsmControllerService.setGSMControllerOFF(gsmController,userID);
         log.trace("finished closeGSM gsm={}",g);
         return true;
         //log.warn("something went wrong when the close message was sent");

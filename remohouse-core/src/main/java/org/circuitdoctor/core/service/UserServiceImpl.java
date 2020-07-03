@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ActionLogGSMService actionLogGSMService;
     @Override
     public List<User> getAllUsers() {
         log.trace("getAllUsers - method entered");
