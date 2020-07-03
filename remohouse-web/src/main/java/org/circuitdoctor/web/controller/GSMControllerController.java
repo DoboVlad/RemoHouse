@@ -52,6 +52,7 @@ public class GSMControllerController {
         log.trace("getGSMs - method finished r={}",result.get());
         return gsmControllerConverter.convertModelsToDtos(result.get());
     }
+
     @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
     public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
@@ -70,6 +71,7 @@ public class GSMControllerController {
         log.warn("addGSMController - {} has no access",userID);
         return "user has no access";
     }
+
     @RequestMapping(value = "gsm/open/{userID}/{message}", method = RequestMethod.PUT)
     boolean openGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         log.trace("entered openGSM message={}",message);
@@ -102,6 +104,7 @@ public class GSMControllerController {
         return true;
         //return "something went wrong when the open message was sent";
     }
+
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     boolean closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         log.trace("entered closeGSM message={}",message);
@@ -160,6 +163,7 @@ public class GSMControllerController {
         return "gsm updated";
 
     }
+
     @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
     String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID){
         log.trace("entered deleteGSM gsmID={}",gsmID);
