@@ -39,22 +39,22 @@ export class MainPageComponent implements OnInit {
       this.user = user;
       locationService.getLocations(user.id).subscribe(locations=>{
         this.locations = locations;
-        // roomService.getRooms(user.id,this.location.id).subscribe(rooms=>{
-        //   this.room = rooms[0];
-        //   gsmService.getGSMs(user.id,this.room.id).subscribe(gsms=>{
-        //     //fix this later
-        //     if(gsms[0].type == "door") {
-        //       console.log("door");
-        //       this.door = gsms[0];
-        //       this.window = gsms[1];
-        //     }
-        //     else {
-        //       this.door = gsms[1];
-        //       this.window = gsms[0];
-        //     }
-        //     console.log(this.user,this.location,this.room,this.door,this.window);
-        //   })
-        // })
+        this.currentLocation = locations[0];
+        roomService.getRooms(user.id,this.currentLocation.id).subscribe(rooms=>{
+          this.currentRoom = rooms[0];
+          gsmService.getGSMs(user.id,this.currentRoom.id).subscribe(gsms=>{
+            //fix this later
+            if(gsms[0].type == "door") {
+              console.log("door");
+              this.door = gsms[0];
+              this.window = gsms[1];
+            }
+            else {
+              this.door = gsms[1];
+              this.window = gsms[0];
+            }
+          })
+        })
       })
     })
 
