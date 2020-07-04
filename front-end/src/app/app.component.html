@@ -7,7 +7,12 @@
   </div>
   <div class="navbar-right">
     <ul>
-      <li *ngIf="isUserLoggedIn()"> <a routerLink="/account" routerLinkActive="active"> Your account</a> </li>
+      <!--<li *ngIf="isUserLoggedIn()"> <a routerLink="/account" routerLinkActive="active"> Your account</a> </li>-->
+      <li *ngIf="isUserLoggedIn()"><a [matMenuTriggerFor]="afterMenu">Your account</a></li>
+      <mat-menu #afterMenu="matMenu" xPosition="after">
+        <button mat-menu-item (click)="manageYourAccount()">Manage your account</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
       <li *ngIf="!isUserLoggedIn()"><a routerLink="/register" routerLinkActive="active">Register</a></li>
       <li><a routerLink="/about" routerLinkActive="active">About us</a></li>
       <li><a routerLink="/getstarted" routerLinkActive="active">Get Started</a></li>

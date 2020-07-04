@@ -1,4 +1,4 @@
-<div class="body">
+<!--<div class="body">
   <div class="info">
     <table class="data" cellspacing="0">
       <tr><th colspan="2">Your account</th></tr>
@@ -12,4 +12,60 @@
       <tr><td class="left"><p (click)="changePassword()"> Change password</p></td><td class="right"><p (click)="logOut()"> Log out</p></td></tr>
     </table>
   </div>
+</div>
+-->
+<div id="body" xmlns="http://www.w3.org/1999/html">
+  <mat-toolbar color="primary">
+    <div>
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <span class="title">Welcome, {{user.name}}</span>
+    <span class="example-spacer"></span>
+
+  </mat-toolbar>
+  <mat-sidenav-container class="example-container">
+
+    <mat-sidenav  #sidenav  mode="over"  opened="false" >
+      <div>
+        <a mat-button (click)="setProfile()">Profile</a>
+        <a mat-button (click)="setManageLocations()">Manage locations</a>
+        <a mat-button (click)="setManageRooms()">Manage rooms</a>
+        <a mat-button (click)="setManageController()">Manage controllers</a>
+        <a mat-button (click)="setSecurity()">Security</a>
+        <a mat-button class="bottom" (click)="logOut()">Logout</a>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content >
+      <!--I don't know why, I don't want to know why, dar cand incerc sa folosesc {{user}} nu mai merge nimic-->
+      <div class="profile" *ngIf="isProfile()">
+        <table class="data" cellspacing="0">
+          <tr><th colspan="2">Profile</th></tr>
+          <tr><td class="left">Name:</td><td class="right">{{user.name}}</td> </tr>
+
+          <tr><td class="left">Surname:</td><td class="right">{{user.surname}}</td> </tr>
+
+          <tr><td class="left">Email:</td><td class="right">{{user.email}}</td> </tr>
+
+          <tr><td class="left">Phone number:</td><td class="right">{{user.phoneNumber}}</td> </tr>
+        </table>
+      </div>
+      <div class="security" *ngIf="isSecurity()">
+        <h1>Change password</h1>
+        <table class="inputs" cellspacing="0">
+          <tr><td class="left">Old password:</td><td class="right"><input #oldPassword type="password"></td> </tr>
+
+          <tr><td class="left">New password:</td><td class="right"><input #newPassword type="password"></td> </tr>
+
+          <tr><td class="left">Confirm password:</td><td class="right"><input #confirmPassword type="password"></td> </tr>
+        </table>
+        <a mat-button (click)="changePassword2(oldPassword.value,newPassword.value,confirmPassword.value)">Confirm</a>
+        <br>
+        <h1>Sessions</h1>
+        <h2>ip-location-date-time</h2>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

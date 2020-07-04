@@ -18,14 +18,33 @@ export interface DialogData {
 export class AccountComponent implements OnInit {
 
   user: User;
+  page: string;
   constructor(
     public dialog:MatDialog,
     private router : Router,
     private userService : UserService,
     public snackBar: MatSnackBar) {
+
+  }
+
+  setProfile(){
+    this.page="Profile";
+  }
+  setManageLocations(){
+    this.page="ManageLocations"
+  }
+  setManageRooms(){
+    this.page="ManageRooms"
+  }
+  setManageController(){
+    this.page="ManageController"
+  }
+  setSecurity() {
+    this.page="Security"
   }
 
   ngOnInit(): void {
+    this.page="Profile";
     var aux=localStorage.getItem("user");
     this.userService.getUserByCredential(aux).subscribe(user=>{
       this.user=user;
@@ -74,6 +93,38 @@ export class AccountComponent implements OnInit {
       }
     });
 
+  }
+
+  isProfile() {
+    return this.page==="Profile";
+  }
+
+  isSecurity() {
+    return this.page==="Security";
+  }
+
+  changePassword2(oldPassword: string, newPassword: string, confirmPassword: string) {
+    if(this.user.password===oldPassword){
+      if(newPassword===confirmPassword) {
+        if (!this.checkPassword(newPassword)) {
+          this.snackBar.open("The new password is too short.","Ok",{duration:2000});
+        }
+        else{
+          this.user.password = newPassword;
+          console.log("changing password ",newPassword);
+          this.userService.changePassword(this.user.id, this.user).subscribe(response=>{
+            console.log(response);
+            this.snackBar.open("Password changed.","Ok",{duration:2000});
+          });
+        }
+      }
+      else{
+        this.snackBar.open("The new password and confirm password are different.","Ok",{duration:2000});
+      }
+    }
+    else{
+      this.snackBar.open("The old password is incorect.","Ok",{duration:2000});
+    }
   }
 }
 

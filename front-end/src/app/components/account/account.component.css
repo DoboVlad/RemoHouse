@@ -1,3 +1,4 @@
+/*
 .body{
   height: 100%;
   width: 100%;
@@ -62,5 +63,144 @@ p{
 p:hover{
   background-color: #9FC490;
   color: black;
+}
+*/
+#body{
+  background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
+  background-size: cover;
+}
+.title{
+  font-size: 200%;
+}
+.companyName{
+  font-size: 150%;
+}
+
+.mat-toolbar{
+  margin-top: 4vh;
+  height: 7vh;
+  background-color: transparent;
+}
+
+div {
+  overflow: inherit;
+}
+
+.mat-sidenav-container{
+  background-color: transparent;
+  height: 89vh !important;
+  width: auto;
+}
+mat-sidenav a{
+  display: block;
+  text-decoration: none;
+  font-size: 110%;
+  white-space: normal;
+
+}
+mat-sidenav a.bottom{
+  font-size: 150%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+button{
+  font-size: 110%;
+  min-width: min-content;
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-sidenav-content{
+  font-size: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.security {
+  border-radius: 25px;
+  min-width: 30vmax;
+  text-align: left;
+  background-color: white;
+  margin: auto;
+  padding: 10px;
+}
+.profile {
+  border-radius: 25px;
+  height: 70%;
+  min-width: 30vmax;
+  text-align: center;
+  background-color: white;
+  margin: auto;
+}
+.data{
+  height: 100%;
+  width: 100%;
+  border-collapse: collapse;
+}
+.data th{
+  font-size: 35px;
+  text-align: center;
+  height: 70px;
+  vertical-align: center;
+}
+.data tr:not(:nth-child(1)):not(:nth-last-child(1)){
+  border-bottom: 1px solid black;
+}
+.data td{
+  font-size: 15px;
+}
+.data .left{
+  font-weight: bold;
+  text-align: left;
+  padding-left: 10px;
+}
+.data .right{
+  text-align: right;
+  padding-right: 10px;
+}
+.security a{
+  background-color: gray;
+  color: white;
+  float: right;
+  margin-right: 20px;
+}
+.security a:hover{
+  background-color: #9FC490;
+  color: black;
+}
+.inputs{
+  border-collapse: collapse;
+  width: 100%;
+}
+.inputs th{
+  font-size: 35px;
+  text-align: center;
+  height: 70px;
+  vertical-align: center;
+}
+.inputs td{
+  font-size: 15px;
+}
+.inputs .left{
+  text-align: left;
+  padding-left: 10px;
+}
+.inputs .right{
+  text-align: right;
+}
+.security h1{
+  font-size: 45px;
+}
+.security h2{
+  margin-left: 10px;
 }
 
