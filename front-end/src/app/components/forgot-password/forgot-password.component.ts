@@ -48,4 +48,8 @@ export class ForgotPasswordComponent implements OnInit {
     document.getElementById("resetPhone").style.display = "none";
     document.getElementById("continue").style.display="block";
   }
+  succes(){
+    document.getElementById("continue").style.display="none";
+    document.getElementById("succes").style.display="block";
+  }
 }
