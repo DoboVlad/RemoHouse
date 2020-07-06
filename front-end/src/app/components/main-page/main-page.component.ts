@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteButtonDialogComponent} from "../delete-button-dialog/delete-button-dialog.component";
 import {Router} from "@angular/router";
 import {GSMController} from "../../model/GSMController";
 import {Room} from "../../model/Room";
@@ -10,6 +12,7 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
+import {exitCodeFromResult} from "@angular/compiler-cli";
 
 @Component({
   selector: 'app-main-page',
@@ -29,7 +32,7 @@ export class MainPageComponent implements OnInit {
   door : GSMController;
   user : User;
 
-  constructor(public snackBar: MatSnackBar,private router:Router, private locationService : LocationService,
+  constructor(public snackBar: MatSnackBar,private router:Router, private dialog:MatDialog, private locationService : LocationService,
               private roomService : RoomService, private gsmService:GsmControllerService,
               private userService : UserService) {
     setInterval(() =>{
@@ -62,6 +65,9 @@ export class MainPageComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
       duration: 2000,
+      verticalPosition:'bottom',
+      horizontalPosition:'left'
+
     });
   }
 
@@ -173,6 +179,18 @@ export class MainPageComponent implements OnInit {
       return false;
     }
     return true;
+  }
+  deleteButton(){
+    const dialogRef=this.dialog.open(DeleteButtonDialogComponent)
+    dialogRef.afterClosed().subscribe(result =>{
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result==true)
+      { //fix this
+        this.openSnackBar("The button was deleted","OK");
+         }
+    }
+    )
   }
 
 }

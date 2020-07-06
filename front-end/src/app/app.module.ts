@@ -28,6 +28,8 @@ import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dial
 import {MatButtonModule} from "@angular/material/button";
 import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import {MatIconModule} from "@angular/material/icon";
+import { DeleteButtonDialogComponent } from './components/delete-button-dialog/delete-button-dialog.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     AccountComponent,
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DeleteButtonDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -56,8 +59,9 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
         MatListModule,
         MatSlideToggleModule,
         MatSnackBarModule,
-      MatDialogModule,
-      MatButtonModule
+        MatDialogModule,
+        MatButtonModule,
+        MatIconModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
