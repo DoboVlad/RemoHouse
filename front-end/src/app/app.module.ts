@@ -29,6 +29,8 @@ import {MatButtonModule} from "@angular/material/button";
 import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatIconModule} from "@angular/material/icon";
+import { DeleteButtonDialogComponent } from './components/delete-button-dialog/delete-button-dialog.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
     AccountComponent,
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DeleteButtonDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -59,7 +62,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
         MatSnackBarModule,
         MatDialogModule,
         MatButtonModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatIconModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
