@@ -1,6 +1,4 @@
 package org.circuitdoctor.web.controller;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.service.UserService;
 import org.circuitdoctor.web.converter.UserConverter;
@@ -8,11 +6,7 @@ import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -85,15 +79,33 @@ public class UserController {
         log.trace("getUserByCredential - method entered c={}",credential);
         Optional<User> result = userService.getUserByCredential(credential);
         log.trace("getUserByCredential - method finished r={}",result);
+        AtomicBoolean userExists = new AtomicBoolean(false);
+        result.ifPresent(user-> userExists.set(true));
+        if(!userExists.get())
+            return null;
         return userConverter.convertModelToDto(result.get());
     }
-    @RequestMapping(value = "user/recoverPasswordByEmail/{email}", method = RequestMethod.GET)
-    public String recoverPasswordByEmail(@PathVariable String email){
-        log.trace("recoverPasswordByEmail - method entered email={}",email);
-        String code= userService.recoverPasswordEmail(email);
-        log.trace("recoverPasswordByEmail - method finished code={}",code);
+    @RequestMapping(value = "user/recoverPassword/{credential}", method = RequestMethod.GET)
+    public String recoverPasswordByEmail(@PathVariable String credential){
+        log.trace("recoverPassword - method entered email={}",credential);
+        String code="";
+        if(credential.contains("@")){
+            code= userService.recoverPasswordByEmail(credential);
+        }
+        else{
+            if(credential.length()!=10){
+                return "wrong phoneNumber";
+            }
+            code= userService.recoverPasswordByMessage(credential);
+            if(code.length()>6){
+                return "something went wrong when tried to send the message";
+            }
+        }
+
+        log.trace("recoverPassword - method finished code={}",code);
         return code;
     }
+
 
 
 }

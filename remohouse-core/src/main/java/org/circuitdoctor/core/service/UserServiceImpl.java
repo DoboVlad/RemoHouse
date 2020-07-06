@@ -5,6 +5,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 
@@ -112,14 +114,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String recoverPasswordEmail(String email) {
+    public String recoverPasswordByEmail(String email) {
         log.trace("recover password email -method entered email={}",email);
         String to = email;
         String generatedCode=generateRandomString();
-        // Sender's email ID needs to be mentioned
+
         String from = "andrei.bangau99@gmail.com";
         String password= "cgqkzy@A";
-        // Assuming you are sending email from localhost
+
         String host = "localhost";
         String message="Recover password code: "+generatedCode;
         String subject="Recover password REMO";
@@ -128,6 +130,20 @@ public class UserServiceImpl implements UserService {
         log.trace("recover password email -method finished code={}",generatedCode);
 
         return generatedCode;
+    }
+
+    @Override
+    public String recoverPasswordByMessage(String phoneNumber) {
+        log.trace("recover password by message -method entered pn={}",phoneNumber);
+        String generatedCode=generateRandomString();
+        ServiceUtils utils=new ServiceUtils();
+        String result=utils.sendMessage("REMO change password code: "+generatedCode,"0759021544");
+
+        log.trace("recover password by message -method finished code={}",generatedCode);
+
+        if(result.equals("ok"))
+            return generatedCode;
+        return "something went wrong when tried to send message";
     }
 
 
@@ -179,6 +195,8 @@ public class UserServiceImpl implements UserService {
         }
         return new String(result);
     }
+
+
 
 
 
