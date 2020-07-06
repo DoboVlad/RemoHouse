@@ -93,5 +93,10 @@ allprojects {
         testCompile group: 'org.apache.tomcat', name: 'tomcat-jasper-el', version: '10.0.0-M6'
         compile 'javax.el:javax.el-api:2.2.4'
 
+        //for sending email
+
+        implementation files('activation.jar')
+        implementation files('javax.mail-1.6.2.jar')
+
     }
 }

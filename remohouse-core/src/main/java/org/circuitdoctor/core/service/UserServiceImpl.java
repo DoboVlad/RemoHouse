@@ -1,9 +1,11 @@
 package org.circuitdoctor.core.service;
-
-
-
-
-
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.*;
 
 
 import org.circuitdoctor.core.model.User;
@@ -19,9 +21,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -109,6 +109,75 @@ public class UserServiceImpl implements UserService {
             result = userRepository.findAllByPhoneNumber(credential);
         log.trace("getUserByCredential - method finished r={}",result);
         return result;
+    }
+
+    @Override
+    public String recoverPasswordEmail(String email) {
+        log.trace("recover password email -method entered email={}",email);
+        String to = email;
+        String generatedCode=generateRandomString();
+        // Sender's email ID needs to be mentioned
+        String from = "andrei.bangau99@gmail.com";
+        String password= "cgqkzy@A";
+        // Assuming you are sending email from localhost
+        String host = "localhost";
+        String message="Recover password code: "+generatedCode;
+        String subject="Recover password REMO";
+        sendEmail(host,from,to,hashPassword(password),message,subject);
+
+        log.trace("recover password email -method finished code={}",generatedCode);
+
+        return generatedCode;
+    }
+
+
+    static void sendEmail(String host,String from,String to,String password,String emailMessage,String subject){
+        Properties props = System.getProperties();
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", from);
+
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+
+        // Get the default Session object.
+
+
+        try {
+            Session session = Session.getDefaultInstance(props, null);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipients(Message.RecipientType.TO, to);
+            message.setSubject(subject);
+            message.setText(emailMessage);
+            Transport transport = session.getTransport("smtp");
+            transport.connect("smtp.gmail.com", from, password);//CAUSES EXCEPTION
+            transport.sendMessage(message,message.getAllRecipients());
+            log.trace("sendEmail-method: Sent message successfully...");
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+    }
+    String generateRandomString(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 6;
+        Random random = new Random();
+
+        String generatedString = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return generatedString;
+    }
+    String hashPassword(String pass){
+        char[] result = new char[pass.length()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (char) (pass.charAt(i) - (i+1));
+        }
+        return new String(result);
     }
 
 

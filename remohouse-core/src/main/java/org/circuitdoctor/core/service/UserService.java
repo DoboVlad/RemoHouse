@@ -11,6 +11,7 @@ public interface UserService {
     User signUp(User user);
     User changePassword(User user);
     Optional<User> getUserByCredential(String credential);
+    String recoverPasswordEmail(String email);
 
 
 }
