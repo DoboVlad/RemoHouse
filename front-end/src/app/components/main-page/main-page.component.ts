@@ -10,6 +10,7 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
+import {MatListOption} from "@angular/material/list";
 
 @Component({
   selector: 'app-main-page',
@@ -28,6 +29,9 @@ export class MainPageComponent implements OnInit {
   window: GSMController;
   door : GSMController;
   user : User;
+  locationList: string[];
+  roomList: string[];
+
 
   constructor(public snackBar: MatSnackBar,private router:Router, private locationService : LocationService,
               private roomService : RoomService, private gsmService:GsmControllerService,
@@ -73,8 +77,13 @@ export class MainPageComponent implements OnInit {
     this.getWeatherData();
   }
 
+
+
   getLocationName() {
-    return this.currentLocation.name;
+    if(this.locationList === []){
+      return this.currentLocation.name;
+    }
+    return this.locationList;
   }
 
   getRoomName() {
@@ -82,17 +91,19 @@ export class MainPageComponent implements OnInit {
   }
 
   getImage() {
-    if(this.door.status=="ON" && this.window.status=="ON"){
-      return "assets/openHouse.png"
-    }
-    else if(this.door.status=="ON" && this.window.status=="OFF"){
-      return "assets/openDoor.png"
-    }
-    else if(this.door.status=="OFF" && this.window.status=="ON"){
-      return "assets/openWindow.png"
+    if(this.locationList !== [] || this.roomList !== []) {
+      if (this.door.status == "ON" && this.window.status == "ON") {
+        return "assets/openHouse.png"
+      } else if (this.door.status == "ON" && this.window.status == "OFF") {
+        return "assets/openDoor.png"
+      } else if (this.door.status == "OFF" && this.window.status == "ON") {
+        return "assets/openWindow.png"
+      } else {
+        return "assets/closedHouse.png"
+      }
     }
     else{
-      return "assets/closedHouse.png"
+      return "";
     }
   }
 
@@ -174,5 +185,4 @@ export class MainPageComponent implements OnInit {
     }
     return true;
   }
-
 }

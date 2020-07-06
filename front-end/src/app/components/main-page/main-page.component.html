@@ -22,18 +22,50 @@
       <mat-grid-tile class="date">
         <p class="date-time">{{ CurrentDate | date:'MMM d, y HH:mm'}}</p>
       </mat-grid-tile>
-      <mat-grid-tile class="button-area" rowspan="8">
-        <mat-list class="left">
-          <div class="border"><mat-list-item>
-            <div class="row">Door</div></mat-list-item>
-            <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
-          </mat-list-item></div>
-          <mat-divider></mat-divider>
-          <div class="border"><mat-list-item>
-            <div class="row">Window</div></mat-list-item>
-            <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
-          </mat-list-item></div>
-        </mat-list>
+      <mat-grid-tile class="pick-location" rowspan="8">
+        <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Location
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-selection-list [(ngModel)]="locationList" multiple="false">
+            <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
+          </mat-selection-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Rooms
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list></mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Controllers
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list class="left">
+            <div class="border"><mat-list-item>
+              <div class="row">Door</div></mat-list-item>
+              <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
+              </mat-list-item></div>
+            <div class="border"><mat-list-item>
+              <div class="row">Window</div></mat-list-item>
+              <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
+              </mat-list-item></div>
+          </mat-list>
+        </mat-expansion-panel>
+        </mat-accordion>
       </mat-grid-tile>
       <mat-grid-tile class="weather" rowspan="5">
         <div id="weather">

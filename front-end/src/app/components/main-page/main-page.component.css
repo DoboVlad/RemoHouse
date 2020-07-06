@@ -16,9 +16,9 @@ p{
 }
 
 .date-time{
-  color: #011936;
+  color: #82A3A1;
   font-weight: bold;
-  text-shadow: 1px 1px #82A3A1;
+  text-shadow: 0.15em 0em #000;
 }
 
 .left-side{
@@ -46,9 +46,31 @@ img{
 /*mat-slide-toggle{
   margin-left:-10%;
 }*/
+mat-accordion{
+  width: 100%;
+}
+
+mat-expansion-panel{
+  background-color: transparent;
+  width: 100%;
+  box-shadow: none;
+}
+
+mat-panel-title{
+  color: #82A3A1;
+  text-shadow: 0.15em 0 #000;
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+mat-panel-description{
+  color: rgba(1, 25, 54, 0.5);
+  font-style: italic;
+}
+
 .row{
-  color:#011936;
-  text-shadow: 1px 1px #82A3A1;
+  color:#465362;
+  text-shadow: 1px 1px #011936;
   font-weight: bold;
   font-size: 1.5em;
   margin-left:5%;
@@ -56,10 +78,14 @@ img{
 
 }
 
-.date, .button-area, .weather{
-  background-color: rgba(130, 163, 161, 0.6);
-  border: rgba(130, 163, 161, 0.6);
+.date, .button-area, .weather, .pick-room, .pick-location{
+  background-color: rgba(70, 83, 98, 0.5);
+  border: rgba(70, 83, 98, 0.5);
   border-radius: 1em;
+}
+
+mat-expansion-panel-header:hover {
+  background-color: currentColor
 }
 
 .location{
@@ -88,10 +114,11 @@ img{
 
 #weather{
   display: block;
-  color: #011936;
-  text-shadow: 1px 1px #82A3A1;
+  color: #fff;
+  -webkit-text-stroke: 0.01em black;
   font-weight: bold;
   width: 100%;
+  font-size: 2em;
 }
 
 .weatherWidgetRow{

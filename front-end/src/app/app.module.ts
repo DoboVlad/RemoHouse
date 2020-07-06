@@ -28,6 +28,7 @@ import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dial
 import {MatButtonModule} from "@angular/material/button";
 import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -56,8 +57,9 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
         MatListModule,
         MatSlideToggleModule,
         MatSnackBarModule,
-      MatDialogModule,
-      MatButtonModule
+        MatDialogModule,
+        MatButtonModule,
+        MatExpansionModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
