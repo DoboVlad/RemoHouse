@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteButtonDialogComponent} from "../delete-button-dialog/delete-button-dialog.component";
@@ -17,7 +17,7 @@ import {LocationModel} from "../../model/LocationModel";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent implements OnInit, AfterViewInit{
 
   CurrentDate = new Date();
   WeatherData: any;
@@ -31,6 +31,8 @@ export class MainPageComponent implements OnInit {
   user : User;
   locationList: string[];
   roomList: string[];
+  @ViewChild("door") refDoor: MatSlideToggle;
+  @ViewChild("window") refWindow: MatSlideToggle;
 
 
   constructor(public snackBar: MatSnackBar,private router:Router, private dialog:MatDialog, private locationService : LocationService,
@@ -81,13 +83,14 @@ export class MainPageComponent implements OnInit {
     this.getWeatherData();
   }
 
-
-
+  ngAfterViewInit() : void{
+    if(this.door.status=="ON")
+      this.refDoor.toggle();
+    if(this.window.status=="ON")
+      this.refDoor.toggle();
+  }
   getLocationName() {
-    if(this.locationList === []){
-      return this.currentLocation.name;
-    }
-    return this.locationList;
+    return this.currentLocation.name;
   }
 
   getRoomName() {
@@ -119,8 +122,10 @@ export class MainPageComponent implements OnInit {
           this.openSnackBar("Opened door", "OK");
           this.door.status="ON";
         }
-        else
+        else {
+          this.refDoor.toggle();
           this.openSnackBar("Something went wrong", "OK");
+        }
 
       });
     }
@@ -129,8 +134,10 @@ export class MainPageComponent implements OnInit {
         if(response) {
           this.openSnackBar("Closed door", "OK");
           this.door.status = "OFF";
-        }else
+        }else {
+          this.refDoor.toggle();
           this.openSnackBar("Something went wrong", "OK");
+        }
       });
 
     }
@@ -143,9 +150,10 @@ export class MainPageComponent implements OnInit {
           this.openSnackBar("Opened window", "OK");
           this.window.status="ON";
         }
-        else
+        else {
+          this.refWindow.toggle();
           this.openSnackBar("Something went wrong", "OK");
-
+        }
       });
     }
     else{
@@ -153,8 +161,10 @@ export class MainPageComponent implements OnInit {
         if(response) {
           this.openSnackBar("Closed window", "OK");
           this.window.status = "OFF";
-        }else
+        }else {
+          this.refWindow.toggle();
           this.openSnackBar("Something went wrong", "OK");
+        }
       });
 
     }

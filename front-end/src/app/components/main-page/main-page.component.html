@@ -62,13 +62,13 @@
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
               <mat-list-item>
                 <div class="row">Door</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
+              <mat-list-item><mat-slide-toggle #door  id="door1" (change)="doorChange($event)"></mat-slide-toggle>
               </mat-list-item></div>
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
               <mat-list-item>
                 <div class="row">Window</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
+              <mat-list-item><mat-slide-toggle #window  id="window1" (change)="windowChange($event)"></mat-slide-toggle>
               </mat-list-item></div>
           </mat-list>
         </mat-expansion-panel>
