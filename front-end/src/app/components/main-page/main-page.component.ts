@@ -25,12 +25,14 @@ export class MainPageComponent implements OnInit {
   currentLocation : LocationModel;
   rooms : Array<Room>;
   currentRoom : Room;
+  gsms : Array<GSMController>;
   gsmControllers : Array<GSMController>;
   window: GSMController;
   door : GSMController;
   user : User;
   locationList: string[];
   roomList: string[];
+  gsmControllerList: string[];
 
 
   constructor(public snackBar: MatSnackBar,private router:Router, private dialog:MatDialog, private locationService : LocationService,
@@ -49,6 +51,7 @@ export class MainPageComponent implements OnInit {
           this.currentRoom = rooms[0];
           gsmService.getGSMs(user.id,this.currentRoom.id).subscribe(gsms=>{
             //fix this later
+            this.gsmControllers=gsms;
             if(gsms[0].type == "door") {
               console.log("door");
               this.door = gsms[0];
@@ -91,7 +94,10 @@ export class MainPageComponent implements OnInit {
   }
 
   getRoomName() {
-    return this.currentRoom.name;
+    if(this.roomList ===[]){
+      return this.currentRoom.name;
+    }
+    return this.roomList;
   }
 
   getImage() {

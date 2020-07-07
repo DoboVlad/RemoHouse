@@ -57,6 +57,9 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
+          <mat-selection-list [(ngModel)]="gsmControllerList" multiple="false">
+            <mat-list-option *ngFor="let gsm of gsmControllers" [value]="gsm.type">{{gsm.type}}</mat-list-option>
+          </mat-selection-list>
           <mat-list class="left">
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
