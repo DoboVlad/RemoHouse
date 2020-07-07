@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationStart, Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import {NavigationStart, Router} from "@angular/router";
 export class AppComponent implements OnInit{
   title = 'REMO';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public http: HttpClient) {
     router.events.subscribe((val)=>{
       if(val instanceof  NavigationStart && router.navigated){
         const x = document.getElementById("nav");
@@ -55,4 +56,6 @@ export class AppComponent implements OnInit{
   isUserLoggedIn() {
     return localStorage.getItem("user")!="null";
   }
+
+
 }

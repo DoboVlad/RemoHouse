@@ -11,7 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "./service/userService";
 import {RoomService} from "./service/roomService";
 import {LocationService} from "./service/locationService";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -32,6 +32,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
 import { DeleteButtonDialogComponent } from './components/delete-button-dialog/delete-button-dialog.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { DeleteButtonDialogComponent } from './components/delete-button-dialog/d
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
     ForgotPasswordComponent,
-    DeleteButtonDialogComponent
+    DeleteButtonDialogComponent,
+
   ],
     imports: [
         BrowserModule,

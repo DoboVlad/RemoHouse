@@ -1,5 +1,6 @@
 <head><meta name="pinterest" content="nopin" /></head>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 <div id="wrapper1">
   <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
@@ -33,7 +34,7 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <mat-selection-list class="locationList" [(ngModel)]="locationList" multiple="false">
-            <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
+            <mat-list-option *ngFor="let location of locations" [value]="location.name" [selected]="location.name==locations[0].name">{{location.name}}</mat-list-option>
           </mat-selection-list>
         </mat-expansion-panel>
         <mat-expansion-panel hideToggle>
@@ -44,8 +45,8 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-selection-list [(ngModel)]="roomList" multiple="false">
-            <mat-list-option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</mat-list-option>
+          <mat-selection-list class="roomList" [(ngModel)]="roomList" multiple="false">
+            <mat-list-option *ngFor="let room of rooms" [value]="room.name" [selected]="room.name==rooms[0].name">{{room.name}}</mat-list-option>
           </mat-selection-list>
           <mat-list></mat-list>
         </mat-expansion-panel>
@@ -57,9 +58,6 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-selection-list [(ngModel)]="gsmControllerList" multiple="false">
-            <mat-list-option *ngFor="let gsm of gsmControllers" [value]="gsm.type">{{gsm.type}}</mat-list-option>
-          </mat-selection-list>
           <mat-list class="left">
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>

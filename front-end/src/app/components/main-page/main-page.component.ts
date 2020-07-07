@@ -12,6 +12,7 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -25,7 +26,6 @@ export class MainPageComponent implements OnInit {
   currentLocation : LocationModel;
   rooms : Array<Room>;
   currentRoom : Room;
-  gsms : Array<GSMController>;
   gsmControllers : Array<GSMController>;
   window: GSMController;
   door : GSMController;
@@ -33,6 +33,7 @@ export class MainPageComponent implements OnInit {
   locationList: string[];
   roomList: string[];
   gsmControllerList: string[];
+
 
 
   constructor(public snackBar: MatSnackBar,private router:Router, private dialog:MatDialog, private locationService : LocationService,
@@ -77,14 +78,12 @@ export class MainPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.WeatherData ={
+    this.WeatherData = {
       main: {},
       isDay: true
     };
     this.getWeatherData();
   }
-
-
 
   getLocationName() {
     if(this.locationList === []){
