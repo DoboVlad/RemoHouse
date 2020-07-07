@@ -33,4 +33,8 @@ export class UserService {
   getUserByCredential(credential : string) : Observable<User>{
     return this.http.get<User>(this.url+"/getUserByCredential/"+credential);
   }
+
+  sendCode(credential:string) : Observable<string>{
+    return this.http.get<string>(this.url+"/recoverPassword/"+credential);
+  }
 }

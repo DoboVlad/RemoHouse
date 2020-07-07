@@ -82,7 +82,7 @@ public class UserController {
         AtomicBoolean userExists = new AtomicBoolean(false);
         result.ifPresent(user-> userExists.set(true));
         if(!userExists.get())
-            return null;
+            return new UserDto();
         return userConverter.convertModelToDto(result.get());
     }
     @RequestMapping(value = "user/recoverPassword/{credential}", method = RequestMethod.GET)
@@ -90,7 +90,7 @@ public class UserController {
         log.trace("recoverPassword - method entered email={}",credential);
         String code="";
         if(credential.contains("@")){
-            code= userService.recoverPasswordByEmail(credential);
+            code= userService.recoverPasswordByEmail(userService.getUserByCredential(credential).get().getEmail());
         }
         else{
             if(credential.length()!=10){
