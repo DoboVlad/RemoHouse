@@ -32,7 +32,7 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-selection-list [(ngModel)]="locationList" multiple="false">
+          <mat-selection-list class="locationList" [(ngModel)]="locationList" multiple="false">
             <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
           </mat-selection-list>
         </mat-expansion-panel>
@@ -82,11 +82,11 @@
           <div class="weatherWidgetRow cloudDiv">
             <i class="fas fa-cloud fa-3x cloud"></i>
           </div>
-          <div class="weatherWidgetRow" style="font-size: 32px;margin-top: 5px;">{{WeatherData.temp_celsius}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 25px;margin-top: 10px;">{{WeatherData.name}}</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">Humidity: {{WeatherData.main.humidity}}%</div>
+          <div class="weatherWidgetRow" style="font-size: 2em; margin-top: 0.5em;">{{WeatherData.temp_celsius}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em; margin-top: 0.5em">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 2em;margin-top: 0.5em;">{{WeatherData.name}}</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em; margin-top:1em">Humidity: {{WeatherData.main.humidity}}%</div>
           </div>
       </mat-grid-tile>
     </mat-grid-list>

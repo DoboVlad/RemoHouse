@@ -18,7 +18,11 @@ p{
 .date-time{
   color: #82A3A1;
   font-weight: bold;
-  text-shadow: 0.15em 0em #000;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 .left-side{
@@ -56,9 +60,23 @@ mat-expansion-panel{
   box-shadow: none;
 }
 
+.locationList mat-list-option /*, .roomList mat-list-option*/{
+  color: #82A3A1;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-weight: bold;
+}
+
 mat-panel-title{
   color: #82A3A1;
-  text-shadow: 0.15em 0 #000;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
   font-weight: bold;
   font-size: 1.5em;
 }
@@ -76,7 +94,11 @@ mat-panel-description{
 }
 .row{
   color:#465362;
-  text-shadow: 1px 1px #011936;
+  text-shadow:
+    -1px -1px 0 #011936,
+    1px -1px 0 #011936,
+    -1px 1px 0 #011936,
+    1px 1px 0 #011936;
   font-weight: bold;
   font-size: 1.5em;
   margin-left:5%;
@@ -123,10 +145,20 @@ mat-expansion-panel-header:hover {
 #weather{
   display: block;
   color: #fff;
-  -webkit-text-stroke: 0.01em black;
+  /*-webkit-text-stroke: 0.01em black;*/
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
   font-weight: bold;
   width: 100%;
-  font-size: 2em;
+}
+
+.fas{
+  text-shadow: none;
+  font-weight: bold;
+  font-size: 5em;
 }
 
 .weatherWidgetRow{
