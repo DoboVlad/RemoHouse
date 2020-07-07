@@ -225,7 +225,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
           this.rooms = rooms;
           this.roomLength=rooms.length;
           console.log(rooms);
-          if(this.rooms!=[]) {
+          if(this.rooms.length!=0) {
             this.currentRoom = rooms[0];
             this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
               //fix this later
@@ -256,7 +256,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
           console.log(gsms);
           this.gsms=gsms;
-          this.openSnackBar(this.currentRoom.name+" has no controllers","Ok");
+          if(gsms.length==0)
+            this.openSnackBar(this.currentRoom.name+" has no controllers","Ok");
           //fix this later
           if(gsms.length==2) {
             if (gsms[0].type == "door") {
