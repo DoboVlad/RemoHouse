@@ -13,7 +13,7 @@
         <p class="room-name">{{getRoomName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="image" rowspan="12">
-          <img matListAvatar [src]="getImage()" alt="room-image" class="img-responsive">
+          <img matListAvatar *ngIf="rooms.length!=0 && locations.length!=0" [src]="getImage()" alt="room-image" class="img-responsive">
       </mat-grid-tile>
     </mat-grid-list>
   </mat-grid-tile>
@@ -33,8 +33,8 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-selection-list class="locationList" [(ngModel)]="locationList" multiple="false">
-            <mat-list-option *ngFor="let location of locations" [value]="location.name" [selected]="location.name==locations[0].name">{{location.name}}</mat-list-option>
+          <mat-selection-list #location class="locationList" [(ngModel)]="locationList" multiple="false" (selectionChange)="changeRoom(location.selectedOptions.selected)">
+            <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
           </mat-selection-list>
         </mat-expansion-panel>
         <mat-expansion-panel hideToggle>
@@ -45,9 +45,9 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-selection-list class="roomList" [(ngModel)]="roomList" multiple="false">
-            <mat-list-option *ngFor="let room of rooms" [value]="room.name" [selected]="room.name==rooms[0].name">{{room.name}}</mat-list-option>
-          </mat-selection-list>
+            <mat-selection-list  #room class="roomList" [(ngModel)]="roomList" multiple="false" (selectionChange)="changeControllers(room.selectedOptions.selected)">
+              <mat-list-option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</mat-list-option>
+            </mat-selection-list>
           <mat-list></mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel hideToggle>
@@ -58,18 +58,18 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list class="left">
+          <mat-list *ngIf="gsms.length!=0" class="left">
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
               <mat-list-item>
                 <div class="row">Door</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
+              <mat-list-item><mat-slide-toggle #door  id="door1" (change)="doorChange($event)"></mat-slide-toggle>
               </mat-list-item></div>
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
               <mat-list-item>
                 <div class="row">Window</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
+              <mat-list-item><mat-slide-toggle #window  id="window1" (change)="windowChange($event)"></mat-slide-toggle>
               </mat-list-item></div>
           </mat-list>
         </mat-expansion-panel>
