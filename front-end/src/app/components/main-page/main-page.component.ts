@@ -12,7 +12,6 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
-
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -46,6 +45,7 @@ export class MainPageComponent implements OnInit {
         this.locations = locations;
         this.currentLocation = locations[0];
         roomService.getRooms(user.id,this.currentLocation.id).subscribe(rooms=>{
+          this.rooms=rooms;
           this.currentRoom = rooms[0];
           gsmService.getGSMs(user.id,this.currentRoom.id).subscribe(gsms=>{
             //fix this later
@@ -201,4 +201,6 @@ export class MainPageComponent implements OnInit {
     }
     )
   }
+
+
 }

@@ -44,6 +44,9 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
+          <mat-selection-list [(ngModel)]="roomList" multiple="false">
+            <mat-list-option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</mat-list-option>
+          </mat-selection-list>
           <mat-list></mat-list>
         </mat-expansion-panel>
         <mat-expansion-panel hideToggle>
