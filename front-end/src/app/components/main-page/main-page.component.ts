@@ -104,7 +104,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getImage() {
-    if (this.rooms !== [] && this.locations !== []) {
+    if (this.rooms != [] && this.locations != [])
       if (this.door.status == "ON" && this.window.status == "ON") {
         return "assets/openHouse.png"
       } else if (this.door.status == "ON" && this.window.status == "OFF") {
@@ -114,9 +114,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       } else {
         return "assets/closedHouse.png"
       }
-    } else {
-      return "assets/Empty.png";
-    }
   }
 
   doorChange($event: MatSlideToggleChange) {
@@ -241,7 +238,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
           }
           else {
             this.openSnackBar(this.currentLocation.name+" has no rooms.","Ok");
-            this.currentRoom = new Room(0, 0, "");
+            this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
           }
         });
       }
