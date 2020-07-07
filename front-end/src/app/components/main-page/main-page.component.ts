@@ -46,6 +46,13 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       this.user = user;
       locationService.getLocations(user.id).subscribe(locations => {
         this.locations = locations;
+        locations.sort((n1,n2)=>{
+          if (n1 < n2)
+            return 1;
+          if (n1 > n2)
+            return -1;
+          return 0;
+        });
         this.currentLocation = locations[0];
         this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
           this.rooms = rooms;
