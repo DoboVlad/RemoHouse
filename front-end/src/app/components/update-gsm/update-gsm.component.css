@@ -1,3 +1,10 @@
+div{
+  margin: auto;
+}
+mat-radio-button.button2{
+  margin-left: 8%;
+}
+
 button {
   border-radius: 20px;
   border: 1px solid #82A3A1;
@@ -5,9 +12,16 @@ button {
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;
-  padding: 12px 45px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
-  margin-top: 5%;
+  margin-left: 15%;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 80px;
+}
+button:hover{
+  transition: transform .4s;
+  transform: scale(1.2);
 }

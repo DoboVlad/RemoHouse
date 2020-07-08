@@ -5,11 +5,16 @@ button {
   color: #FFFFFF;
   font-size: 12px;
   font-weight: bold;
-  padding: 12px 45px;
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
-  margin-left: 17%;
+  margin-left: 19%;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 80px;
 }
-
-
+button:hover{
+  transition: transform .4s;
+  transform: scale(1.2);
+}
