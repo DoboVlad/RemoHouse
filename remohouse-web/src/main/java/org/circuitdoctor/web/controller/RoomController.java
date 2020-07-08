@@ -66,10 +66,6 @@ public class RoomController {
         return "user has no access";
     }
 
-
-
-
-    
     @RequestMapping(value = "room/deleteRoom/{id}/{roomID}",method = RequestMethod.DELETE)
     public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id, BindingResult errors){
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);

@@ -11,7 +11,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UserService} from "./service/userService";
 import {RoomService} from "./service/roomService";
 import {LocationService} from "./service/locationService";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -28,6 +28,10 @@ import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dial
 import {MatButtonModule} from "@angular/material/button";
 import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatIconModule} from "@angular/material/icon";
+import { DeleteButtonDialogComponent } from './components/delete-button-dialog/delete-button-dialog.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +44,9 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     AccountComponent,
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    DeleteButtonDialogComponent,
+
   ],
     imports: [
         BrowserModule,
@@ -56,8 +62,10 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
         MatListModule,
         MatSlideToggleModule,
         MatSnackBarModule,
-      MatDialogModule,
-      MatButtonModule
+        MatDialogModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatIconModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],

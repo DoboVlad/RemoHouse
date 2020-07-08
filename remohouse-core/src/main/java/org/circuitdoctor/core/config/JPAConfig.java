@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 @EnableCaching
 public class JPAConfig {
 
+    //Gets values from the db.properties file
     @Value("${db.jdbcUrl}")
     private String jdbcUrl;
 

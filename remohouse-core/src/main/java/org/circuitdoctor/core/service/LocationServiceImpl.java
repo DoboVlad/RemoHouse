@@ -24,6 +24,12 @@ public class LocationServiceImpl implements LocationService {
     private RoomService roomService;
     @Override
     public Set<Location> getAllLocations(Long userID) {
+        /*
+        DESCR: returns a set of Location = the locations of the user with user ID {userID}
+        PARAM : userID : long
+        PRE : userID > 0
+        POST: -
+         */
         log.trace("getAllLocations - method entered id={}",userID);
         Set<Location> result = locationRepository.findAll().stream()
                 .filter(location -> location.getUser().getId().equals(userID))
@@ -34,6 +40,12 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location addLocation(@Valid Location location) {
+        /*
+        DESCR: adds a new location in the database
+        PARAM: location - Location
+        PRE: location has to be a valid Location
+        POST: returns saved location in database. The id will be changed based on the rule specified in BaseEntity
+         */
         log.trace("addLocation - method entered location={}",location);
         Location locationResult = locationRepository.save(location);
         log.trace("addLocation - method finished l={}",locationResult);
@@ -42,6 +54,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public boolean checkAccessLocation(Long userID, Long locationID) {
+        /*
+        DESCR: verifies if the user with user id {userID} has access to the location with id {locationID}
+        PARAM : userID : long, locationID : long
+        PRE: userID > 0 and locationID > 0
+        POST: returns true if the user has access
+                      false otherwise
+         */
         log.trace("checkAccessLocation - method entered uid={} lid={}",userID,locationID);
         Optional<Location> locationOpt = locationRepository.findById(locationID);
         AtomicReference<Boolean> result = new AtomicReference<>(false);
@@ -55,6 +74,13 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public boolean deleteLocation(Long locationID) {
+        /*
+        DESCR: deletes location with id {locationID} from the database
+        PARAM: locationID : long
+        PRE: locationID > 0
+        POST: returns true if the location was successfully deleted
+                      false if a location with this id does not exist
+         */
         log.trace("deleteLocation - method entered l={}",locationID);
         AtomicBoolean result = new AtomicBoolean(false);
         locationRepository.findById(locationID).ifPresent(location->{
@@ -68,6 +94,14 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public boolean updateLocation(Location location) {
+        /*
+        DESCR: updates a location
+        PARAM: location - Location
+        PRE: {location} has to have the id of an existing location.
+        POST: returns true if the locations was updated successfully
+                      false otherwise
+         OBS: the function will update the fields of the location found at {Location}.id with the fields of {location}
+         */
         log.trace("updateLocation - method entered l={}",location);
         Location r = locationRepository.save(location);
         log.trace("updateLocation - method finished {}",r!=null);

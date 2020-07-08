@@ -20,4 +20,17 @@ export class GsmControllerService {
   getGSMs(userID : number, roomID : number) : Observable<Array<GSMController>>{
     return this.http.get<Array<GSMController>>(this.url+"/getGSMs/"+userID+"/"+roomID);
   }
+
+  addGSMController(userID : number, gsm : GSMController) : Observable<string>{
+    return this.http.put<string>(this.url+"/addGSM/"+userID,gsm);
+  }
+
+  updateGSMController(userID : number, gsm : GSMController) : Observable<boolean>{
+    return this.http.put<boolean>(this.url+"/update/"+userID,gsm);
+  }
+
+  deleteGSM(userID : number, gsmID : number) : Observable<boolean>{
+    return this.http.delete<boolean>(this.url+"/delete/"+userID+"/"+gsmID);
+  }
+
 }
