@@ -56,11 +56,11 @@ allprojects {
         //logging
         compile group: 'org.slf4j', name: 'slf4j-api', version: "$slf4jVersion"
         testCompile group: 'org.slf4j', name: 'slf4j-simple', version: "$slf4jVersion"
-
+        /*
         compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "$log4jVersion"
         compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "$log4jVersion"
         compile group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: "$log4jVersion"
-
+         */
         //validation
 //        compile group: 'javax.validation', name: 'validation-api', version: "$javaxValidationVersion"
 //        compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: "$hibernateValidatorVersion"
@@ -90,7 +90,7 @@ allprojects {
 // https://mvnrepository.com/artifact/javax.el/el-api
         //testCompile group: 'javax.el', name: 'el-api', version: '2.2'
         // https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jasper-el
-        testCompile group: 'org.apache.tomcat', name: 'tomcat-jasper-el', version: '10.0.0-M6'
+        //testCompile group: 'org.apache.tomcat', name: 'tomcat-jasper-el', version: '10.0.0-M6'
         compile 'javax.el:javax.el-api:2.2.4'
 
         //for sending email

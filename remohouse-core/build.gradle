@@ -40,8 +40,8 @@ dependencies {
     implementation files('javax.mail-1.6.2.jar')
 
     //spring boot
-    compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+//    compile("org.springframework.boot:spring-boot-starter-web")
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
 
 
 

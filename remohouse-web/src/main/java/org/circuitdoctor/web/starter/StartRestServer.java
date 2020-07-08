@@ -9,6 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 public class StartRestServer {
     public static void main(String[] args) {
-        SpringApplication.run(org.circuitdoctor.web.starter.StartRestServer.class, args);
+        SpringApplication.run(StartRestServer.class, args);
     }
 }
