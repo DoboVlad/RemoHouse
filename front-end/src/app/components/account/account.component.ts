@@ -13,6 +13,8 @@ import {MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
+import {GSMController} from "../../model/GSMController";
+import {GsmControllerService} from "../../service/gsmControllerService";
 import {AddGSMComponent} from "../add-gsm/add-gsm.component";
 import {UpdateGSMComponent} from "../update-gsm/update-gsm.component";
 import {DeleteGSMComponent} from "../delete-gsm/delete-gsm.component";
@@ -47,9 +49,13 @@ export class AccountComponent implements OnInit {
   roomColumns: string[] = ["name"];
   roomDataSource;
 
-  applyFilter(event: Event) {
+  expandedController: GSMController | null;
+  controllerColumns: string[] = ["type", "status", "phoneNumber"];
+  controllerDataSource;
+
+  applyFilter(event: Event, dataSource) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.locationDataSource.filter = filterValue.trim().toLowerCase();
+    dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   constructor(
@@ -58,6 +64,7 @@ export class AccountComponent implements OnInit {
     private userService : UserService,
     private locationService: LocationService,
     private roomService: RoomService,
+    private gsmControllerService: GsmControllerService,
     public snackBar: MatSnackBar) {
 
   }
@@ -177,16 +184,18 @@ export class AccountComponent implements OnInit {
       this.snackBar.open("The old password is incorect.","Ok",{duration:2000});
     }
   }
-}
 
-// export class ExampleDataSource extends DataSource<any> {
-//   /** Connect function called by the table to retrieve one stream containing the data to render. */
-//   connect(): Observable<Element[]> {
-//     const rows = [];
-//     locations.forEach(element => rows.push(element, { detailRow: true, element }));
-//     console.log(rows);
-//     return of(rows);
-//   }
-//
-//   disconnect() { }
-// }
+  toggleLocationRow(location: LocationModel) {
+    this.expandedLocation = this.expandedLocation === location ? null : location;
+    this.roomService.getRooms(this.user.id, location.id).subscribe(rooms => {
+      this.roomDataSource = new MatTableDataSource<Room>(rooms);
+    });
+  }
+
+  toggleRooms(room: Room) {
+    this.expandedRoom = this.expandedRoom === room ? null : room;
+    this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
+      this.controllerDataSource = new MatTableDataSource<GSMController>(gsms);
+    })
+  }
+}
