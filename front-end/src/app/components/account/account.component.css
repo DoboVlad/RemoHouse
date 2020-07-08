@@ -164,7 +164,13 @@ tr.detail-row {
 }
 
 tr.location-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background-color: rgba(0, 158, 255, 0.01);
+  cursor: pointer;
+}
+
+tr.room-row:not(.example-expanded-row):hover {
+  background-color: rgba(0, 158, 255, 0.015);
+  cursor: pointer;
 }
 
 tr.location-row:not(.example-expanded-row):active {
@@ -175,7 +181,7 @@ tr.location-row:not(.example-expanded-row):active {
   border-bottom-width: 0;
 }
 
-.location-detail {
+.buttons {
   overflow: hidden;
   display: flex;
   flex-flow: row-reverse;
@@ -191,12 +197,20 @@ tr.location-row:not(.example-expanded-row):active {
   overflow: hidden;
 }
 
+.location-detail{
+  overflow: hidden;
+}
+
 .mat-elevation-z8{
   margin-bottom: 1em;
   width: 60%;
 }
 
-mat-form-field{
+.room-table, .controller-table, .room-form-field{
+  width: 100%;
+}
+
+.location-form-field{
   width: 60%;
 }
 
@@ -204,6 +218,28 @@ mat-form-field{
   color: white;
 }
 
+.room-filter-label, .filter-rooms{
+  color: #000;
+}
+
 .filter-locations::placeholder{
   color: #465362 ;
+}
+
+.room-table-wrapper, .controller-table-wrapper{
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.room-table{
+  background-color: rgba(0, 158, 255, 0.01);
+}
+
+.controller-table{
+  background-color: rgba(0, 158, 255, 0.012);
 }

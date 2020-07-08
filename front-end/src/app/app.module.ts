@@ -34,6 +34,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {MatInputModule} from "@angular/material/input";
         MatIconModule,
         MatTableModule,
         MatRippleModule,
-        MatInputModule
+        MatInputModule,
+        MatTooltipModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
