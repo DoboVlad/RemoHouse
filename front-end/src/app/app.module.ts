@@ -34,6 +34,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
+import { AddRoomComponent } from './components/add-room/add-room.component';
+import { UpdateRoomComponent } from './components/update-room/update-room.component';
+import { DeleteRoomComponent } from './components/delete-room/delete-room.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import {MatInputModule} from "@angular/material/input";
     AccountComponent,
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AddRoomComponent,
+    UpdateRoomComponent,
+    DeleteRoomComponent
   ],
     imports: [
         BrowserModule,
