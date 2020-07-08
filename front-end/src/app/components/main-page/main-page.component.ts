@@ -60,6 +60,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
           if(rooms.length!=0) {
             this.currentRoom = rooms[0];
             this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
+              this.getWeatherData();
               //fix this later
               if(gsms.length!=0) {
                 this.gsms = gsms;
@@ -92,7 +93,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       main: {},
       isDay: true
     };
-    this.getWeatherData();
   }
 
 
@@ -176,14 +176,12 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getWeatherData() {
-    //API key 2ab187c4fc0fb4ea8bb6308cfb4d2324
-    fetch('http://api.openweathermap.org/data/2.5/weather?lat=41.40338&lon=2.17403&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324')
+    const formatUrl = (lat, long) => `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=2ab187c4fc0fb4ea8bb6308cfb4d2324`;
+    const url = formatUrl(this.currentLocation.latitude, this.currentLocation.longitude);
+    console.log(url);
+    fetch(url)
       .then(response => response.json())
-      .then(data => {
-        this.setWeatherData(data);
-      });
-    // let data = JSON.parse("{\"coord\":{\"lon\":-0.13,\"lat\":51.51},\"weather\":[{\"id\":801,\"main\":\"Clouds\",\"description\":\"few clouds\",\"icon\":\"02d\"}],\"base\":\"stations\",\"main\":{\"temp\":287.329,\"pressure\":1012.69,\"humidity\":67,\"temp_min\":287.329,\"temp_max\":287.329,\"sea_level\":1020.15,\"grnd_level\":1012.69},\"wind\":{\"speed\":4.76,\"deg\":95.0004},\"clouds\":{\"all\":12},\"dt\":1476443177,\"sys\":{\"message\":0.004,\"country\":\"GB\",\"sunrise\":1476426249,\"sunset\":1476464855},\"id\":2643743,\"name\":\"London\",\"cod\":200}");
-    // this.setWeatherData(data);
+      .then(data => {this.setWeatherData(data);});
   }
 
   setWeatherData(data) {
@@ -235,6 +233,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.locations.forEach(location => {
       if (location.name == selected[0].value) {
         this.currentLocation = location;
+        this.getWeatherData();
         this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
           this.rooms = rooms;
           this.roomLength=rooms.length;
