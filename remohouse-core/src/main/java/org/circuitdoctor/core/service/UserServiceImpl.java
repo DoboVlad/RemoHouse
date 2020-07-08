@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
         String password="ParolaRemo123";
         // Assuming you are sending email from localhost
 
-
+        
         
         String message="Recover password code: "+generatedCode;
         String subject="Recover password REMO";
