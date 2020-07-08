@@ -60,7 +60,7 @@ mat-expansion-panel{
   box-shadow: none;
 }
 
-.locationList mat-list-option /*, .roomList mat-list-option*/{
+.locationList mat-list-option, .roomList mat-list-option{
   color: #82A3A1;
   text-shadow:
     -1px -1px 0 #000,
@@ -198,3 +198,4 @@ mat-expansion-panel-header:hover {
   from{margin-left: -55px;}
   to{margin-left: 65px;}
 }
+

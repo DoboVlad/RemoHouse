@@ -13,6 +13,7 @@ import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
 import {MatListOption, MatSelectionList} from "@angular/material/list";
+
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
@@ -95,6 +96,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.getWeatherData();
   }
 
+
   ngAfterViewInit(): void {
     if (this.door.status == "ON" && !this.refDoor.checked)
       this.refDoor.toggle();
@@ -107,7 +109,10 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getRoomName() {
-    return this.currentRoom.name;
+    if(this.roomList ===[]){
+      return this.currentRoom.name;
+    }
+    return this.roomList;
   }
 
   getImage() {
@@ -258,6 +263,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
           else {
             this.openSnackBar(this.currentLocation.name+" has no rooms.","Ok");
             this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+            this.gsms.length=0;
           }
         });
       }

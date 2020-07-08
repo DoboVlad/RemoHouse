@@ -1,5 +1,6 @@
 <head><meta name="pinterest" content="nopin" /></head>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 <div id="wrapper1">
   <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
@@ -44,7 +45,7 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-            <mat-selection-list  #room [(ngModel)]="roomList" multiple="false" (selectionChange)="changeControllers(room.selectedOptions.selected)">
+            <mat-selection-list  #room class="roomList" [(ngModel)]="roomList" multiple="false" (selectionChange)="changeControllers(room.selectedOptions.selected)">
               <mat-list-option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</mat-list-option>
             </mat-selection-list>
           <mat-list></mat-list>
