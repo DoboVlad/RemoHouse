@@ -119,22 +119,14 @@ public class UserServiceImpl implements UserService {
         log.trace("recover password email -method entered email={}",email);
         //String to = email;
         String generatedCode=generateRandomString();
-
-        String to = "andrei.bangau99@gmail.com";
-
         // Sender's email ID needs to be mentioned
         String from = "remo@circuitdoctor.ro";
         String password="ParolaRemo123";
         // Assuming you are sending email from localhost
-
-
-        
         String message="Recover password code: "+generatedCode;
         String subject="Recover password REMO";
-        sendEmail(from,to,password,message,subject);
-
+        sendEmail(from,email,password,message,subject);
         log.trace("recover password email -method finished code={}",generatedCode);
-
         return generatedCode;
     }
 

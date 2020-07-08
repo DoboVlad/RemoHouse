@@ -54,6 +54,7 @@ export class ForgotPasswordComponent implements OnInit {
         document.getElementById("resetPhone").style.display = "none";
         document.getElementById("span1").innerHTML = c;
         this.userService.sendCode(credential).subscribe(code=> {
+          console.log(code)
           localStorage.setItem("resetCode", code);
         });
       }
@@ -61,6 +62,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   continue(code: string){
+    console.log(localStorage.getItem("resetCode"),code)
     if(localStorage.getItem("resetCode")==code) {
       document.getElementById("titlu").innerHTML = "Choose a new password!";
       document.getElementById("reset1").style.display = "none";
@@ -77,7 +79,6 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   succes(password: string, passwordConfirm: string){
-    console.log(password,passwordConfirm)
     if(password==passwordConfirm) {
       if(password.length>=7) {
         this.user.password = password;
