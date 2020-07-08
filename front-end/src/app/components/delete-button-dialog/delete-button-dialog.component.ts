@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-delete-button-dialog',
@@ -8,7 +9,11 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class DeleteButtonDialogComponent implements OnInit {
 
-  constructor(public dialogRef:MatDialogRef<DeleteButtonDialogComponent>) { }
+  constructor(public dialogRef:MatDialogRef<DeleteButtonDialogComponent>, private router:Router) {
+      if (localStorage.getItem("user") == "null") {
+        this.router.navigate(["/unauthorizedaccess"]);
+      }
+  }
   close(){
     this.dialogRef.close(false);
   }

@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {DialogData} from "../account/account.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-change-password-dialog',
@@ -9,7 +10,11 @@ import {DialogData} from "../account/account.component";
 })
 export class ChangePasswordDialogComponent implements OnInit {
 
-  constructor(public dialogRef:MatDialogRef<ChangePasswordDialogComponent>,@Inject(MAT_DIALOG_DATA) public data:DialogData) {}
+  constructor(public dialogRef:MatDialogRef<ChangePasswordDialogComponent>,@Inject(MAT_DIALOG_DATA) public data:DialogData, private router:Router) {
+    if (localStorage.getItem("user") == "null") {
+      this.router.navigate(["/unauthorizedaccess"]);
+    }
+  }
   onCloseClick() {
     this.dialogRef.close(null);
   }

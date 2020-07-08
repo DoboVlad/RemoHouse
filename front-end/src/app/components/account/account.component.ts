@@ -23,6 +23,9 @@ export class AccountComponent implements OnInit {
     private router : Router,
     private userService : UserService,
     public snackBar: MatSnackBar) {
+    if (localStorage.getItem("user") == "null") {
+      this.router.navigate(["/unauthorizedaccess"]);
+    }
   }
 
   ngOnInit(): void {
