@@ -159,3 +159,51 @@ button{
   font-weight: normal;
 }
 
+tr.detail-row {
+  height: 0;
+}
+
+tr.location-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.location-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.location-row td {
+  border-bottom-width: 0;
+}
+
+.location-detail {
+  overflow: hidden;
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.manageLocations{
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  overflow: hidden;
+}
+
+.mat-elevation-z8{
+  margin-bottom: 1em;
+  width: 60%;
+}
+
+mat-form-field{
+  width: 60%;
+}
+
+.filter-locations, mat-label{
+  color: white;
+}
+
+.filter-locations::placeholder{
+  color: #465362 ;
+}

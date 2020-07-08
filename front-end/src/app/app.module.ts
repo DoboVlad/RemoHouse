@@ -31,6 +31,9 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import {MatTableModule} from "@angular/material/table";
+import {MatRippleModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import {MatIconModule} from "@angular/material/icon";
         MatButtonModule,
         MatMenuModule,
         MatToolbarModule,
-        MatIconModule
+        MatIconModule,
+        MatTableModule,
+        MatRippleModule,
+        MatInputModule
     ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],

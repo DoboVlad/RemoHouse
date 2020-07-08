@@ -5,6 +5,14 @@ import {UserService} from "../../service/userService";
 import {User} from "../../model/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ChangePasswordDialogComponent} from "../change-password-dialog/change-password-dialog.component";
+import {DataSource} from "@angular/cdk/collections";
+import {Observable, of} from "rxjs";
+import {LocationService} from "../../service/locationService";
+import {LocationModel} from "../../model/LocationModel";
+import {MatTableDataSource} from "@angular/material/table";
+import {animate, state, style, transition, trigger} from "@angular/animations";
+import {Room} from "../../model/Room";
+import {RoomService} from "../../service/roomService";
 
 export interface DialogData {
    oldPassword: string;
@@ -13,16 +21,40 @@ export interface DialogData {
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.css']
+  styleUrls: ['./account.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class AccountComponent implements OnInit {
 
   user: User;
   page: string;
+  locations: LocationModel[];
+
+  expandedLocation: LocationModel | null;
+  locationColumns: string[] = ["name", "latitude", "longitude", "city"];
+  locationDataSource;
+
+  expandedRoom: Room | null;
+  roomColumns: string[] = ["name"];
+  roomDataSource;
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.locationDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   constructor(
     public dialog:MatDialog,
     private router : Router,
     private userService : UserService,
+    private locationService: LocationService,
+    private roomService: RoomService,
     public snackBar: MatSnackBar) {
 
   }
@@ -48,6 +80,10 @@ export class AccountComponent implements OnInit {
     var aux=localStorage.getItem("user");
     this.userService.getUserByCredential(aux).subscribe(user=>{
       this.user=user;
+      this.locationService.getLocations(this.user.id).subscribe(locations =>{
+        this.locations = locations;
+        this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
+      });
     });
   }
 
@@ -103,6 +139,10 @@ export class AccountComponent implements OnInit {
     return this.page==="Security";
   }
 
+  isManageLocations(){
+    return this.page==="ManageLocations";
+  }
+
   changePassword2(oldPassword: string, newPassword: string, confirmPassword: string) {
     if(this.user.password===oldPassword){
       if(newPassword===confirmPassword) {
@@ -128,3 +168,14 @@ export class AccountComponent implements OnInit {
   }
 }
 
+// export class ExampleDataSource extends DataSource<any> {
+//   /** Connect function called by the table to retrieve one stream containing the data to render. */
+//   connect(): Observable<Element[]> {
+//     const rows = [];
+//     locations.forEach(element => rows.push(element, { detailRow: true, element }));
+//     console.log(rows);
+//     return of(rows);
+//   }
+//
+//   disconnect() { }
+// }
