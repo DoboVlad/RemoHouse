@@ -1,11 +1,20 @@
-
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+    }
+}
 plugins {
     id 'war'
+
 }
 
 war {
     zip64 true
 }
+apply plugin: 'org.springframework.boot'
 
 
 
@@ -34,6 +43,8 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.6.RELEASE'
 
     //spring boot
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
 
 
