@@ -96,10 +96,10 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.door.status == "ON")
+    if (this.door.status == "ON" && !this.refDoor.checked)
       this.refDoor.toggle();
-    if (this.window.status == "ON")
-      this.refDoor.toggle();
+    if (this.window.status == "ON" && !this.refWindow.checked)
+      this.refWindow.toggle();
   }
 
   getLocationName() {
@@ -126,7 +126,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   doorChange($event: MatSlideToggleChange) {
     if ($event.checked) {
       this.gsmService.openGSM(this.door, this.user.id).subscribe(response => {
-        console.log(response);
         if (response) {
           this.openSnackBar("Opened door", "OK");
           this.door.status = "ON";
@@ -153,7 +152,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   windowChange($event: MatSlideToggleChange) {
     if ($event.checked) {
       this.gsmService.openGSM(this.window, this.user.id).subscribe(response => {
-        console.log(response);
         if (response) {
           this.openSnackBar("Opened window", "OK");
           this.window.status = "ON";
@@ -211,8 +209,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   deleteButton() {
     const dialogRef = this.dialog.open(DeleteButtonDialogComponent)
     dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
         if (result == true) { //fix this
           this.openSnackBar("The button was deleted", "OK");
         }
@@ -220,27 +216,43 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     )
   }
 
+  setStatusToggles(){
+    if (this.door.status == "ON" && this.refDoor.checked==false) {
+      console.log("on door")
+      this.refDoor.toggle();
+    }
+    if (this.window.status == "ON" && this.refWindow.checked==false) {
+      console.log("on window")
+      this.refWindow.toggle();
+    }
+    if (this.door.status == "OFF" && this.refDoor.checked) {
+      console.log("off door")
+      this.refDoor.toggle();
+    }
+    if (this.window.status == "OFF" && this.refWindow.checked) {
+      console.log("off window")
+      this.refWindow.toggle();
+    }
+  }
   changeRoom(selected: MatListOption[]) {
-    console.log(selected[0].value);
     this.locations.forEach(location => {
       if (location.name == selected[0].value) {
         this.currentLocation = location;
         this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
           this.rooms = rooms;
           this.roomLength=rooms.length;
-          console.log(rooms);
           if(this.rooms.length!=0) {
             this.currentRoom = rooms[0];
             this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
               //fix this later
               if (gsms[0].type == "door") {
-                console.log("door");
                 this.door = gsms[0];
                 this.window = gsms[1];
               } else {
                 this.door = gsms[1];
                 this.window = gsms[0];
               }
+              this.setStatusToggles()
             })
           }
           else {
@@ -253,25 +265,23 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   changeControllers(selected: MatListOption[]) {
-    console.log(selected[0].value);
     this.rooms.forEach(room => {
       if (room.name == selected[0].value) {
         this.currentRoom = room;
         this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
-          console.log(gsms);
           this.gsms=gsms;
           if(gsms.length==0)
             this.openSnackBar(this.currentRoom.name+" has no controllers","Ok");
           //fix this later
           if(gsms.length==2) {
             if (gsms[0].type == "door") {
-              console.log("door");
               this.door = gsms[0];
               this.window = gsms[1];
             } else {
               this.door = gsms[1];
               this.window = gsms[0];
             }
+            this.setStatusToggles()
           }
         })
       }
