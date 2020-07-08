@@ -86,7 +86,7 @@ public class UserController {
         return userConverter.convertModelToDto(result.get());
     }
     @RequestMapping(value = "user/recoverPassword/{credential}", method = RequestMethod.GET)
-    public String recoverPasswordByEmail(@PathVariable String credential){
+    public String recoverPassword(@PathVariable String credential){
         log.trace("recoverPassword - method entered email={}",credential);
         String code="";
         if(credential.contains("@")){

@@ -117,16 +117,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public String recoverPasswordByEmail(String email) {
         log.trace("recover password email -method entered email={}",email);
-        String to = email;
+        //String to = email;
         String generatedCode=generateRandomString();
 
-        String from = "andrei.bangau99@gmail.com";
-        String password= "cgqkzy@A";
+        String to = "andrei.bangau99@gmail.com";
 
-        String host = "localhost";
+        // Sender's email ID needs to be mentioned
+        String from = "remo@circuitdoctor.ro";
+        String password="ParolaRemo123";
+        // Assuming you are sending email from localhost
+
+
+        
         String message="Recover password code: "+generatedCode;
         String subject="Recover password REMO";
-        sendEmail(host,from,to,hashPassword(password),message,subject);
+        sendEmail(from,to,password,message,subject);
 
         log.trace("recover password email -method finished code={}",generatedCode);
 
@@ -148,13 +153,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    static void sendEmail(String host,String from,String to,String password,String emailMessage,String subject){
+    static void sendEmail(String from,String to,String password,String emailMessage,String subject){
         Properties props = System.getProperties();
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", "mail.circuitdoctor.ro");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", host);
-        props.put("mail.smtp.user", from);
-
-        props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
 
         // Get the default Session object.
@@ -168,9 +171,9 @@ public class UserServiceImpl implements UserService {
             message.setSubject(subject);
             message.setText(emailMessage);
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", from, password);//CAUSES EXCEPTION
+            transport.connect("mail.circuitdoctor.ro",26, from, password);//CAUSES EXCEPTION
             transport.sendMessage(message,message.getAllRecipients());
-            log.trace("sendEmail-method: Sent message successfully...");
+            log.trace("Sent message successfully....");
         } catch (MessagingException mex) {
             mex.printStackTrace();
         }
