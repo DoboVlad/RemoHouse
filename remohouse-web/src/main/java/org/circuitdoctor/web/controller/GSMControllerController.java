@@ -22,8 +22,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-
+@CrossOrigin
 @RestController
+@RequestMapping("/api")
 public class GSMControllerController {
     private static final Logger log = LoggerFactory.getLogger(GSMControllerController.class);
 

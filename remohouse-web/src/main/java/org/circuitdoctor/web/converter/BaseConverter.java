@@ -4,11 +4,11 @@ import org.circuitdoctor.core.model.BaseEntity;
 import org.circuitdoctor.core.repository.Repository;
 import org.circuitdoctor.web.dto.BaseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 public abstract class BaseConverter<Model extends BaseEntity<Long>, Dto extends BaseDto> implements Converter<Model, Dto> {
     @Autowired
     private Repository<Model,Long> repository;

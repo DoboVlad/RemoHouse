@@ -8,4 +8,6 @@ public interface UserRepository extends Repository<User,Long> {
     Optional<User> findAllByEmail(String email);
     Optional<User> findAllByEmailStartsWith(String email);
     Optional<User> findAllByPhoneNumber(String phoneno);
+    Optional<User> findById(Long id);
+
 }

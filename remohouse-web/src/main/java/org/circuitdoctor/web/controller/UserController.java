@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-
+@CrossOrigin
 @RestController
+@RequestMapping("/api")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @Autowired

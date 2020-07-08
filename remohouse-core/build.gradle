@@ -1,4 +1,12 @@
-
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.3.RELEASE")
+    }
+}
+apply plugin: 'org.springframework.boot'
 dependencies {
 
     //jpa
@@ -32,6 +40,8 @@ dependencies {
     implementation files('javax.mail-1.6.2.jar')
 
     //spring boot
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 
 
 
