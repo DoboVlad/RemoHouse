@@ -1,7 +1,4 @@
 package org.circuitdoctor.core.service;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.*;
 
 
@@ -11,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -19,11 +15,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -33,10 +24,14 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ActionLogGSMService actionLogGSMService;
     @Override
     public List<User> getAllUsers() {
+        /*
+        DESCR:gets all the users from the database
+        PARAM:-
+        PRE:-
+        POST:-
+         */
         log.trace("getAllUsers - method entered");
         List<User> result=userRepository.findAll();
         log.trace("getAllUsers - method finished result={}",result);
@@ -45,6 +40,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean login(User user) {
+        /*
+        DESCR:checks if the user given corresponds with any of the users from the database
+        PARAM:user - User. Compulsory fields: email or phone number, id, password. The rest must not be null.
+        PRE:user not null
+        POST:return true if the password corresponds to the email/phone number
+                    false otherwise
+         */
         log.trace("login - method entered user={}",user);
         String phoneNo = user.getPhoneNumber();
         String password = user.getPassword();
@@ -72,6 +74,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUp(@Valid User user) {
+        /*
+        DESCR:adds a new user to the database
+        PARAM:user - User
+        PRE:user must be valid
+        POST:returns the user that was saved in the database. The id is updated with respect to the rule in BaseEntity
+         */
         log.trace("signUp - method entered user={}",user);
         User newUser=userRepository.save(user);
 
@@ -81,6 +89,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changePassword(User user) {
+        /*
+        DESCR:updates an user. Only the password has to be updated.
+        PARAM:user - User
+        PRE:user not null
+        POST: returns the user saved if everything went well
+                      null if the password is not valid or if the user has other fields modified.
+         */
         log.trace("changePassword - method entered user={}",user);
 
         AtomicReference<User> newUser = new AtomicReference<>();
@@ -104,6 +119,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByCredential(String credential) {
+        /*
+        DESCR:gets the user with the credentials (=email or phone number) given
+        PARAM:credential - string
+        PRE:credential not null
+        POST:return Optional<User> which can be null only if no user with these credentials was found
+         */
         log.trace("getUserByCredential - method entered c={}",credential);
         Optional<User> result;
         if(credential.contains("@"))
@@ -116,6 +137,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String recoverPasswordByEmail(String email) {
+        /*
+        DESCR:generates a code that will be send via email to the given email
+        PARAM:email - string
+        PRE:one of the existing users has this email
+        POST:returns the generated code if an user with this email exists
+                     "" otherwise
+         */
         log.trace("recover password email -method entered email={}",email);
         //String to = email;
         String generatedCode=generateRandomString();
@@ -132,6 +160,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String recoverPasswordByMessage(String phoneNumber) {
+        /*
+        DESCR:generates a code that will be sent via SMS to the given phone number
+        PARAM:phoneNumber - string
+        PRE:one of the existing users has this phone number
+        POST:returns the generated code if a user with this phone number exists
+                     "" otherwise
+         */
         log.trace("recover password by message -method entered pn={}",phoneNumber);
         String generatedCode=generateRandomString();
         ServiceUtils utils=new ServiceUtils();
@@ -146,6 +181,18 @@ public class UserServiceImpl implements UserService {
 
 
     static void sendEmail(String from,String to,String password,String emailMessage,String subject){
+        /*
+        DESCR:sends an email from an email to another one
+        PARAM:from         - string: the email address from which the email is sent
+              to           - string: the email address to which the email is sent
+              password     - string: the password of the {from} email
+              emailMessage - string : the content of the email
+              subject      - string: the subject of the email
+        PRE:none of the parameters are null.
+            {password} is the correct password for {from}
+            {from} and {to} are existing emails
+        POST:-
+         */
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "mail.circuitdoctor.ro");
@@ -153,8 +200,6 @@ public class UserServiceImpl implements UserService {
         props.put("mail.smtp.auth", "true");
 
         // Get the default Session object.
-
-
         try {
             Session session = Session.getDefaultInstance(props, null);
             MimeMessage message = new MimeMessage(session);
@@ -171,6 +216,12 @@ public class UserServiceImpl implements UserService {
         }
     }
     String generateRandomString(){
+        /*
+        DESCR:function that generates a random string of 6 letters
+        PARAM:-
+        PRE:-
+        POST:returns the generated string
+         */
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 6;
@@ -191,9 +242,5 @@ public class UserServiceImpl implements UserService {
         }
         return new String(result);
     }
-
-
-
-
 
 }
