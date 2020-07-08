@@ -32,6 +32,12 @@ public class RoomController {
 
     @RequestMapping(value = "room/addRoom/{userID}",method = RequestMethod.PUT)
     public String addRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long userID, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("addRoom - method entered roomdto={}",roomDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -51,6 +57,12 @@ public class RoomController {
 
     @RequestMapping(value = "room/updateRoom/{id}",method = RequestMethod.PUT)
     public String updateRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long id, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("updateRoom - method entered roomdto={}",roomDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -68,6 +80,12 @@ public class RoomController {
 
     @RequestMapping(value = "room/deleteRoom/{id}/{roomID}",method = RequestMethod.DELETE)
     public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);
 
         if(errors.hasErrors()){
@@ -89,6 +107,12 @@ public class RoomController {
 
     @RequestMapping(value = "room/getRooms/{userID}/{locationID}",method = RequestMethod.GET)
     public Set<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("getRooms - method entered uid={} lid={}",userID,locationID);
         Optional<Location> locationOptional = locationRepository.findById(locationID);
         log.trace(locationOptional.toString());
