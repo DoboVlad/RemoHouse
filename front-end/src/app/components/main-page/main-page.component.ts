@@ -48,9 +48,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       locationService.getLocations(user.id).subscribe(locations => {
         this.locations = locations;
         locations.sort((n1,n2)=>{
-          if (n1 < n2)
-            return 1;
           if (n1 > n2)
+            return 1;
+          if (n1 < n2)
             return -1;
           return 0;
         });
@@ -64,7 +64,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
               if(gsms.length!=0) {
                 this.gsms = gsms;
                 if (gsms[0].type == "door") {
-                  console.log("door");
                   this.door = gsms[0];
                   this.window = gsms[1];
                 } else {
@@ -109,10 +108,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getRoomName() {
-    if(this.roomList ===[]){
       return this.currentRoom.name;
-    }
-    return this.roomList;
   }
 
   getImage() {
@@ -215,7 +211,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DeleteButtonDialogComponent)
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) { //fix this
-          this.openSnackBar("The button was deleted", "OK");
+          this.openSnackBar("The controller was deleted", "OK");
         }
       }
     )
@@ -223,19 +219,15 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   setStatusToggles(){
     if (this.door.status == "ON" && this.refDoor.checked==false) {
-      console.log("on door")
       this.refDoor.toggle();
     }
     if (this.window.status == "ON" && this.refWindow.checked==false) {
-      console.log("on window")
       this.refWindow.toggle();
     }
     if (this.door.status == "OFF" && this.refDoor.checked) {
-      console.log("off door")
       this.refDoor.toggle();
     }
     if (this.window.status == "OFF" && this.refWindow.checked) {
-      console.log("off window")
       this.refWindow.toggle();
     }
   }
