@@ -37,6 +37,9 @@ import {MatInputModule} from "@angular/material/input";
 import { AddRoomComponent } from './components/add-room/add-room.component';
 import { UpdateRoomComponent } from './components/update-room/update-room.component';
 import { DeleteRoomComponent } from './components/delete-room/delete-room.component';
+import { AddGSMComponent } from './components/add-gsm/add-gsm.component';
+import { UpdateGSMComponent } from './components/update-gsm/update-gsm.component';
+import { DeleteGSMComponent } from './components/delete-gsm/delete-gsm.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { DeleteRoomComponent } from './components/delete-room/delete-room.compon
     ForgotPasswordComponent,
     AddRoomComponent,
     UpdateRoomComponent,
-    DeleteRoomComponent
+    DeleteRoomComponent,
+    AddGSMComponent,
+    UpdateGSMComponent,
+    DeleteGSMComponent
   ],
     imports: [
         BrowserModule,
