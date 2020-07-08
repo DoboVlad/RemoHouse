@@ -15,6 +15,9 @@ import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
+import {AddGSMComponent} from "../add-gsm/add-gsm.component";
+import {UpdateGSMComponent} from "../update-gsm/update-gsm.component";
+import {DeleteGSMComponent} from "../delete-gsm/delete-gsm.component";
 
 export interface DialogData {
    oldPassword: string;
@@ -65,7 +68,15 @@ export class AccountComponent implements OnInit {
     public snackBar: MatSnackBar) {
 
   }
-
+  AddGSM(){
+    const dialogRef= this.dialog.open(AddGSMComponent);
+  }
+  UpdateGSM(){
+    const dialogRef=this.dialog.open(UpdateGSMComponent);
+  }
+  DeleteGSM(){
+    const dialogRef=this.dialog.open(DeleteGSMComponent);
+  }
   setProfile(){
     this.page="Profile";
   }
