@@ -31,6 +31,8 @@ dependencies {
     implementation files('activation.jar')
     implementation files('javax.mail-1.6.2.jar')
 
+    //spring boot
+
 
 
 

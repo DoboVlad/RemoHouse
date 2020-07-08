@@ -15,7 +15,9 @@ import javax.validation.Valid;
 import java.util.Optional;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
+@RequestMapping("/api")
 public class LocationController {
     private static final Logger log = LoggerFactory.getLogger(LocationController.class);
     @Autowired
