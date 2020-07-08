@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GSMController} from "../model/GSMController";
-import {LocationModel} from "../model/LocationModel";
 
 @Injectable({providedIn: 'root'})
 export class GsmControllerService {

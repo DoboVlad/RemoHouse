@@ -29,9 +29,6 @@ public class ActionLogGSMController {
     @Autowired
     private ActionLogGSMService actionLogGSMService;
 
-
-
-
     @RequestMapping(value = "actionLogGSM/getActions/{userID}",method = RequestMethod.GET)
     Set<ActionLogGSMDto> getActions(@PathVariable Long userID){
         log.trace("getActions - method entered userID={}",userID);
