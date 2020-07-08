@@ -34,6 +34,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
+import { AddGSMComponent } from './components/add-gsm/add-gsm.component';
+import { UpdateGSMComponent } from './components/update-gsm/update-gsm.component';
+import { DeleteGSMComponent } from './components/delete-gsm/delete-gsm.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import {MatInputModule} from "@angular/material/input";
     AccountComponent,
     UnauthorizedAccessComponent,
     ChangePasswordDialogComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AddGSMComponent,
+    UpdateGSMComponent,
+    DeleteGSMComponent
   ],
     imports: [
         BrowserModule,
