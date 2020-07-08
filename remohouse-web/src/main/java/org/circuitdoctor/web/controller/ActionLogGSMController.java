@@ -31,6 +31,12 @@ public class ActionLogGSMController {
 
     @RequestMapping(value = "actionLogGSM/getActions/{userID}",method = RequestMethod.GET)
     Set<ActionLogGSMDto> getActions(@PathVariable Long userID){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("getActions - method entered userID={}",userID);
         Set<ActionLogGSM> actions =actionLogGSMService.findAllActions(userID);
         log.trace("getActions - method finished l={}",actions);
