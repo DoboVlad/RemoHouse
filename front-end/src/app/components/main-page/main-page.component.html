@@ -1,5 +1,6 @@
 <head><meta name="pinterest" content="nopin" /></head>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 <div id="wrapper1">
   <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
@@ -12,7 +13,7 @@
         <p class="room-name">{{getRoomName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="image" rowspan="12">
-          <img matListAvatar [src]="getImage()" alt="room-image" class="img-responsive">
+          <img matListAvatar *ngIf="rooms.length!=0 && locations.length!=0" [src]="getImage()" alt="room-image" class="img-responsive">
       </mat-grid-tile>
     </mat-grid-list>
   </mat-grid-tile>
@@ -22,18 +23,57 @@
       <mat-grid-tile class="date">
         <p class="date-time">{{ CurrentDate | date:'MMM d, y HH:mm'}}</p>
       </mat-grid-tile>
-      <mat-grid-tile class="button-area" rowspan="8">
-        <mat-list class="left">
-          <div class="border"><mat-list-item>
-            <div class="row">Door</div></mat-list-item>
-            <mat-list-item><mat-slide-toggle id="door1" (change)="doorChange($event)"></mat-slide-toggle>
-          </mat-list-item></div>
-          <mat-divider></mat-divider>
-          <div class="border"><mat-list-item>
-            <div class="row">Window</div></mat-list-item>
-            <mat-list-item><mat-slide-toggle id="window1" (change)="windowChange($event)"></mat-slide-toggle>
-          </mat-list-item></div>
-        </mat-list>
+      <mat-grid-tile class="pick-location" rowspan="8">
+        <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Location
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-selection-list #location class="locationList" [(ngModel)]="locationList" multiple="false" (selectionChange)="changeRoom(location.selectedOptions.selected)">
+            <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
+          </mat-selection-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Rooms
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <mat-selection-list  #room class="roomList" [(ngModel)]="roomList" multiple="false" (selectionChange)="changeControllers(room.selectedOptions.selected)">
+              <mat-list-option *ngFor="let room of rooms" [value]="room.name">{{room.name}}</mat-list-option>
+            </mat-selection-list>
+          <mat-list></mat-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Controllers
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list *ngIf="gsms.length!=0" class="left">
+            <div class="border">
+              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
+              <mat-list-item>
+                <div class="row">Door</div></mat-list-item>
+              <mat-list-item><mat-slide-toggle #door  id="door1" (change)="doorChange($event)"></mat-slide-toggle>
+              </mat-list-item></div>
+            <div class="border">
+              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
+              <mat-list-item>
+                <div class="row">Window</div></mat-list-item>
+              <mat-list-item><mat-slide-toggle #window  id="window1" (change)="windowChange($event)"></mat-slide-toggle>
+              </mat-list-item></div>
+          </mat-list>
+        </mat-expansion-panel>
+        </mat-accordion>
       </mat-grid-tile>
       <mat-grid-tile class="weather" rowspan="5">
         <div id="weather">
@@ -46,11 +86,11 @@
           <div class="weatherWidgetRow cloudDiv">
             <i class="fas fa-cloud fa-3x cloud"></i>
           </div>
-          <div class="weatherWidgetRow" style="font-size: 32px;margin-top: 5px;">{{WeatherData.temp_celsius}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
-          <div class="weatherWidgetRow" style="font-size: 25px;margin-top: 10px;">{{WeatherData.name}}</div>
-          <div class="weatherWidgetRow" style="font-size: 12px;">Humidity: {{WeatherData.main.humidity}}%</div>
+          <div class="weatherWidgetRow" style="font-size: 2em; margin-top: 0.5em;">{{WeatherData.temp_celsius}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em; margin-top: 0.5em">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
+          <div class="weatherWidgetRow" style="font-size: 2em;margin-top: 0.5em;">{{WeatherData.name}}</div>
+          <div class="weatherWidgetRow" style="font-size: 1.2em; margin-top:1em">Humidity: {{WeatherData.main.humidity}}%</div>
           </div>
       </mat-grid-tile>
     </mat-grid-list>
