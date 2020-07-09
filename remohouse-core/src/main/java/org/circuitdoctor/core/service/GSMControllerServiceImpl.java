@@ -148,8 +148,9 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         AtomicReference<Boolean> gsmFound = new AtomicReference<>(false);
         Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmID);
         gsmFromDB.ifPresent(gsmDB->{
-            gsmRepository.delete(gsmDB);
             actionLogGSMService.deleteActionsWithGSMController(gsmDB);
+            gsmRepository.delete(gsmDB);
+
             gsmFound.set(true);
         });
         log.trace("delete gsm - method finished result={}",gsmFound.get());
