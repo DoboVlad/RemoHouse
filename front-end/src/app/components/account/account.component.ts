@@ -83,7 +83,7 @@ newPassword: string;}
       //actions page
       actionLogs : ActionLogGSM[] = [];
       dataSourceActions : MatTableDataSource<ActionLogGSM>;
-      displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerID"];
+      displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerType","roomName","locationName"];
       resultsActionLength = 0;
       isLoadingResults: boolean = true;
       @ViewChild(MatSort, {static: false}) sort: MatSort;

@@ -243,10 +243,22 @@
             <td mat-cell *matCellDef="let element"> {{element.dateTime}} </td>
           </ng-container>
 
-          <!-- GSMControllerID Column -->
-          <ng-container matColumnDef="gsmControllerID">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> GSMControllerID </th>
-            <td mat-cell *matCellDef="let element"> {{element.gsmControllerID}} </td>
+          <!-- GSMController type Column -->
+          <ng-container matColumnDef="gsmControllerType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.gsmControllerType}} </td>
+          </ng-container>
+
+          <!-- Room Name Column -->
+          <ng-container matColumnDef="roomName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Room </th>
+            <td mat-cell *matCellDef="let element"> {{element.roomName}} </td>
+          </ng-container>
+
+          <!-- Location Name Column -->
+          <ng-container matColumnDef="locationName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+            <td mat-cell *matCellDef="let element"> {{element.locationName}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
