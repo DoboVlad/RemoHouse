@@ -10,8 +10,8 @@
 </mat-form-field>
 <label><br>Status: </label>
 <mat-radio-group appearance="fill">
-  <mat-radio-button value="ON" #status [(ngModel)]="data.status" disabled>ON</mat-radio-button>
-  <mat-radio-button value="OFF" class="button2" #status [(ngModel)]="data.status" disabled>OFF</mat-radio-button>
+  <mat-radio-button value="ON" #status [(ngModel)]="data.status" disabled name="status" ngDefaultControl>ON</mat-radio-button>
+  <mat-radio-button value="OFF" class="button2" #status [(ngModel)]="data.status" disabled name="status" ngDefaultControl>OFF</mat-radio-button>
 </mat-radio-group>
 
 <p><br></p>
