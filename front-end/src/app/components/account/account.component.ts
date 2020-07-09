@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
@@ -8,7 +8,7 @@ import {DataSource} from "@angular/cdk/collections";
 import {Observable, of} from "rxjs";
 import {LocationService} from "../../service/locationService";
 import {LocationModel} from "../../model/LocationModel";
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
@@ -21,14 +21,18 @@ import {AddRoomComponent} from "../add-room/add-room.component";
 import {DeleteRoomComponent} from "../delete-room/delete-room.component";
 import {UpdateRoomComponent} from "../update-room/update-room.component";
 import {LocationDialogComponent} from "../location-dialog/location-dialog.component";
+import {ActionLogGSM} from "../../model/ActionLogGSM";
+import {ActionLogGSMService} from "../../service/ActionLogGSMService";
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
 
 export interface DialogData {
 oldPassword: string;
-newPassword: string;
-}
+newPassword: string;}
 
 
-export interface LoginDialogData {
+  export interface LoginDialogData
+{
   type: string;
   name: string;
   latitude: string;
@@ -55,56 +59,68 @@ export interface LoginDialogData {
     ]),
   ],
 })
+  export class AccountComponent implements OnInit,AfterViewInit {
 
-export class AccountComponent implements OnInit {
+      user: User;
+      page: string;
+      locations: LocationModel[];
 
-  user: User;
-  page: string;
-  locations: LocationModel[];
+      expandedLocation: LocationModel | null;
+      locationColumns: string[] = ["name", "latitude", "longitude", "city"];
+      locationDataSource;
 
-  expandedLocation: LocationModel | null;
-  locationColumns: string[] = ["name", "latitude", "longitude", "city"];
-  locationDataSource;
+      expandedRoom: Room | null;
+      roomColumns: string[] = ["name"];
+      roomDataSource;
+      rooms: Room[];
 
-  expandedRoom: Room | null;
-  roomColumns: string[] = ["name"];
-  roomDataSource;
-  rooms: Room[];
+      expandedController: GSMController | null;
+      controllerColumns: string[] = ["type", "status", "phoneNumber"];
+      controllerDataSource;
+      gsmController: GSMController[];
+      room: Room;
 
-  expandedController: GSMController | null;
-  controllerColumns: string[] = ["type", "status", "phoneNumber"];
-  controllerDataSource;
-  gsmController: Array<GSMController>;
-  room: Room;
+      //actions page
+      actionLogs : ActionLogGSM[];
+      dataSourceActions : MatTableDataSource<ActionLogGSM>;
+      displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerID"];
+      @ViewChild(MatSort, {static: true}) sort: MatSort;
+      @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+      @ViewChild(MatTable,{static:true}) table: MatTable<ActionLogGSM>;
 
-  applyFilter(event: Event, dataSource) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    dataSource.filter = filterValue.trim().toLowerCase();
-  }
+      applyFilter(event: Event, dataSource) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        dataSource.filter = filterValue.trim().toLowerCase();
+      }
 
-  constructor(
-    public dialog: MatDialog,
-    private router: Router,
-    private userService: UserService,
-    private locationService: LocationService,
-    private roomService: RoomService,
-    private gsmControllerService: GsmControllerService,
-    public snackBar: MatSnackBar) {
-    if (localStorage.getItem("user") == "null") {
-      this.router.navigate(["/unauthorizedaccess"]);
-    }
-  }
-
-      ngOnInit(): void {
-        this.page = "Profile";
+      constructor(public dialog: MatDialog, private router: Router, private userService: UserService, private locationService: LocationService, private roomService: RoomService, private gsmControllerService: GsmControllerService, public snackBar: MatSnackBar, private actionLogService : ActionLogGSMService) {
+        if (localStorage.getItem("user") == "null") {
+          this.router.navigate(["/unauthorizedaccess"]);
+        }
+        this.page = "PastActions";
         var aux = localStorage.getItem("user");
+        this.dataSourceActions = new MatTableDataSource<ActionLogGSM>();
+        this.dataSourceActions.sort = this.sort;
+        this.dataSourceActions.paginator = this.paginator;
         this.userService.getUserByCredential(aux).subscribe(user => {
           this.user = user;
           this.locationService.getLocations(this.user.id).subscribe(locations => {
             this.locations = locations;
             this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
+            this.actionLogService.getActions(this.user.id).subscribe(actions=>{
+              this.actionLogs=actions;
+              this.dataSourceActions.data =actions;
+            })
           });
         });
+      }
+
+      ngOnInit(): void {
+      }
+
+      ngAfterViewInit() {
+        this.dataSourceActions.paginator = this.paginator;
+        this.dataSourceActions.sort = this.sort;
       }
       logOut() {
         localStorage.setItem("user", null);
@@ -363,5 +379,10 @@ export class AccountComponent implements OnInit {
           }
         });
       }
-    }
+
+      applyFilterActions($event: KeyboardEvent) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceActions.filter = filterValue.trim().toLowerCase();
+      }
+}
 
