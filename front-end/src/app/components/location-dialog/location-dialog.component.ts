@@ -13,23 +13,27 @@ export class LocationDialogComponent implements OnInit {
 
    nameControllForm=new FormControl('',[
     Validators.required,
-    Validators.nullValidator
+    Validators.minLength(2),
+    Validators.nullValidator,
+     Validators.pattern(/^[A-Za-z][A-Za-z'\-]+/)
   ]);
   cityControllForm=new FormControl('',[
     Validators.required,
-    Validators.nullValidator
+    Validators.minLength(2),
+    Validators.nullValidator,
+    Validators.pattern(/^[A-Za-z][A-Za-z'\-]+/)
   ]);
   latitudeControllForm=new FormControl('',
     [
       Validators.required,
       Validators.nullValidator,
-      Validators.pattern("-?[0-9]+(.[0-9]+)?")
+      Validators.pattern("^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$")
     ]);
   longitudeControllForm=new FormControl('',
     [
     Validators.required,
     Validators.nullValidator,
-    Validators.pattern("-?[0-9]+(.[0-9]+)?")
+    Validators.pattern("^-?[0-9]{1,3}(?:\\.[0-9]{1,10})?$")
   ]);
 
 
