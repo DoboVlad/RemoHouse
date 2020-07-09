@@ -56,6 +56,11 @@ export class AppComponent implements OnInit{
   isUserLoggedIn() {
     return localStorage.getItem("user")!="null";
   }
-
-
+  manageYourAccount(){
+    this.router.navigate(["/account"]);
+  }
+  logout(){
+    localStorage.setItem("user",null);
+    this.router.navigate(["/home"]);
+  }
 }

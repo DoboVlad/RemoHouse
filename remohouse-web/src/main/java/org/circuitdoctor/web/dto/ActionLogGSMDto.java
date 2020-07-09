@@ -23,7 +23,7 @@ public class ActionLogGSMDto extends BaseDto {
 
     @NonNull
     @NotBlank(message = "date is mandatory")
-    private LocalDateTime dateTime;
+    private String dateTime;
 
     private Long userID;
 
