@@ -56,10 +56,6 @@ export class AppComponent implements OnInit{
   isUserLoggedIn() {
     return localStorage.getItem("user")!="null";
   }
-<<<<<<< HEAD
-
-
-=======
   manageYourAccount(){
     this.router.navigate(["/account"]);
   }
@@ -67,5 +63,4 @@ export class AppComponent implements OnInit{
     localStorage.setItem("user",null);
     this.router.navigate(["/home"]);
   }
->>>>>>> account_page
 }

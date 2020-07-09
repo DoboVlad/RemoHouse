@@ -89,12 +89,9 @@ export class AccountComponent implements OnInit {
     private roomService: RoomService,
     private gsmControllerService: GsmControllerService,
     public snackBar: MatSnackBar) {
-<<<<<<< HEAD
     if (localStorage.getItem("user") == "null") {
       this.router.navigate(["/unauthorizedaccess"]);
     }
-=======
-
   }
 
   AddGSM() {
@@ -179,7 +176,6 @@ export class AccountComponent implements OnInit {
 
   setSecurity() {
     this.page = "Security"
->>>>>>> account_page
   }
 
   ngOnInit(): void {
