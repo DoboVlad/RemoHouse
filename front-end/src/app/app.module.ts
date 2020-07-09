@@ -40,6 +40,7 @@ import { UpdateGSMComponent } from './components/update-gsm/update-gsm.component
 import { DeleteGSMComponent } from './components/delete-gsm/delete-gsm.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatRadioModule} from "@angular/material/radio";
+import {LocationDialogComponent} from "./components/location-dialog/location-dialog.component";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {MatRadioModule} from "@angular/material/radio";
     ForgotPasswordComponent,
     AddGSMComponent,
     UpdateGSMComponent,
-    DeleteGSMComponent
+    DeleteGSMComponent,
+    LocationDialogComponent
   ],
   imports: [
     BrowserModule,

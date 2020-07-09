@@ -1,0 +1,71 @@
+/*
+.content{
+  text-align: left;
+}
+.content:not(p):not(h1){
+  margin-left: 10px;
+}
+h2{
+  margin: 0;
+}
+input{
+  margin-bottom: 1vmax;
+}
+.error{
+  color: red;
+}
+p{
+  border-radius: 25px;
+  font-weight: normal;
+  font-size: 20px;
+  display: inline-block;
+  text-align: center;
+  background-color: gray;
+  color: white;
+  padding: 8px;
+}
+.buttons{
+  position: relative;
+  text-align: center;
+}
+p:first-child{
+  position: absolute;
+  left: 0;
+}
+p:last-child{
+  position: absolute;
+  right: 0;
+}
+p:hover{
+  background-color: #9FC490;
+  color: black;
+}
+
+ */
+div{
+  margin: auto;
+}
+mat-radio-button.button2{
+  margin-left: 8%;
+}
+
+button {
+  border-radius: 20px;
+  border: 1px solid #82A3A1;
+  background-color: #82A3A1;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: transform 80ms ease-in;
+  margin-left: 15%;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 80px;
+}
+button:hover{
+  transition: transform .4s;
+  transform: scale(1.2);
+}

@@ -1,0 +1,59 @@
+<div *ngIf="isAdd()">
+<h1 mat-dialog-title>Add location</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput #name>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Latitude</mat-label>
+    <input matInput #latitude>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Longitude</mat-label>
+    <input matInput #longitude>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>City</mat-label>
+    <input matInput #city>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button (click)="onCloseClick()">Close</button>
+  <button (click)="add(name.value,latitude.value,longitude.value,city.value)">Add</button>
+</div>
+</div>
+<div *ngIf="isUpdate()">
+  <h1 mat-dialog-title>Update location</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput #name [(ngModel)]="data.name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Latitude</mat-label>
+      <input matInput #latitude [(ngModel)]="data.latitude">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Longitude</mat-label>
+      <input matInput #longitude  [(ngModel)]="data.longitude">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>City</mat-label>
+      <input matInput #city  [(ngModel)]="data.city">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+
+    <button (click)="onCloseClick()">Close</button>
+    <button (click)="update(name.value,latitude.value,longitude.value,city.value)">Update</button>
+  </div>
+</div>
+<div *ngIf="isDelete()">
+  <h3 mat-dialog-title>Are you sure you want to delete {{data.name}}?</h3>
+  <div mat-dialog-actions>
+    <button (click)="onCloseClick()">Cancel</button>
+    <button (click)="delete()">Confirm</button>
+  </div>
+</div>
+

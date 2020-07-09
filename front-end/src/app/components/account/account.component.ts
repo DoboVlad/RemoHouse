@@ -18,8 +18,15 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {AddGSMComponent} from "../add-gsm/add-gsm.component";
 import {UpdateGSMComponent} from "../update-gsm/update-gsm.component";
 import {DeleteGSMComponent} from "../delete-gsm/delete-gsm.component";
+import {LocationDialogComponent} from "../location-dialog/location-dialog.component";
 
-export interface DialogData {
+export interface LoginDialogData {
+  type: string;
+  name: string;
+  latitude: string;
+  longitude: string;
+  city: string;
+  //TODO: delete change-password-dialog+ those 2 fields bellow
    oldPassword: string;
    newPassword: string;
 }
@@ -120,35 +127,6 @@ export class AccountComponent implements OnInit {
 
   }
 
-  changePassword() {
-    const dialogRef=this.dialog.open(ChangePasswordDialogComponent,{
-      data:{}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      //result can be null on cancel
-      if(result!=null) {
-        //check if old password is right
-        if (result.oldPassword == this.user.password) {
-          //check length password (just to be)
-          if(!this.checkPassword(result.newPassword))
-            this.snackBar.open("The new password is too short.","Ok",{duration:2000});
-          else {
-            this.user.password = result.newPassword;
-            console.log("changing password ",result.newPassword);
-            this.userService.changePassword(this.user.id, this.user).subscribe(response=>{
-              console.log(response);
-              this.snackBar.open("Password changed.","Ok",{duration:2000});
-            });
-          }
-        } else
-          this.snackBar.open("The old password is incorrect","Ok",{duration:2000});
-      }
-    });
-
-  }
-
   isProfile() {
     return this.page==="Profile";
   }
@@ -197,5 +175,79 @@ export class AccountComponent implements OnInit {
     this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
       this.controllerDataSource = new MatTableDataSource<GSMController>(gsms);
     })
+  }
+
+  isPastActions(){
+    return this.page==="PastActions"
+  }
+
+  setPastAction() {
+    this.page="PastActions"
+  }
+
+
+  addLocation() {
+    const dialogRef=this.dialog.open(LocationDialogComponent,{
+      width: '300px',
+      data:{type:"Add"}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      //result can be null on cancel
+      if(result!=null) {
+        //TODO: validation for latitude/longitude + refresh table
+        var locationModel=new LocationModel(-1,result.latitude,result.longitude,"",result.name,result.city,this.user.id);
+        this.locationService.addLocation(this.user.id,locationModel).subscribe(response=>{
+          this.snackBar.open(String("Added location."),"Ok",{duration:2000});
+          this.locationService.getLocations(this.user.id).subscribe(locations =>{
+            this.locations = locations;
+            this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
+          });
+        });
+      }
+    });
+  }
+
+  updateLocation(location: any) {
+    const dialogRef=this.dialog.open(LocationDialogComponent,{
+      width: '300px',
+      data:{type:"Update",
+        name: location["name"],
+        latitude: location["latitude"],
+        longitude: location["longitude"],
+        city:location["city"]
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      //result can be null on cancel
+      if(result!=null) {
+        var locationModel=new LocationModel(-1,result.latitude,result.longitude,"",result.name,result.city,this.user.id);
+        this.snackBar.open(String("Updated location."),"Ok",{duration:2000});
+        /*
+        this.locationService.updateLocation(this.user.id,locationModel).subscribe(response=>{
+          this.snackBar.open(String("Added location."),"Ok",{duration:2000});
+        });
+        */
+      }
+    });
+  }
+
+  deleteLocation(location: any) {
+    const dialogRef=this.dialog.open(LocationDialogComponent,{
+      width: '300px',
+      data:{type:"Delete",
+        name:location["name"]}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      //result can be null on cancel
+      if(result!=null) {
+        this.snackBar.open(String("Deleted location."),"Ok",{duration:2000});
+      }
+    });
   }
 }
