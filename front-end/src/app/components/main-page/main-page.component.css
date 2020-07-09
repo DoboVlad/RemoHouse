@@ -4,12 +4,6 @@
   height: 100vh;
 }
 
-.wrapper{
-  background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 p{
   color: white;
   font-size: 2em;

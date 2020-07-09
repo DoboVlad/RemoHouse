@@ -24,11 +24,11 @@ import {LocationDialogComponent} from "../location-dialog/location-dialog.compon
 
 export interface DialogData {
 oldPassword: string;
-newPassword: string;}
+newPassword: string;
+}
 
 
-  export interface LoginDialogData
-{
+export interface LoginDialogData {
   type: string;
   name: string;
   latitude: string;
@@ -55,6 +55,7 @@ newPassword: string;}
     ]),
   ],
 })
+
 export class AccountComponent implements OnInit {
 
   user: User;
@@ -94,295 +95,270 @@ export class AccountComponent implements OnInit {
     }
   }
 
-  AddGSM() {
-        const dialogRef=this.dialog.open(AddGSMComponent,{
-        width: '300px',
-        data:{type:"Add"}
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
-        //result can be null on cancel
-        if(result!=null) {
-          //TODO: validation for latitude/longitude + refresh table
-          var gsmController=new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-          this.gsmControllerService.addGSMController(this.user.id,gsmController).subscribe(response=>{
-            this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
-            this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
-              this.gsmController = GSMController;
-              this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
-            });
+      ngOnInit(): void {
+        this.page = "Profile";
+        var aux = localStorage.getItem("user");
+        this.userService.getUserByCredential(aux).subscribe(user => {
+          this.user = user;
+          this.locationService.getLocations(this.user.id).subscribe(locations => {
+            this.locations = locations;
+            this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
           });
-        }
-      });
-    }
-
-  UpdateGSM(controller: any){
-    const dialogRef=this.dialog.open(UpdateGSMComponent,{
-      width: '300px',
-      data:{type:"Update",
-        gsm_type: controller["gsm_type"],
-        status: controller["status"],
-        phoneNumber: controller["phoneNumber"]
-      }
-    });
-    dialogRef.afterClosed().subscribe(result=>{
-      console.log('The dialog was closed');
-      console.log(result);
-      if(result!=null){
-        var gsmcontroller = new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-        this.gsmControllerService.updateGSMController(this.user.id,gsmcontroller).subscribe(response =>{
-          this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
-          this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
-          this.gsmController=GSMController;
-          this.controllerDataSource= new MatTableDataSource<GSMController>(GSMController);
         });
-      });
-    }
-  });
-  }
-
-  DeleteGSM(controller:any){
-    const dialogRef=this.dialog.open(DeleteGSMComponent);
-   /* const dialogRef=this.dialog.open(DeleteGSMComponent,{
-      width: '300px',
-      data:{type:"Delete",
-        gsm_type:controller["gsm_type"],
-        status: controller["status"],
-        phoneNumber: controller["phoneNumber"]}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      if(result!=null) {
-        this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
       }
-    });*/
-  }
+      logOut() {
+        localStorage.setItem("user", null);
+        this.router.navigate(["/home"]);
+      }
+      checkPassword(password: string): boolean {
+        //just to play around
+        var rez = true;
+        if (password.length < 7) {
+          rez = false;
+        }
+        return rez;
 
-  setProfile(){
-    this.page="Profile";
-  }
 
-  setManageLocations() {
-    this.page = "ManageLocations"
-  }
+      }
 
-  setManageRooms() {
-    this.page = "ManageRooms"
-  }
-
-  setManageController() {
-    this.page = "ManageController"
-  }
-
-  setSecurity() {
-    this.page = "Security"
-  }
-
-  ngOnInit(): void {
-    this.page = "Profile";
-    var aux = localStorage.getItem("user");
-    this.userService.getUserByCredential(aux).subscribe(user => {
-      this.user = user;
-      this.locationService.getLocations(this.user.id).subscribe(locations => {
-        this.locations = locations;
-        this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
-      });
-    });
-  }
-
-  logOut() {
-    localStorage.setItem("user", null);
-    this.router.navigate(["/home"]);
-  }
-
-  checkPassword(password: string): boolean {
-    //just to play around
-    var rez = true;
-    if (password.length < 7) {
-      rez = false;
+      //functions to determine the page
+      isProfile() {
+        return this.page === "Profile";
+      }
+      isSecurity() {
+        return this.page === "Security";
+      }
+      isManageLocations() {
+        return this.page === "ManageLocations";
+      }
+      isPastActions() {
+      return this.page === "PastActions"
     }
-    return rez;
+      setProfile(){
+        this.page="Profile";
+      }
+      setManageLocations() {
+        this.page = "ManageLocations"
+      }
+      setSecurity() {
+        this.page = "Security"
+      }
+      setPastAction() {
+        this.page = "PastActions"
+      }
 
-  }
-
-  isProfile() {
-    return this.page === "Profile";
-  }
-
-  isSecurity() {
-    return this.page === "Security";
-  }
-
-  isManageLocations() {
-    return this.page === "ManageLocations";
-  }
-
-  changePassword2(oldPassword: string, newPassword: string, confirmPassword: string) {
-    if (this.user.password === oldPassword) {
-      if (newPassword === confirmPassword) {
-        if (!this.checkPassword(newPassword)) {
-          this.snackBar.open("The new password is too short.", "Ok", {duration: 2000});
+      changePassword2(oldPassword: string, newPassword: string, confirmPassword: string) {
+        if (this.user.password === oldPassword) {
+          if (newPassword === confirmPassword) {
+            if (!this.checkPassword(newPassword)) {
+              this.snackBar.open("The new password is too short.", "Ok", {duration: 2000});
+            } else {
+              this.user.password = newPassword;
+              console.log("changing password ", newPassword);
+              this.userService.changePassword(this.user.id, this.user).subscribe(response => {
+                console.log(response);
+                this.snackBar.open("Password changed.", "Ok", {duration: 2000});
+              });
+            }
+          } else {
+            this.snackBar.open("The new password and confirm password are different.", "Ok", {duration: 2000});
+          }
         } else {
-          this.user.password = newPassword;
-          console.log("changing password ", newPassword);
-          this.userService.changePassword(this.user.id, this.user).subscribe(response => {
-            console.log(response);
-            this.snackBar.open("Password changed.", "Ok", {duration: 2000});
-          });
-        }
-      } else {
-        this.snackBar.open("The new password and confirm password are different.", "Ok", {duration: 2000});
-      }
-    } else {
-      this.snackBar.open("The old password is incorect.", "Ok", {duration: 2000});
-    }
-  }
-
-  toggleLocationRow(location: LocationModel) {
-    this.expandedLocation = this.expandedLocation === location ? null : location;
-    this.roomService.getRooms(this.user.id, location.id).subscribe(rooms => {
-      this.roomDataSource = new MatTableDataSource<Room>(rooms);
-    });
-  }
-
-  toggleRooms(room: Room) {
-    this.expandedRoom = this.expandedRoom === room ? null : room;
-    this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
-      this.controllerDataSource = new MatTableDataSource<GSMController>(gsms);
-    })
-  }
-
-  addRoom() {
-    const dialogRef = this.dialog.open(AddRoomComponent)
-    dialogRef.afterClosed().subscribe(name => {
-      console.log(name);
-        if (name != null) { //fix this
-          var room = new Room(-1, this.expandedLocation.id, name);
-          this.roomService.addRoom(this.user.id, room).subscribe(response => {
-            this.snackBar.open(String(" The room has been added"), "OK", {duration: 2000})
-            this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-              this.rooms=rooms;
-              this.roomDataSource=new MatTableDataSource<Room>(rooms);
-            })
-          });
-        }
-      })
-  }
-
-  deleteRoom() {
-    const dialogRef = this.dialog.open(DeleteRoomComponent)
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) { //fix this
-        /*  var room = new Room(this.expandedRoom.id,this.expandedLocation.id, this.expandedRoom.name);
-          this.roomService.deleteRoom(this.user.id, this.expandedRoom.id).subscribe(response =>{
-          this.snackBar.open(String(" The room has been deleted"), "OK", {duration: 2000})
-          this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-            this.rooms = rooms;
-            this.roomDataSource = new MatTableDataSource<Room>(rooms);
-          })
-        }) */
+          this.snackBar.open("The old password is incorect.", "Ok", {duration: 2000});
         }
       }
-    )
-  }
 
-  updateRoom() {
-    const dialogRef = this.dialog.open(UpdateRoomComponent)
-    dialogRef.afterClosed().subscribe(name => {
-        if (name != null) { //fix this
-          var room = new Room(this.expandedRoom.id,this.expandedLocation.id, name);
-          this.roomService.updateRoom(this.user.id, room).subscribe(response => {
-            this.snackBar.open(String(" The room has been updated"), "OK",{duration:2000})
-            this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-              this.rooms=rooms;
-              this.roomDataSource=new MatTableDataSource<Room>(rooms);
-            })
-          });
-        }
+      toggleLocationRow(location: LocationModel) {
+        this.expandedLocation = this.expandedLocation === location ? null : location;
+        this.roomService.getRooms(this.user.id, location.id).subscribe(rooms => {
+          this.roomDataSource = new MatTableDataSource<Room>(rooms);
+        });
+      }
+
+      toggleRooms(room: Room) {
+        this.expandedRoom = this.expandedRoom === room ? null : room;
+        this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
+          this.controllerDataSource = new MatTableDataSource<GSMController>(gsms);
         })
       }
 
-
-
-    isPastActions()
-    {
-      return this.page === "PastActions"
-    }
-
-    setPastAction()
-    {
-      this.page = "PastActions"
-    }
-
-
-    addLocation(){
-      const dialogRef = this.dialog.open(LocationDialogComponent, {
-        width: '300px',
-        data: {type: "Add"}
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
-        //result can be null on cancel
-        if (result != null) {
-          //TODO: validation for latitude/longitude + refresh table
-          var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
-          this.locationService.addLocation(this.user.id, locationModel).subscribe(response => {
-            this.snackBar.open(String("Added location."), "Ok", {duration: 2000});
-            this.locationService.getLocations(this.user.id).subscribe(locations => {
-              this.locations = locations;
-              this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
+      //GSM crud function
+      AddGSM() {
+        const dialogRef=this.dialog.open(AddGSMComponent,{
+          width: '300px',
+          data:{type:"Add"}
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+          //result can be null on cancel
+          if(result!=null) {
+            //TODO: validation for latitude/longitude + refresh table
+            var gsmController=new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
+            this.gsmControllerService.openGSM(gsmController,this.user.id).subscribe(response=>{
+              this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
+              this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
+                this.gsmController = GSMController;
+                this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
+              });
             });
-          });
-        }
-      });
-    }
+          }
+        });
+      }
+      UpdateGSM(controller: any){
+        const dialogRef=this.dialog.open(UpdateGSMComponent,{
+          width: '300px',
+          data:{type:"Update",
+            gsm_type: controller["gsm_type"],
+            status: controller["status"],
+            phoneNumber: controller["phoneNumber"]
+          }
+        });
+        dialogRef.afterClosed().subscribe(result=>{
+          console.log('The dialog was closed');
+          console.log(result);
+          if(result!=null){
+            var gsmcontroller = new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
+            this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
+            /*this.gsmControllerService.openGSM(gsmcontroller, this.user.id).subscribe(controller =>{
+              this.gsmController=controller;
+              this.controllerDataSource= new MatTableDataSource<GSMController>(controller);
+            })*/
+          }
+        })
+      }
+      DeleteGSM(controller:any){
+        const dialogRef=this.dialog.open(DeleteGSMComponent);
+        /* const dialogRef=this.dialog.open(DeleteGSMComponent,{
+           width: '300px',
+           data:{type:"Delete",
+             gsm_type:controller["gsm_type"],
+             status: controller["status"],
+             phoneNumber: controller["phoneNumber"]}
+         });
+         dialogRef.afterClosed().subscribe(result => {
+           console.log('The dialog was closed');
+           console.log(result);
+           if(result!=null) {
+             this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
+           }
+         });*/
+      }
 
-    updateLocation(location:any){
-      const dialogRef = this.dialog.open(LocationDialogComponent, {
-        width: '300px',
-        data: {
-          type: "Update",
-          name: location["name"],
-          latitude: location["latitude"],
-          longitude: location["longitude"],
-          city: location["city"]
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
-        //result can be null on cancel
-        if (result != null) {
-          var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
-          this.snackBar.open(String("Updated location."), "Ok", {duration: 2000});
-          /*
-          this.locationService.updateLocation(this.user.id,locationModel).subscribe(response=>{
-            this.snackBar.open(String("Added location."),"Ok",{duration:2000});
-          });
-          */
-        }
-      });
-    }
+      //CRUD room
+      addRoom() {
+        const dialogRef = this.dialog.open(AddRoomComponent)
+        dialogRef.afterClosed().subscribe(name => {
+          console.log(name);
+            if (name != null) { //fix this
+              var room = new Room(-1, this.expandedLocation.id, name);
+              this.roomService.addRoom(this.user.id, room).subscribe(response => {
+                this.snackBar.open(String(" The room has been added"), "OK", {duration: 2000})
+                this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
+                  this.rooms=rooms;
+                  this.roomDataSource=new MatTableDataSource<Room>(rooms);
+                })
+              });
+            }
+          })
+      }
+      deleteRoom() {
+        const dialogRef = this.dialog.open(DeleteRoomComponent)
+        dialogRef.afterClosed().subscribe(result => {
+            if (result == true) { //fix this
+            /*  var room = new Room(this.expandedRoom.id,this.expandedLocation.id, this.expandedRoom.name);
+              this.roomService.deleteRoom(this.user.id, this.expandedRoom.id).subscribe(response =>{
+              this.snackBar.open(String(" The room has been deleted"), "OK", {duration: 2000})
+              this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
+                this.rooms = rooms;
+                this.roomDataSource = new MatTableDataSource<Room>(rooms);
+              })
+            }) */
+            }
+          }
+        )
+      }
+      updateRoom() {
+        const dialogRef = this.dialog.open(UpdateRoomComponent)
+        dialogRef.afterClosed().subscribe(name => {
+            if (name != null) { //fix this
+              var room = new Room(this.expandedRoom.id,this.expandedLocation.id, name);
+              this.roomService.updateRoom(this.user.id, room).subscribe(response => {
+                this.snackBar.open(String(" The room has been updated"), "OK",{duration:2000})
+                this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
+                  this.rooms=rooms;
+                  this.roomDataSource=new MatTableDataSource<Room>(rooms);
+                })
+              });
+            }
+            })
+          }
 
-    deleteLocation(location:any){
-      const dialogRef = this.dialog.open(LocationDialogComponent, {
-        width: '300px',
-        data: {
-          type: "Delete",
-          name: location["name"]
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-        console.log(result);
-        //result can be null on cancel
-        if (result != null) {
-          this.snackBar.open(String("Deleted location."), "Ok", {duration: 2000});
-        }
-      });
+       //CRUD location
+      addLocation(){
+        const dialogRef = this.dialog.open(LocationDialogComponent, {
+          width: '300px',
+          data: {type: "Add"}
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+          //result can be null on cancel
+          if (result != null) {
+            //TODO: validation for latitude/longitude + refresh table
+            var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
+            this.locationService.addLocation(this.user.id, locationModel).subscribe(response => {
+              this.snackBar.open(String("Added location."), "Ok", {duration: 2000});
+              this.locationService.getLocations(this.user.id).subscribe(locations => {
+                this.locations = locations;
+                this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
+              });
+            });
+          }
+        });
+      }
+      updateLocation(location:any){
+        const dialogRef = this.dialog.open(LocationDialogComponent, {
+          width: '300px',
+          data: {
+            type: "Update",
+            name: location["name"],
+            latitude: location["latitude"],
+            longitude: location["longitude"],
+            city: location["city"]
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+          //result can be null on cancel
+          if (result != null) {
+            var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
+            this.snackBar.open(String("Updated location."), "Ok", {duration: 2000});
+            /*
+            this.locationService.updateLocation(this.user.id,locationModel).subscribe(response=>{
+              this.snackBar.open(String("Added location."),"Ok",{duration:2000});
+            });
+            */
+          }
+        });
+      }
+      deleteLocation(location:any){
+        const dialogRef = this.dialog.open(LocationDialogComponent, {
+          width: '300px',
+          data: {
+            type: "Delete",
+            name: location["name"]
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          console.log(result);
+          //result can be null on cancel
+          if (result != null) {
+            this.snackBar.open(String("Deleted location."), "Ok", {duration: 2000});
+          }
+        });
+      }
     }
-  }
 

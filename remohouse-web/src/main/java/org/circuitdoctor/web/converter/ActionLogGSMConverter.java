@@ -9,6 +9,9 @@ import org.circuitdoctor.web.dto.GSMControllerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class ActionLogGSMConverter extends BaseConverter<ActionLogGSM, ActionLogGSMDto> {
     @Autowired
@@ -17,9 +20,10 @@ public class ActionLogGSMConverter extends BaseConverter<ActionLogGSM, ActionLog
     private UserRepository userRepository;
     @Override
     public ActionLogGSM convertDtoToModel(ActionLogGSMDto dto) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ActionLogGSM actionLogGSM= ActionLogGSM.builder()
                 .operationType(dto.getOperationType())
-                .dateTime(dto.getDateTime())
+                .dateTime(LocalDateTime.parse(dto.getDateTime(),formatter))
                 .user(userRepository.findById(dto.getUserID()).get())
                 .gsmController(gsmControllerRepository.findById(dto.getGsmControllerID()).get())
                 .build();
@@ -32,7 +36,7 @@ public class ActionLogGSMConverter extends BaseConverter<ActionLogGSM, ActionLog
         ActionLogGSMDto dto= ActionLogGSMDto.builder()
                 .id(actionLogGSM.getId())
                 .operationType(actionLogGSM.getOperationType())
-                .dateTime(actionLogGSM.getDateTime())
+                .dateTime(actionLogGSM.getDateTime().toString())
                 .gsmControllerID(actionLogGSM.getGsmController().getId())
                 .userID(actionLogGSM.getUser().getId())
                 .build();

@@ -1,19 +1,61 @@
 <head><meta name="pinterest" content="nopin" /></head>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-<div id="wrapper1">
+<style>
+  .loader {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 70px;
+    height: 70px;
+    left:50%;
+    top:50%;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  #overlay{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+  .container{
+    position:relative;
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+
+<div id="wrapper1" *ngIf="locationsLoaded else loading">
   <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
     <mat-grid-list class="left-side" cols="1" rowHeight="fit">
 <!--      <mat-grid-tile></mat-grid-tile>-->
       <mat-grid-tile class="location" rowspan="2">
-        <p class="room-name left">{{getLocationName()}}</p>
+        <p class="room-name left" *ngIf="(locationsObservable | async) as locations">{{getLocationName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="room">
-        <p class="room-name">{{getRoomName()}}</p>
+        <p class="room-name" *ngIf="(roomsObservable | async) as rooms">{{getRoomName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="image" rowspan="12">
-          <img matListAvatar *ngIf="rooms.length!=0 && locations.length!=0" [src]="getImage()" alt="room-image" class="img-responsive">
+        <img matListAvatar *ngIf="(gsmsLoaded | async)" [src]="getImage()" alt="room-image" class="img-responsive">
       </mat-grid-tile>
     </mat-grid-list>
   </mat-grid-tile>
@@ -58,7 +100,7 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list *ngIf="gsms.length!=0" class="left">
+          <mat-list *ngIf="this.gsms" class="left">
             <div class="border">
               <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
               <mat-list-item>
@@ -75,7 +117,8 @@
         </mat-expansion-panel>
         </mat-accordion>
       </mat-grid-tile>
-      <mat-grid-tile class="weather" rowspan="5">
+      <mat-grid-tile *ngIf="this.currentLocation"
+                     class="weather" rowspan="5">
         <div id="weather">
           <div *ngIf="WeatherData.isDay" class="weatherWidgetRow">
             <i class="fas fa-3x fa-sun sun"></i>
@@ -97,3 +140,9 @@
   </mat-grid-tile>
 </mat-grid-list>
 </div>
+
+<ng-template class="container" #loading>
+  <div id="overlay">
+    <div class="loader"></div>
+  </div>
+</ng-template>
