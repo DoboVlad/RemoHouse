@@ -36,7 +36,7 @@ public class ActionLogGSMConverter extends BaseConverter<ActionLogGSM, ActionLog
         ActionLogGSMDto dto= ActionLogGSMDto.builder()
                 .id(actionLogGSM.getId())
                 .operationType(actionLogGSM.getOperationType())
-                .dateTime(actionLogGSM.getDateTime().toString())
+                .dateTime(actionLogGSM.getDateTime().toString().replace("T"," "))
                 .gsmControllerID(actionLogGSM.getGsmController().getId())
                 .userID(actionLogGSM.getUser().getId())
                 .build();

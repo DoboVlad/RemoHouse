@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
@@ -59,7 +59,7 @@ newPassword: string;}
     ]),
   ],
 })
-  export class AccountComponent implements OnInit,AfterViewInit {
+  export class AccountComponent implements OnInit {
 
       user: User;
       page: string;
@@ -86,9 +86,16 @@ newPassword: string;}
       displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerID"];
       resultsActionLength = 0;
       isLoadingResults: boolean = true;
-      @ViewChild(MatSort, {static: true}) sort: MatSort;
-      @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
+      @ViewChild(MatSort, {static: false}) sort: MatSort;
+      @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+      @ViewChild(MatSort) set matSort(ms: MatSort) {
+        this.sort = ms;
+        this.setDataSourceAttributes();
+      }
+      setDataSourceAttributes() {
+        this.dataSourceActions.paginator = this.paginator;
+        this.dataSourceActions.sort = this.sort;
+      }
       applyFilter(event: Event, dataSource) {
         const filterValue = (event.target as HTMLInputElement).value;
         dataSource.filter = filterValue.trim().toLowerCase();
@@ -115,15 +122,8 @@ newPassword: string;}
       }
 
       ngOnInit(): void {
-        this.dataSourceActions.paginator = this.paginator;
-        this.dataSourceActions.sort = this.sort;
-        this.resultsActionLength = this.actionLogs.length;
       }
 
-      ngAfterViewInit() {
-
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-      }
       logOut() {
         localStorage.setItem("user", null);
         this.router.navigate(["/home"]);
