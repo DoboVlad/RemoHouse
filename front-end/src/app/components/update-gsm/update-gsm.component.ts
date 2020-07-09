@@ -16,6 +16,7 @@ export class UpdateGSMComponent implements OnInit {
     this.dialogRef.close(null);
   }
   Update(gsm_type: string, status:string, phoneNumber: string){
+    console.log(gsm_type);
       this.data.gsm_type=gsm_type;
       this.data.status=status;
       this.data.phoneNumber=phoneNumber;
