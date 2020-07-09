@@ -32,7 +32,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
-import {MatRippleModule} from "@angular/material/core";
+import {MatOptionModule, MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import { AddRoomComponent } from './components/add-room/add-room.component';
 import { UpdateRoomComponent } from './components/update-room/update-room.component';
@@ -41,6 +41,9 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { AddGSMComponent } from './components/add-gsm/add-gsm.component';
 import { UpdateGSMComponent } from './components/update-gsm/update-gsm.component';
 import { DeleteGSMComponent } from './components/delete-gsm/delete-gsm.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatRadioModule} from "@angular/material/radio";
+import {LocationDialogComponent} from "./components/location-dialog/location-dialog.component";
 
 @NgModule({
   declarations: [
@@ -59,32 +62,36 @@ import { DeleteGSMComponent } from './components/delete-gsm/delete-gsm.component
     DeleteRoomComponent,
     AddGSMComponent,
     UpdateGSMComponent,
-    DeleteGSMComponent
+    DeleteGSMComponent,
+    LocationDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        RouterModule,
-        HttpClientModule,
-        AppRoutingModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatSidenavModule,
-        MatGridListModule,
-        MatListModule,
-        MatSlideToggleModule,
-        MatSnackBarModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatTableModule,
-        MatRippleModule,
-        MatInputModule,
-        MatTooltipModule
-    ],
+  imports: [
+    BrowserModule,
+    RouterModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSidenavModule,
+    MatGridListModule,
+    MatListModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTableModule,
+    MatRippleModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatRadioModule
+  ],
   entryComponents:[ChangePasswordDialogComponent],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]

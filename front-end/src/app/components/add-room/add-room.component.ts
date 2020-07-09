@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-room',
@@ -10,10 +10,10 @@ export class AddRoomComponent implements OnInit {
 
   constructor(public dialogRef:MatDialogRef<AddRoomComponent>) { }
   closeDialog(){
-    this.dialogRef.close(false);
+    this.dialogRef.close(null);
   }
-  addRoom(){
-    this.dialogRef.close(true);
+  add(name: string){
+    this.dialogRef.close(name);
   }
 
   ngOnInit(): void {

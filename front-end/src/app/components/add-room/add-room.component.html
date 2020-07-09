@@ -1,8 +1,11 @@
 <h1>Add a room</h1>
 <mat-dialog-content>
-  Add room name:<input type="text">
+  <mat-form-field appearance="fill">
+    <mat-label>Add room name</mat-label>
+    <input matInput #name>
+  </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button (click)="closeDialog()">Cancel</button>
-  <button (click)="addRoom()">Add</button>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button (click)="add(name.value)" cdkFocusInitial>Add</button>
 </mat-dialog-actions>

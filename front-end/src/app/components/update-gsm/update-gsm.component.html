@@ -1,11 +1,25 @@
 <h1 mat-dialog-title>Update this GSM controller</h1>
 
-  <p>Update type: </p>
-  <input type="text">
-  <p>Update your number phone: </p>
-  <input type="text">
+  <p>Type: </p>
+<mat-form-field appearance="fill">
+  <mat-label>Select</mat-label>
+  <mat-select>
+    <mat-option value="door">Door</mat-option>
+    <mat-option value="window">Window</mat-option>
+  </mat-select>
+</mat-form-field>
+<label><br>Status: </label>
+<mat-radio-group>
+  <mat-radio-button value="ON" disabled>ON</mat-radio-button>
+  <mat-radio-button value="OFF" class="button2" disabled>OFF</mat-radio-button>
+</mat-radio-group>
+<br>
+  <p><br>Update your number phone: </p>
+<mat-form-field appearance="fill">
+  <mat-label>Phone number</mat-label>
+  <input matInput>
+</mat-form-field>
   <br>
-
   <button (click)="Update()">Update</button>
   <button (click)="onCloseClick()">Cancel</button>
 

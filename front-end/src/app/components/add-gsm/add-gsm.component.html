@@ -1,7 +1,25 @@
 <h1 mat-dialog-title>Add a new GSM controller!</h1>
   <p>Type: </p>
-  <input type="text">
-  <p>Phone number:</p>
-  <input type="text">
+<mat-form-field appearance="fill">
+  <mat-label>Select</mat-label>
+  <mat-select>
+    <mat-option value="door">Door</mat-option>
+    <mat-option value="window">Window</mat-option>
+  </mat-select>
+</mat-form-field>
 <br>
+<label>Status: </label>
+<mat-radio-group>
+  <mat-radio-button value="ON" color="warn">ON</mat-radio-button>
+  <mat-radio-button value="OFF" class="button2" color="warn">OFF</mat-radio-button>
+</mat-radio-group>
+<br>
+  <p><br>Phone number:</p>
+<mat-form-field appearance="fill">
+  <mat-label>Phone number</mat-label>
+  <input matInput>
+</mat-form-field>
+<br><br>
+<button>ADD</button>
 <button (click)="onCloseClick()">Cancel</button>
+

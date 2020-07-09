@@ -16,8 +16,7 @@
       <div>
         <a mat-button (click)="setProfile()">Profile</a>
         <a mat-button (click)="setManageLocations()">Manage locations</a>
-        <a mat-button (click)="setManageRooms()">Manage rooms</a>
-        <a mat-button (click)="setManageController()">Manage controllers</a>
+        <a mat-button (click)="setPastAction()">Past action</a>
         <a mat-button (click)="setSecurity()">Security</a>
         <a mat-button class="bottom" (click)="logOut()">Logout</a>
       </div>
@@ -139,7 +138,7 @@
                                 <td mat-cell *matCellDef="let controller">
 
                                   <!-- This is where we have to add the function to update the controller -->
-                                  <button mat-button color="basic" aria-label="Update controller" matTooltip="Update controller">
+                                  <button mat-button color="basic" aria-label="Update controller" matTooltip="Update controller" (click)="UpdateGSM()">
                                     <mat-icon>create</mat-icon>
                                   </button>
                                 </td>
@@ -150,7 +149,7 @@
                                 <td mat-cell *matCellDef="let controller">
 
                                   <!-- This is where we have to add the function to delete the controller -->
-                                  <button mat-button color="warn" aria-label="Delete controller" matTooltip="Delete controller">
+                                  <button mat-button color="warn" aria-label="Delete controller" matTooltip="Delete controller" (click)="DeleteGSM()">
                                     <mat-icon>delete</mat-icon>
                                   </button>
                                 </td>
@@ -163,7 +162,7 @@
                             </table>
 
                             <!-- This is where we have to add the function to create a new controller-->
-                            <button mat-mini-fab class="addButton" color="basic" aria-label="Add controller" matTooltip="Add controller">
+                            <button mat-mini-fab class="addButton" color="basic" aria-label="Add controller" matTooltip="Add controller" (click)="AddGSM()">
                               <mat-icon>add</mat-icon>
                             </button>
 
@@ -190,12 +189,12 @@
                 <div class="buttons">
 
                   <!-- This is where we have to add the function to delete the location -->
-                  <button mat-fab color="warn" aria-label="Delete location" matTooltip="Delete location">
+                  <button mat-fab color="warn" aria-label="Delete location" matTooltip="Delete location" (click)="deleteLocation(location)">
                     <mat-icon>delete</mat-icon>
                   </button>
 
                   <!-- This is where we have to add the function to update the location -->
-                  <button mat-fab color="basic" aria-label="Update location" matTooltip="Update location">
+                  <button mat-fab color="basic" aria-label="Update location" matTooltip="Update location" (click)="updateLocation(location)">
                     <mat-icon>create</mat-icon>
                   </button>
                 </div>
@@ -213,7 +212,7 @@
         </table>
 
         <!--This is where we have to add the create functionality to the button-->
-        <button mat-mini-fab class="addButton" color="basic" aria-label="Add location" matTooltip="Add location">
+        <button mat-mini-fab class="addButton" color="basic" aria-label="Add location" matTooltip="Add location" (click)="addLocation()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
