@@ -2,10 +2,10 @@
 <mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Change room name:</mat-label>
-    <input matInput>
+    <input matInput #name>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+  <button mat-button (click)="save(name.value)" cdkFocusInitial>Save</button>
 </mat-dialog-actions>

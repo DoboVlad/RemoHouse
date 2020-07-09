@@ -214,7 +214,14 @@ export class AccountComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteRoomComponent)
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) { //fix this
-          this.snackBar.open(String(" The room has been deleted"), "OK",{duration:2000})
+          var room = new Room(this.expandedRoom.id,this.expandedLocation.id, this.expandedRoom.name);
+         /* this.roomService.deleteRoom(this.user.id, room).subscribe(response => {
+            this.snackBar.open(String(" The room has been deleted"), "OK",{duration:2000})
+            this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
+              this.rooms=rooms;
+              this.roomDataSource=new MatTableDataSource<Room>(rooms);
+            })
+          }); */
         }
       }
     )
@@ -222,14 +229,21 @@ export class AccountComponent implements OnInit {
 
   updateRoom() {
     const dialogRef = this.dialog.open(UpdateRoomComponent)
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) { //fix this
-          this.snackBar.open(String(" The room has been updated"), "OK",{duration:2000})
-
+    dialogRef.afterClosed().subscribe(name => {
+        if (name != null) { //fix this
+          var room = new Room(this.expandedRoom.id,this.expandedLocation.id, name);
+          this.roomService.updateRoom(this.user.id, room).subscribe(response => {
+            this.snackBar.open(String(" The room has been updated"), "OK",{duration:2000})
+            this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
+              this.rooms=rooms;
+              this.roomDataSource=new MatTableDataSource<Room>(rooms);
+            })
+          });
         }
+        })
       }
-    )
-  }
+
+
 
     isPastActions()
     {

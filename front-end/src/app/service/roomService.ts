@@ -26,6 +26,8 @@ export class RoomService {
     return this.http.put<Response>(this.url+"/updateRoom/"+userID,room,this.httpOptions);
   }
 
+  
+
   getRooms(userID : number, locationID : number) : Observable<Array<Room>>{
     return this.http.get<Array<Room>>(this.url+"/getRooms/"+userID+"/"+locationID,this.httpOptions);
   }
