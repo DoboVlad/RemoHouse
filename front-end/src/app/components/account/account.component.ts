@@ -4,11 +4,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {User} from "../../model/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DataSource} from "@angular/cdk/collections";
-import {Observable, of} from "rxjs";
 import {LocationService} from "../../service/locationService";
 import {LocationModel} from "../../model/LocationModel";
-import {MatTable, MatTableDataSource} from "@angular/material/table";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
@@ -25,6 +22,9 @@ import {ActionLogGSM} from "../../model/ActionLogGSM";
 import {ActionLogGSMService} from "../../service/ActionLogGSMService";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {merge} from "rxjs";
+import {catchError, startWith, switchMap} from "rxjs/operators";
 
 export interface DialogData {
 oldPassword: string;
@@ -81,9 +81,11 @@ newPassword: string;}
       room: Room;
 
       //actions page
-      actionLogs : ActionLogGSM[];
+      actionLogs : ActionLogGSM[] = [];
       dataSourceActions : MatTableDataSource<ActionLogGSM>;
       displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerID"];
+      resultsActionLength = 0;
+      isLoadingResults: boolean = true;
       @ViewChild(MatSort, {static: true}) sort: MatSort;
       @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -97,7 +99,6 @@ newPassword: string;}
           this.router.navigate(["/unauthorizedaccess"]);
         }
         this.page = "PastActions";
-        this.dataSourceActions = new MatTableDataSource<ActionLogGSM>();
         this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
           this.user = user;
           this.locationService.getLocations(this.user.id).subscribe(locations => {
@@ -105,7 +106,9 @@ newPassword: string;}
             this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
             this.actionLogService.getActions(this.user.id).subscribe(actions=>{
               this.actionLogs=actions;
-              this.dataSourceActions.data =actions;
+              this.dataSourceActions = new MatTableDataSource<ActionLogGSM>(actions);
+              this.resultsActionLength = actions.length;
+              this.isLoadingResults=false;
             })
           });
         });
@@ -114,11 +117,12 @@ newPassword: string;}
       ngOnInit(): void {
         this.dataSourceActions.paginator = this.paginator;
         this.dataSourceActions.sort = this.sort;
+        this.resultsActionLength = this.actionLogs.length;
       }
 
       ngAfterViewInit() {
-        this.dataSourceActions.paginator = this.paginator;
-        this.dataSourceActions.sort = this.sort;
+
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
       }
       logOut() {
         localStorage.setItem("user", null);

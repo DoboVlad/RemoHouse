@@ -219,11 +219,18 @@
 
       <!--PAST ACTIONS IN APP SECTION-->
       <div class="pastActions" *ngIf="isPastActions()">
+        <!--loading spinner-->
+        <div *ngIf="isLoadingResults">
+          <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+
+        <!--filter field-->
         <mat-form-field class="actions-form-field">
           <mat-label>Filter actions</mat-label>
           <input matInput (keyup)="applyFilterActions($event)" placeholder="Filter by any criteria" #input>
         </mat-form-field>
-        <table mat-table [dataSource]="dataSourceActions" matSort class="pastActionsTable">
+        <!--table-->
+        <table mat-table *ngIf="!isLoadingResults" [dataSource]="dataSourceActions" matSort matSortActive="created" matSortDisableClear matSortDirection="desc" class="pastActionsTable">
           <!-- Operation Type Column -->
           <ng-container matColumnDef="operationType">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Operation Type </th>
@@ -245,7 +252,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [length]="resultsActionLength" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

@@ -47,6 +47,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {DeleteButtonDialogComponent} from "./components/delete-button-dialog/delete-button-dialog.component";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     MatRadioModule,
     MatExpansionModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   entryComponents:[],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
