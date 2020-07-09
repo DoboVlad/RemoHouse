@@ -86,7 +86,6 @@ newPassword: string;}
       displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerID"];
       @ViewChild(MatSort, {static: true}) sort: MatSort;
       @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-      @ViewChild(MatTable,{static:true}) table: MatTable<ActionLogGSM>;
 
       applyFilter(event: Event, dataSource) {
         const filterValue = (event.target as HTMLInputElement).value;
@@ -98,11 +97,8 @@ newPassword: string;}
           this.router.navigate(["/unauthorizedaccess"]);
         }
         this.page = "PastActions";
-        var aux = localStorage.getItem("user");
         this.dataSourceActions = new MatTableDataSource<ActionLogGSM>();
-        this.dataSourceActions.sort = this.sort;
-        this.dataSourceActions.paginator = this.paginator;
-        this.userService.getUserByCredential(aux).subscribe(user => {
+        this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
           this.user = user;
           this.locationService.getLocations(this.user.id).subscribe(locations => {
             this.locations = locations;
@@ -116,6 +112,8 @@ newPassword: string;}
       }
 
       ngOnInit(): void {
+        this.dataSourceActions.paginator = this.paginator;
+        this.dataSourceActions.sort = this.sort;
       }
 
       ngAfterViewInit() {
@@ -380,6 +378,10 @@ newPassword: string;}
       applyFilterActions($event: KeyboardEvent) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.dataSourceActions.filter = filterValue.trim().toLowerCase();
+        if (this.dataSourceActions.paginator) {
+          this.dataSourceActions.paginator.firstPage();
+        }
       }
+
 }
 
