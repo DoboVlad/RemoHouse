@@ -237,20 +237,16 @@ newPassword: string;}
           console.log(result);
           if(result!=null) {
             var gsmcontroller = new GSMController(-1, -1, result.phoneNumber, result.status, result.gsm_type);
-
             this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
               this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
-              this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController => {
-                this.gsmController = GSMController;
-                this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
+              this.refreshTable();
               });
-            });
-          }
-        });
+            }
+          });
       }
+
       DeleteGSM(controller:any){
-        const dialogRef=this.dialog.open(DeleteGSMComponent);
-        /* const dialogRef=this.dialog.open(DeleteGSMComponent,{
+         const dialogRef=this.dialog.open(DeleteGSMComponent,{
            width: '300px',
            data:{type:"Delete",
              gsm_type:controller["gsm_type"],
@@ -261,9 +257,11 @@ newPassword: string;}
            console.log('The dialog was closed');
            console.log(result);
            if(result!=null) {
-             this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
+             this.gsmControllerService.deleteGSM(this.user.id, controller["id"]).subscribe(result =>{
+               this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
+             });
            }
-         });*/
+         });
       }
 
       //CRUD room
