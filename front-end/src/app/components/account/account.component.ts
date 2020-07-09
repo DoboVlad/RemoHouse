@@ -267,55 +267,6 @@ newPassword: string;}
       }
 
       //CRUD room
-      addRoom() {
-        const dialogRef = this.dialog.open(AddRoomComponent)
-        dialogRef.afterClosed().subscribe(name => {
-          console.log(name);
-            if (name != null) { //fix this
-              var room = new Room(-1, this.expandedLocation.id, name);
-              this.roomService.addRoom(this.user.id, room).subscribe(response => {
-                this.snackBar.open(String(" The room has been added"), "OK", {duration: 2000})
-                this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-                  this.rooms=rooms;
-                  this.roomDataSource=new MatTableDataSource<Room>(rooms);
-                })
-              });
-            }
-          })
-      }
-      deleteRoom() {
-        const dialogRef = this.dialog.open(DeleteRoomComponent)
-        dialogRef.afterClosed().subscribe(result => {
-            if (result == true) { //fix this
-            /*  var room = new Room(this.expandedRoom.id,this.expandedLocation.id, this.expandedRoom.name);
-              this.roomService.deleteRoom(this.user.id, this.expandedRoom.id).subscribe(response =>{
-              this.snackBar.open(String(" The room has been deleted"), "OK", {duration: 2000})
-              this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-                this.rooms = rooms;
-                this.roomDataSource = new MatTableDataSource<Room>(rooms);
-              })
-            }) */
-            }
-          }
-        )
-      }
-      updateRoom() {
-        const dialogRef = this.dialog.open(UpdateRoomComponent)
-        dialogRef.afterClosed().subscribe(name => {
-            if (name != null) { //fix this
-              var room = new Room(this.expandedRoom.id,this.expandedLocation.id, name);
-              this.roomService.updateRoom(this.user.id, room).subscribe(response => {
-                this.snackBar.open(String(" The room has been updated"), "OK",{duration:2000})
-                this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
-                  this.rooms=rooms;
-                  this.roomDataSource=new MatTableDataSource<Room>(rooms);
-                })
-              });
-            }
-            })
-          }
-
-       //CRUD location
       addLocation(){
         const dialogRef = this.dialog.open(LocationDialogComponent, {
           width: '300px',
@@ -330,10 +281,7 @@ newPassword: string;}
             var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
             this.locationService.addLocation(this.user.id, locationModel).subscribe(response => {
               this.snackBar.open(String("Added location."), "Ok", {duration: 2000});
-              this.locationService.getLocations(this.user.id).subscribe(locations => {
-                this.locations = locations;
-                this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
-              });
+              this.refreshTable();
             });
           }
         });
@@ -354,13 +302,11 @@ newPassword: string;}
           console.log(result);
           //result can be null on cancel
           if (result != null) {
-            var locationModel = new LocationModel(-1, result.latitude, result.longitude, "", result.name, result.city, this.user.id);
-            this.snackBar.open(String("Updated location."), "Ok", {duration: 2000});
-            /*
-            this.locationService.updateLocation(this.user.id,locationModel).subscribe(response=>{
-              this.snackBar.open(String("Added location."),"Ok",{duration:2000});
+            var locationModel = new LocationModel(location["id"], result.latitude, result.longitude, location["image"], result.name, result.city, this.user.id);
+            this.locationService.updateLocation(this.user.id,locationModel).subscribe(response=> {
+              this.snackBar.open(String("Update location."), "Ok", {duration: 2000});
+              this.refreshTable();
             });
-            */
           }
         });
       }
@@ -377,8 +323,18 @@ newPassword: string;}
           console.log(result);
           //result can be null on cancel
           if (result != null) {
-            this.snackBar.open(String("Deleted location."), "Ok", {duration: 2000});
+
+            this.locationService.deleteLocation(this.user.id,location["id"]).subscribe(response=>{
+              this.snackBar.open(String("Delete location."), "Ok", {duration: 2000});
+              this.refreshTable();
+            });
           }
+        });
+      }
+      refreshTable(){
+        this.locationService.getLocations(this.user.id).subscribe(locations => {
+          this.locations = locations;
+          this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
         });
       }
 
