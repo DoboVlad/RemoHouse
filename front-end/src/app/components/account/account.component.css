@@ -260,6 +260,9 @@ tr.location-row:not(.example-expanded-row):active {
   width : 100%;
 }
 
+.loading{
+  overflow: hidden;
+}
 #loader {
   bottom: 0;
   height: 175px;
