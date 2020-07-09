@@ -4,7 +4,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {User} from "../../model/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ChangePasswordDialogComponent} from "../change-password-dialog/change-password-dialog.component";
 import {DataSource} from "@angular/cdk/collections";
 import {Observable, of} from "rxjs";
 import {LocationService} from "../../service/locationService";
@@ -46,6 +45,7 @@ newPassword: string;}
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
+
   styleUrls: ['./account.component.css'],
   animations: [
     trigger('detailExpand', [

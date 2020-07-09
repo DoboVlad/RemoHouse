@@ -26,7 +26,6 @@ import { UnauthorizedAccessComponent } from './components/unauthorized-access/un
 import {GsmControllerService} from "./service/gsmControllerService";
 import {MatDialogModule,MAT_DIALOG_DEFAULT_OPTIONS} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import { ChangePasswordDialogComponent } from './components/change-password-dialog/change-password-dialog.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from "@angular/material/toolbar";
@@ -55,7 +54,6 @@ import {LocationDialogComponent} from "./components/location-dialog/location-dia
     MainPageComponent,
     AccountComponent,
     UnauthorizedAccessComponent,
-    ChangePasswordDialogComponent,
     ForgotPasswordComponent,
     AddRoomComponent,
     UpdateRoomComponent,
@@ -92,7 +90,7 @@ import {LocationDialogComponent} from "./components/location-dialog/location-dia
     MatSelectModule,
     MatRadioModule
   ],
-  entryComponents:[ChangePasswordDialogComponent],
+  entryComponents:[],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })

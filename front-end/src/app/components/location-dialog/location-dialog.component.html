@@ -18,9 +18,9 @@
     <input matInput #city>
   </mat-form-field>
 </div>
-<div mat-dialog-actions>
-  <button (click)="onCloseClick()">Close</button>
-  <button (click)="add(name.value,latitude.value,longitude.value,city.value)">Add</button>
+<div mat-dialog-actions class="buttons">
+  <button (click)="onCloseClick()" class="left">Close</button>
+  <button (click)="add(name.value,latitude.value,longitude.value,city.value)" class="right">Add</button>
 </div>
 </div>
 <div *ngIf="isUpdate()">
@@ -45,15 +45,15 @@
   </div>
   <div mat-dialog-actions>
 
-    <button (click)="onCloseClick()">Close</button>
-    <button (click)="update(name.value,latitude.value,longitude.value,city.value)">Update</button>
+    <button (click)="onCloseClick()" class="left">Close</button>
+    <button (click)="update(name.value,latitude.value,longitude.value,city.value)" class="right">Update</button>
   </div>
 </div>
 <div *ngIf="isDelete()">
   <h3 mat-dialog-title>Are you sure you want to delete {{data.name}}?</h3>
   <div mat-dialog-actions>
-    <button (click)="onCloseClick()">Cancel</button>
-    <button (click)="delete()">Confirm</button>
+    <button (click)="onCloseClick()" class="left">Cancel</button>
+    <button (click)="delete()" class="right">Confirm</button>
   </div>
 </div>
 

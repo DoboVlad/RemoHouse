@@ -45,9 +45,6 @@ p:hover{
 div{
   margin: auto;
 }
-mat-radio-button.button2{
-  margin-left: 8%;
-}
 
 button {
   border-radius: 20px;
@@ -59,7 +56,6 @@ button {
   letter-spacing: 1px;
   text-transform: uppercase;
   transition: transform 80ms ease-in;
-  margin-left: 15%;
   cursor: pointer;
   padding: 10px;
   text-align: center;
@@ -68,4 +64,10 @@ button {
 button:hover{
   transition: transform .4s;
   transform: scale(1.2);
+}
+.left{
+  margin-left: 9%;
+}
+.right{
+  margin-left: 17%;
 }
