@@ -212,8 +212,9 @@ newPassword: string;}
           //result can be null on cancel
           if(result!=null) {
             //TODO: validation for latitude/longitude + refresh table
-            var gsmController=new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-            this.gsmControllerService.openGSM(gsmController,this.user.id).subscribe(response=>{
+            var gsmController=new GSMController(0,this.expandedRoom.id,result.phoneNumber,result.status,result.gsm_type);
+            this.gsmControllerService.addGSMController(this.user.id,gsmController).subscribe(response=>{
+              console.log(response);
               this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
               this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
                 this.gsmController = GSMController;
@@ -234,9 +235,9 @@ newPassword: string;}
         });
         dialogRef.afterClosed().subscribe(result=>{
           console.log('The dialog was closed');
-          console.log(result);
+          console.log(controller);
           if(result!=null) {
-            var gsmcontroller = new GSMController(-1, -1, result.phoneNumber, result.status, result.gsm_type);
+            var gsmcontroller = new GSMController(controller['id'], controller['roomID'], result.phoneNumber, controller['status'], result.gsm_type);
             this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
               this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
               this.refreshTable();
@@ -272,6 +273,7 @@ newPassword: string;}
             if (name != null) { //fix this
               var room = new Room(-1, this.expandedLocation.id, name);
               this.roomService.addRoom(this.user.id, room).subscribe(response => {
+                console.log(response)
                 this.snackBar.open(String(" The room has been added"), "OK", {duration: 2000})
                 this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
                   this.rooms=rooms;
@@ -284,15 +286,16 @@ newPassword: string;}
       deleteRoom() {
         const dialogRef = this.dialog.open(DeleteRoomComponent)
         dialogRef.afterClosed().subscribe(result => {
-            if (result == true) { //fix this
-            /*  var room = new Room(this.expandedRoom.id,this.expandedLocation.id, this.expandedRoom.name);
+            if (result == true) {
+              console.log(this.expandedRoom)
               this.roomService.deleteRoom(this.user.id, this.expandedRoom.id).subscribe(response =>{
+                console.log(response);
               this.snackBar.open(String(" The room has been deleted"), "OK", {duration: 2000})
               this.roomService.getRooms(this.user.id, this.expandedLocation.id).subscribe(rooms => {
                 this.rooms = rooms;
                 this.roomDataSource = new MatTableDataSource<Room>(rooms);
               })
-            }) */
+            })
             }
           }
         )

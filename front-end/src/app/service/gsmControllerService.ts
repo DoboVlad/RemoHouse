@@ -1,11 +1,17 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {GSMController} from "../model/GSMController";
 
 @Injectable({providedIn: 'root'})
 export class GsmControllerService {
-
+  private httpOptionsPlain = {
+    headers: new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }),
+    responseType: 'text' as 'json'
+  };
   private url = 'http://localhost:8080/api/gsm';
 
   constructor(private http: HttpClient) {
@@ -22,7 +28,7 @@ export class GsmControllerService {
   }
 
   addGSMController(userID : number, gsm : GSMController) : Observable<string>{
-    return this.http.put<string>(this.url+"/addGSM/"+userID,gsm);
+    return this.http.put<string>(this.url+"/addGSM/"+userID,gsm,this.httpOptionsPlain);
   }
 
   updateGSMController(userID : number, gsm : GSMController) : Observable<boolean>{

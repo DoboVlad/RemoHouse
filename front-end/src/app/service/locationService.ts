@@ -7,9 +7,6 @@ import {strict} from "assert";
 
 @Injectable({providedIn: 'root'})
 export class LocationService {
-  httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
 
   private url = 'http://localhost:8080/api/location';
 
@@ -19,13 +16,13 @@ export class LocationService {
   addLocation(userID : number, location : LocationModel) : Observable<Response>{
     // here you have to be careful of the 400 error : t means that there
     // some validation errors in the server
-    return this.http.post<Response>(this.url+"/addLocation/"+userID,location,this.httpOptions);
+    return this.http.post<Response>(this.url+"/addLocation/"+userID,location);
   }
 
   getLocations(userID : number) : Observable<Array<LocationModel>>{
     // here you have to be careful of the 400 error : t means that there
     // some validation errors in the server
-    return this.http.get<Array<LocationModel>>(this.url+"/getLocations/"+userID,this.httpOptions);
+    return this.http.get<Array<LocationModel>>(this.url+"/getLocations/"+userID);
   }
 
   deleteLocation(userID : number, locationID : number) : Observable<boolean>{
