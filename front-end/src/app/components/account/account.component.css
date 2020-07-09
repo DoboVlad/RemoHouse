@@ -1,66 +1,245 @@
-.body{
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+/*toolbar+sidenav (copy)*/
+#body{
   background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
   background-size: cover;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+}
+.title{
+  font-size: 200%;
+}
+.companyName{
+  font-size: 150%;
 }
 
-.info {
-  border-radius: 25px;
+.mat-toolbar{
+  margin-top: 4vh;
+  height: 7vh;
+  background-color: transparent;
+}
+
+div {
+  overflow: inherit;
+}
+
+.mat-sidenav-container{
+  background-color: transparent;
+  height: 89vh !important;
+  width: auto;
+}
+mat-sidenav a{
+  display: block;
+  text-decoration: none;
+  font-size: 110%;
+  white-space: normal;
+
+}
+mat-sidenav a.bottom{
+  font-size: 150%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+button{
+  font-size: 110%;
+  min-width: min-content;
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-sidenav-content{
+  font-size: 200%;
+
+}
+
+/*profile page*/
+.profile {
+  background-color: rgba(70,83,98,0.5);
+  -webkit-text-stroke:0.03em black;
+  height: 100%;
+  margin: auto;
+  max-width: 1000px;
+  color: white;
+}
+
+
+.data{
   height: 70%;
-  min-width: 30vmax;
-  text-align: center;
-  background-color: white;
+  width: 80%;
+  border-collapse: collapse;
   margin: auto;
 }
-.data{
-  height: 100%;
-  width: 100%;
-  border-collapse: collapse;
+.profile h1{
+  margin: 5% 0 5% 5%;
+  font-size: 40px;
+  text-align: left;
+  /*
+  font-weight: bold;
+  */
 }
-.data th{
-  font-size: 35px;
-  text-align: center;
-  height: 70px;
-  vertical-align: center;
-}
-.data tr:not(:nth-child(1)):not(:nth-last-child(1)):not(:nth-last-child(2)){
-  border-bottom: 1px solid black;
+
+.data tr{
+  border-bottom: 2px solid white;
 }
 .data td{
-  font-size: 15px;
+  vertical-align: bottom;
+  font-size: 25px;
+  padding-bottom: 5px;
 }
-.left{
+.data .left{
+  /*
   font-weight: bold;
+  */
   text-align: left;
-  padding-left: 10px;
 }
-.right{
+.data .right{
   text-align: right;
   padding-right: 10px;
 }
-.center{
+/*security*/
+.security {
+  height: 100%;
   text-align: center;
+  margin: auto;
+  max-width: 1000px;
+  color: white;
+  background-color: rgba(70,83,98,0.5);
+  -webkit-text-stroke:0.03em black;
 }
-p{
-  border-radius: 25px;
-  font-weight: normal;
-  font-size: 20px;
-  display: inline-block;
-  text-align: center;
+
+.sessions{
+  height: 25%;
+  width: 90%;
+  margin-left: 10%;
+}
+
+.password{
+  margin-top: 5%;
+  height: 65%;
+  width: 90%;
+  margin-left: 10%;
+  text-align: left;
+}
+
+.security a{
   background-color: gray;
   color: white;
-  padding: 4px;
+  font-size: 30px;
+  margin-left: 5%;
+  margin-top: 5%;
+  -webkit-text-stroke:0 black;
 }
-p:hover{
+.security a:hover{
   background-color: #9FC490;
   color: black;
 }
+.password p{
+  margin-left: 5%;
+  display: block;
+  width: 90%;
+  text-align: left;
+}
+.security .label{
+  font-size: 20px;
+}
+.security h1{
+  margin: 10px 0 20px 0;
+  font-size: 40px;
+  text-align: left;
+}
+.security h2{
+  text-align: left;
+  font-size: 20px;
+  margin-left: 5%;
+  font-weight: normal;
+}
 
+tr.detail-row {
+  height: 0;
+}
+
+tr.location-row:not(.example-expanded-row):hover {
+  background-color: rgba(0, 158, 255, 0.01);
+  cursor: pointer;
+}
+
+tr.room-row:not(.example-expanded-row):hover {
+  background-color: rgba(0, 158, 255, 0.015);
+  cursor: pointer;
+}
+
+tr.location-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.location-row td {
+  border-bottom-width: 0;
+}
+
+.buttons {
+  overflow: hidden;
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.manageLocations{
+  display: flex;
+  flex-flow: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  overflow: hidden;
+}
+
+.location-detail{
+  overflow: hidden;
+}
+
+.mat-elevation-z8{
+  margin-bottom: 1em;
+  width: 60%;
+}
+
+.room-table, .controller-table, .room-form-field{
+  width: 100%;
+}
+
+.location-form-field{
+  width: 60%;
+}
+
+.filter-locations, mat-label{
+  color: white;
+}
+
+.room-filter-label, .filter-rooms{
+  color: #000;
+}
+
+.filter-locations::placeholder{
+  color: #465362 ;
+}
+
+.room-table-wrapper, .controller-table-wrapper{
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.room-table{
+  background-color: rgba(0, 158, 255, 0.01);
+}
+
+.controller-table{
+  background-color: rgba(0, 158, 255, 0.012);
+}
