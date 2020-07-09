@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
+import org.h2.engine.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -179,7 +180,7 @@ public class UserServiceImpl implements UserService {
         user.ifPresent(u->{
             String generatedCode=generateRandomString();
             ServiceUtils utils=new ServiceUtils();
-            String res=utils.sendMessage("REMO change password code: "+generatedCode,"0759021544");
+            String res=utils.sendMessage("REMO change password code: "+generatedCode,phoneNumber);
 
             log.trace("recover password by message -method finished code={}",generatedCode);
 
