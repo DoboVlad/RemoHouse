@@ -217,27 +217,27 @@
         </button>
       </div>
 
-      <!--loading spinner-->
-      <div class = "loading" *ngIf="isLoadingResults">
-        <div class="container" *ngIf="isLoadingResults">
-          <div class="row">
-            <div id="loader">
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="dot"></div>
-              <div class="loading"></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!--PAST ACTIONS IN APP SECTION-->
       <div class="pastActions" *ngIf="isPastActions()">
+        <!--loading spinner-->
+        <div class = "loading" *ngIf="isLoadingResults">
+          <div class="container" *ngIf="isLoadingResults">
+            <div class="row">
+              <div id="loader">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="loading"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!--filter field-->
         <mat-form-field *ngIf="!isLoadingResults" class="actions-form-field">
           <mat-label>Filter actions</mat-label>
