@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LoginDialogData} from "../account/account.component";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-location-dialog',
@@ -8,6 +9,33 @@ import {LoginDialogData} from "../account/account.component";
   styleUrls: ['./location-dialog.component.css']
 })
 export class LocationDialogComponent implements OnInit {
+
+
+   nameControllForm=new FormControl('',[
+    Validators.required,
+    Validators.nullValidator
+  ]);
+  cityControllForm=new FormControl('',[
+    Validators.required,
+    Validators.nullValidator
+  ]);
+  latitudeControllForm=new FormControl('',
+    [
+      Validators.required,
+      Validators.nullValidator,
+      Validators.pattern("-?[0-9]+(.[0-9]+)?")
+    ]);
+  longitudeControllForm=new FormControl('',
+    [
+    Validators.required,
+    Validators.nullValidator,
+    Validators.pattern("-?[0-9]+(.[0-9]+)?")
+  ]);
+
+
+  isError(){
+    return this.nameControllForm.invalid || this.cityControllForm.invalid || this.latitudeControllForm.invalid || this.longitudeControllForm.invalid;
+  }
 
   constructor(public dialogRef:MatDialogRef<LocationDialogComponent>,@Inject(MAT_DIALOG_DATA) public data:LoginDialogData) {}
   onCloseClick() {

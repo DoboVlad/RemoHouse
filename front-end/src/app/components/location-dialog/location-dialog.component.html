@@ -3,24 +3,36 @@
 <div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
-    <input matInput #name>
+    <input matInput [formControl]="nameControllForm" #name>
+    <mat-error *ngIf="nameControllForm.touched && nameControllForm.invalid">
+      Please enter a name
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Latitude</mat-label>
-    <input matInput #latitude>
+    <input matInput [formControl]="latitudeControllForm" #latitude>
+    <mat-error *ngIf="latitudeControllForm.touched && latitudeControllForm.invalid">
+      Please enter a valid latitude
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Longitude</mat-label>
-    <input matInput #longitude>
+    <input matInput [formControl]="longitudeControllForm" #longitude>
+    <mat-error *ngIf="longitudeControllForm.touched && longitudeControllForm.invalid">
+      Please enter a valid longitude
+    </mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
-    <input matInput #city>
+    <input matInput [formControl]="cityControllForm" #city>
+    <mat-error *ngIf="cityControllForm.touched && cityControllForm.invalid">
+      Please enter a city
+    </mat-error>
   </mat-form-field>
 </div>
 <div mat-dialog-actions class="buttons">
   <button (click)="onCloseClick()" class="left">Close</button>
-  <button (click)="add(name.value,latitude.value,longitude.value,city.value)" class="right">Add</button>
+  <button (click)="!isError() && add(name.value,latitude.value,longitude.value,city.value)" class="right">Add</button>
 </div>
 </div>
 <div *ngIf="isUpdate()">
@@ -28,25 +40,36 @@
   <div mat-dialog-content>
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput #name [(ngModel)]="data.name">
+      <input matInput #name [(ngModel)]="data.name" [formControl]="nameControllForm">
+      <mat-error *ngIf="nameControllForm.touched && nameControllForm.invalid">
+        Please enter a name
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Latitude</mat-label>
-      <input matInput #latitude [(ngModel)]="data.latitude">
+      <input matInput #latitude [(ngModel)]="data.latitude" [formControl]="latitudeControllForm">
+      <mat-error *ngIf="latitudeControllForm.touched && latitudeControllForm.invalid">
+        Please enter a valid latitude
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Longitude</mat-label>
-      <input matInput #longitude  [(ngModel)]="data.longitude">
+      <input matInput #longitude  [(ngModel)]="data.longitude" [formControl]="longitudeControllForm">
+      <mat-error *ngIf="longitudeControllForm.touched && longitudeControllForm.invalid">
+        Please enter a valid longitude
+      </mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>City</mat-label>
-      <input matInput #city  [(ngModel)]="data.city">
+      <input matInput #city  [(ngModel)]="data.city" [formControl]="cityControllForm">
+      <mat-error *ngIf="cityControllForm.touched && cityControllForm.invalid">
+        Please enter a city
+      </mat-error>
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
-
     <button (click)="onCloseClick()" class="left">Close</button>
-    <button (click)="update(name.value,latitude.value,longitude.value,city.value)" class="right">Update</button>
+    <button (click)="!isError() && update(name.value,latitude.value,longitude.value,city.value)" class="right">Update</button>
   </div>
 </div>
 <div *ngIf="isDelete()">
