@@ -10,9 +10,10 @@ export class DeleteRoomComponent implements OnInit {
 
   constructor(public dialogRef:MatDialogRef<DeleteRoomComponent>) { }
   closeDialog(){
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
   deleteRoom(){
+    this.dialogRef.close(true);
 
   }
 

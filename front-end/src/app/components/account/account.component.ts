@@ -18,6 +18,9 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {AddGSMComponent} from "../add-gsm/add-gsm.component";
 import {UpdateGSMComponent} from "../update-gsm/update-gsm.component";
 import {DeleteGSMComponent} from "../delete-gsm/delete-gsm.component";
+import {AddRoomComponent} from "../add-room/add-room.component";
+import {DeleteRoomComponent} from "../delete-room/delete-room.component";
+import {UpdateRoomComponent} from "../update-room/update-room.component";
 
 export interface DialogData {
    oldPassword: string;
@@ -197,5 +200,29 @@ export class AccountComponent implements OnInit {
     this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
       this.controllerDataSource = new MatTableDataSource<GSMController>(gsms);
     })
+  }
+  addRoom() {
+    const dialogRef = this.dialog.open(AddRoomComponent)
+    dialogRef.afterClosed().subscribe(result => {
+        if (result == true) { //fix this
+        }
+      }
+    )
+  }
+  deleteRoom(){
+    const dialogRef = this.dialog.open(DeleteRoomComponent)
+    dialogRef.afterClosed().subscribe(result => {
+        if (result == true) { //fix this
+        }
+      }
+    )
+  }
+  updateRoom(){
+    const dialogRef = this.dialog.open(UpdateRoomComponent)
+    dialogRef.afterClosed().subscribe(result => {
+        if (result == true) { //fix this
+        }
+      }
+    )
   }
 }

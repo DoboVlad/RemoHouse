@@ -11,7 +11,11 @@ export class UpdateRoomComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<UpdateRoomComponent>) { }
 
   closeDialog(){
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
+  }
+  save(){
+    this.dialogRef.close(true);
+
   }
   ngOnInit(): void {
   }

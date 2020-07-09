@@ -10,10 +10,10 @@ export class AddRoomComponent implements OnInit {
 
   constructor(public dialogRef:MatDialogRef<AddRoomComponent>) { }
   closeDialog(){
-    this.dialogRef.close(null);
+    this.dialogRef.close(false);
   }
   addRoom(){
-
+    this.dialogRef.close(true);
   }
 
   ngOnInit(): void {
