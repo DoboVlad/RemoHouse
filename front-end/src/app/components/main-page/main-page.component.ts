@@ -89,7 +89,7 @@ export class MainPageComponent implements OnInit {
       this.locationsObservable = this.locationService.getLocations(this.user.id);
     });
   }
-  
+
   getLocationName() {
     if(this.currentLocation) {
       return this.currentLocation.name;
