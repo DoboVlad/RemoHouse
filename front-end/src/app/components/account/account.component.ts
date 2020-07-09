@@ -231,15 +231,18 @@ newPassword: string;}
         dialogRef.afterClosed().subscribe(result=>{
           console.log('The dialog was closed');
           console.log(result);
-          if(result!=null){
-            var gsmcontroller = new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-            this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
-            /*this.gsmControllerService.openGSM(gsmcontroller, this.user.id).subscribe(controller =>{
-              this.gsmController=controller;
-              this.controllerDataSource= new MatTableDataSource<GSMController>(controller);
-            })*/
+          if(result!=null) {
+            var gsmcontroller = new GSMController(-1, -1, result.phoneNumber, result.status, result.gsm_type);
+
+            this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
+              this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
+              this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController => {
+                this.gsmController = GSMController;
+                this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
+              });
+            });
           }
-        })
+        });
       }
       DeleteGSM(controller:any){
         const dialogRef=this.dialog.open(DeleteGSMComponent);

@@ -37,6 +37,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   image: string;
   @ViewChild("door") refDoor: MatSlideToggle;
   @ViewChild("window") refWindow: MatSlideToggle;
+  toggleDoor: MatSlideToggle;
+  toggleWindow: MatSlideToggle;
   roomLength: number;
 
   usersObservable: Observable<User>;
@@ -85,7 +87,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     };
     this.locationsLoaded.then(()=>{
       this.locationsObservable = this.locationService.getLocations(this.user.id);
-    })
+    });
   }
 
 
