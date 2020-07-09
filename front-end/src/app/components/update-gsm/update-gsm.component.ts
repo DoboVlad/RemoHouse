@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {LoginDialogData} from "../account/account.component";
 
 @Component({
   selector: 'app-update-gsm',
@@ -10,11 +11,14 @@ export class UpdateGSMComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  constructor(public dialogRef:MatDialogRef<boolean>) {}
+  constructor(public dialogRef:MatDialogRef<UpdateGSMComponent>,@Inject(MAT_DIALOG_DATA) public data:LoginDialogData) {}
   onCloseClick() {
     this.dialogRef.close(null);
   }
-  Update(){
-
+  Update(gsm_type: string, status:string, phoneNumber: string){
+      this.data.gsm_type=gsm_type;
+      this.data.status=status;
+      this.data.phoneNumber=phoneNumber;
+      this.dialogRef.close(this.data);
   }
 }

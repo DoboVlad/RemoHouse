@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {LoginDialogData} from "../account/account.component";
 
 @Component({
   selector: 'app-delete-gsm',
@@ -8,11 +9,13 @@ import {MatDialogRef} from "@angular/material/dialog";
 })
 export class DeleteGSMComponent implements OnInit {
 
-  constructor(public dialogRef:MatDialogRef<boolean>) {}
+  constructor(public dialogRef:MatDialogRef<DeleteGSMComponent>,@Inject(MAT_DIALOG_DATA) public data:LoginDialogData) {}
   onCloseClick() {
     this.dialogRef.close(null);
   }
   ngOnInit(): void {
   }
-
+  DeleteGSM(){
+    this.dialogRef.close(this.data);
+  }
 }

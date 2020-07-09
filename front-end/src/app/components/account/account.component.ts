@@ -29,6 +29,9 @@ export interface LoginDialogData {
   //TODO: delete change-password-dialog+ those 2 fields bellow
    oldPassword: string;
    newPassword: string;
+   gsm_type: string;
+   phoneNumber:string;
+   status: string;
 }
 @Component({
   selector: 'app-account',
@@ -59,6 +62,8 @@ export class AccountComponent implements OnInit {
   expandedController: GSMController | null;
   controllerColumns: string[] = ["type", "status", "phoneNumber"];
   controllerDataSource;
+  gsmController: GSMController[];
+  room: Room;
 
   applyFilter(event: Event, dataSource) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -75,15 +80,70 @@ export class AccountComponent implements OnInit {
     public snackBar: MatSnackBar) {
 
   }
-  AddGSM(){
-    const dialogRef= this.dialog.open(AddGSMComponent);
+  AddGSM() {
+        const dialogRef=this.dialog.open(AddGSMComponent,{
+        width: '300px',
+        data:{type:"Add"}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        console.log(result);
+        //result can be null on cancel
+        if(result!=null) {
+          //TODO: validation for latitude/longitude + refresh table
+          var gsmController=new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
+          this.gsmControllerService.openGSM(gsmController,this.user.id).subscribe(response=>{
+            this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
+            this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
+              this.gsmController = GSMController;
+              this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
+            });
+          });
+        }
+      });
+    }
+
+  UpdateGSM(controller: any){
+    const dialogRef=this.dialog.open(UpdateGSMComponent,{
+      width: '300px',
+      data:{type:"Update",
+        gsm_type: controller["gsm_type"],
+        status: controller["status"],
+        phoneNumber: controller["phoneNumber"]
+      }
+    });
+    dialogRef.afterClosed().subscribe(result=>{
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result!=null){
+        var gsmcontroller = new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
+        this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
+        /*this.gsmControllerService.openGSM(gsmcontroller, this.user.id).subscribe(controller =>{
+          this.gsmController=controller;
+          this.controllerDataSource= new MatTableDataSource<GSMController>(controller);
+        })*/
+      }
+    })
   }
-  UpdateGSM(){
-    const dialogRef=this.dialog.open(UpdateGSMComponent);
-  }
-  DeleteGSM(){
+
+  DeleteGSM(controller:any){
     const dialogRef=this.dialog.open(DeleteGSMComponent);
+   /* const dialogRef=this.dialog.open(DeleteGSMComponent,{
+      width: '300px',
+      data:{type:"Delete",
+        gsm_type:controller["gsm_type"],
+        status: controller["status"],
+        phoneNumber: controller["phoneNumber"]}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result!=null) {
+        this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
+      }
+    });*/
   }
+
   setProfile(){
     this.page="Profile";
   }
