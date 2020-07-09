@@ -72,14 +72,10 @@ public class RoomController {
 
     
     @RequestMapping(value = "room/deleteRoom/{id}/{roomID}",method = RequestMethod.DELETE)
-    public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id, BindingResult errors){
+    public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id){
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);
 
-        if(errors.hasErrors()){
-            errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
-            log.trace("deleteRoom(controller) - validation error");
-            return "validation errors";
-        }
+
         if(roomService.checkAccessRoom(id,roomID)) {
             boolean result = roomService.deleteRoom(roomID);
             log.trace("deleteRoom(controller) - method finished r={}", result);

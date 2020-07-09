@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.Optional;
 
-@NoRepositoryBean
+@org.springframework.stereotype.Repository
 public interface Repository<T extends BaseEntity<ID>, ID extends Serializable>
         extends JpaRepository<T, ID> {
     Optional<T> findById(ID id);

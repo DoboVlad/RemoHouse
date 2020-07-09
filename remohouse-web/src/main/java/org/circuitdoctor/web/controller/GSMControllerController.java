@@ -122,6 +122,7 @@ public class GSMControllerController {
         }
 
         //check if gsm is already closed
+        log.trace("gsm={}",gsmController);
         if(gsmController.getStatus().equals(GSMStatus.OFF)){
             log.warn("closeGSM - gsmController is already closed");
             return false;
