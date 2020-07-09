@@ -212,6 +212,8 @@ tr.location-row:not(.example-expanded-row):active {
 
 .location-form-field{
   width: 60%;
+  font-size: 0.7em;
+  color: white;
 }
 
 .filter-locations, mat-label{
@@ -242,4 +244,18 @@ tr.location-row:not(.example-expanded-row):active {
 
 .controller-table{
   background-color: rgba(0, 158, 255, 0.012);
+}
+/*Past actions page styling*/
+.pastActionsTable{
+  width:100%;
+}
+
+.pastActions{
+  margin-left: 20%;
+  margin-right: 20%;
+}
+.actions-form-field{
+  font-size: 0.7em;
+  color: white;
+  width : 100%;
 }
