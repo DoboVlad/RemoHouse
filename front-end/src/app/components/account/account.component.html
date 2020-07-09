@@ -35,6 +35,7 @@
           <tr><td class="left">Phone number:</td><td class="right">{{user.phoneNumber}}</td> </tr>
         </table>
       </div>
+
       <div class="security" *ngIf="isSecurity()">
         <!-- divided into 2 sections: password and sessios-->
         <div class="password">
@@ -210,7 +211,6 @@
           </tr>
           <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
         </table>
-
         <!--This is where we have to add the create functionality to the button-->
         <button mat-mini-fab class="addButton" color="basic" aria-label="Add location" matTooltip="Add location" (click)="addLocation()">
           <mat-icon>add</mat-icon>
@@ -218,8 +218,34 @@
       </div>
 
       <!--PAST ACTIONS IN APP SECTION-->
-      <div class="pasActions" *ngIf="isPastActions()">
+      <div class="pastActions" *ngIf="isPastActions()">
+        <mat-form-field class="actions-form-field">
+          <mat-label>Filter actions</mat-label>
+          <input matInput (keyup)="applyFilterActions($event)" placeholder="Filter by any criteria" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSourceActions" matSort class="pastActionsTable">
+          <!-- Operation Type Column -->
+          <ng-container matColumnDef="operationType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Operation Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.operationType}} </td>
+          </ng-container>
 
+          <!-- DateTime Column -->
+          <ng-container matColumnDef="dateTime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date&Time </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateTime}} </td>
+          </ng-container>
+
+          <!-- GSMControllerID Column -->
+          <ng-container matColumnDef="gsmControllerID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> GSMControllerID </th>
+            <td mat-cell *matCellDef="let element"> {{element.gsmControllerID}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

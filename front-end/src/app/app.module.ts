@@ -45,6 +45,8 @@ import {MatRadioModule} from "@angular/material/radio";
 import {LocationDialogComponent} from "./components/location-dialog/location-dialog.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {DeleteButtonDialogComponent} from "./components/delete-button-dialog/delete-button-dialog.component";
+import {MatSortModule} from "@angular/material/sort";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -92,7 +94,9 @@ import {DeleteButtonDialogComponent} from "./components/delete-button-dialog/del
     MatOptionModule,
     MatSelectModule,
     MatRadioModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSortModule,
+    MatPaginatorModule
   ],
   entryComponents:[],
   providers: [UserService, RoomService, LocationService, GsmControllerService],
