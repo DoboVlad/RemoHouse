@@ -73,7 +73,7 @@ export class AccountComponent implements OnInit {
   expandedController: GSMController | null;
   controllerColumns: string[] = ["type", "status", "phoneNumber"];
   controllerDataSource;
-  gsmController: GSMController[];
+  gsmController: Array<GSMController>;
   room: Room;
 
   applyFilter(event: Event, dataSource) {
@@ -106,7 +106,7 @@ export class AccountComponent implements OnInit {
         if(result!=null) {
           //TODO: validation for latitude/longitude + refresh table
           var gsmController=new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-          this.gsmControllerService.openGSM(gsmController,this.user.id).subscribe(response=>{
+          this.gsmControllerService.addGSMController(this.user.id,gsmController).subscribe(response=>{
             this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
             this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
               this.gsmController = GSMController;
@@ -131,13 +131,15 @@ export class AccountComponent implements OnInit {
       console.log(result);
       if(result!=null){
         var gsmcontroller = new GSMController(-1,-1,result.phoneNumber,result.status,result.gsm_type);
-        this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
-        /*this.gsmControllerService.openGSM(gsmcontroller, this.user.id).subscribe(controller =>{
-          this.gsmController=controller;
-          this.controllerDataSource= new MatTableDataSource<GSMController>(controller);
-        })*/
-      }
-    })
+        this.gsmControllerService.updateGSMController(this.user.id,gsmcontroller).subscribe(response =>{
+          this.snackBar.open(String("Updated GSM"),"ok",{duration:2000});
+          this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
+          this.gsmController=GSMController;
+          this.controllerDataSource= new MatTableDataSource<GSMController>(GSMController);
+        });
+      });
+    }
+  });
   }
 
   DeleteGSM(controller:any){
