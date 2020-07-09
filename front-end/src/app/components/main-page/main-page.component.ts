@@ -20,7 +20,7 @@ import {Observable} from "rxjs";
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit, AfterViewInit {
+export class MainPageComponent implements OnInit {
 
   CurrentDate = new Date();
   WeatherData: any;
@@ -89,11 +89,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       this.locationsObservable = this.locationService.getLocations(this.user.id);
     });
   }
-
-
-  ngAfterViewInit(): void {
-  }
-
+  
   getLocationName() {
     if(this.currentLocation) {
       return this.currentLocation.name;
@@ -130,6 +126,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         if (response) {
           this.openSnackBar("Opened door", "OK");
           this.door.status = "ON";
+          this.setImage()
         } else {
           this.refDoor.toggle();
           this.openSnackBar("Something went wrong", "OK");
@@ -141,12 +138,12 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         if (response) {
           this.openSnackBar("Closed door", "OK");
           this.door.status = "OFF";
+          this.setImage()
         } else {
           this.refDoor.toggle();
           this.openSnackBar("Something went wrong", "OK");
         }
       });
-
     }
   }
 
@@ -156,6 +153,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         if (response) {
           this.openSnackBar("Opened window", "OK");
           this.window.status = "ON";
+          this.setImage()
         } else {
           this.refWindow.toggle();
           this.openSnackBar("Something went wrong", "OK");
@@ -166,12 +164,12 @@ export class MainPageComponent implements OnInit, AfterViewInit {
         if (response) {
           this.openSnackBar("Closed window", "OK");
           this.window.status = "OFF";
+          this.setImage()
         } else {
           this.refWindow.toggle();
           this.openSnackBar("Something went wrong", "OK");
         }
       });
-
     }
   }
 
