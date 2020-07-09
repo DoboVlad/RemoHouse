@@ -239,15 +239,13 @@ export class MainPageComponent implements OnInit {
             this.roomsObservable = this.roomService.getRooms(this.user.id, this.currentLocation.id);
             this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
               this.rooms = rooms;
-              console.log("resolving rooms");
-              resolve();
               this.roomLength=rooms.length;
               if(this.rooms.length!=0) {
-                console.log("pisici");
-                this.currentRoom = undefined;
+                resolve(true);
+                this.currentRoom = rooms[0];
               }
               else {
-                this.openSnackBar(this.currentLocation.name+" has no rooms.","Ok");
+                resolve(false);
                 this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
               }
             });
@@ -270,12 +268,10 @@ export class MainPageComponent implements OnInit {
                 this.gsms=gsms;
                 if(gsms.length==0) {
                   this.openSnackBar(this.currentRoom.name + " has no controllers", "Ok");
-                  console.log("resolving rooms false");
                   resolve(false);
                 }
                 //fix this later
                 if(gsms.length==2) {
-                  console.log("resolving rooms true");
                   resolve(true);
                   if (gsms[0].type == "door") {
                     this.door = gsms[0];
