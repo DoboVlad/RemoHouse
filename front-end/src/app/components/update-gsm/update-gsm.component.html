@@ -3,10 +3,13 @@
   <p>Type: </p>
 <mat-form-field appearance="fill">
   <mat-label>Select</mat-label>
-  <mat-select #gsm_type [(ngModel)]="data.gsm_type" name="type" ngDefaultControl>
+  <mat-select #gsm_type [(ngModel)]="data.gsm_type" name="type" ngDefaultControl [formControl]="typeControllForm">
     <mat-option value="door">Door</mat-option>
     <mat-option value="window">Window</mat-option>
   </mat-select>
+  <mat-error *ngIf="typeControllForm.touched && typeControllForm.invalid">
+    Please select a type
+  </mat-error>
 </mat-form-field>
 <label><br>Status: </label>
 <mat-radio-group appearance="fill">
@@ -16,12 +19,14 @@
 
 <p><br></p>
 <mat-form-field appearance="fill">
-
   <mat-label>Phone number</mat-label>
-  <input matInput #phoneNumber [(ngModel)]="data.phoneNumber" name="phone" ngDefaultControl>
+  <input matInput #phoneNumber [(ngModel)]="data.phoneNumber" name="phone" ngDefaultControl [formControl]="phoneControllForm">
+  <mat-error *ngIf="phoneControllForm.touched && phoneControllForm.invalid">
+    Please enter a valid phone number
+  </mat-error>
 </mat-form-field>
-  <br>
-  <button (click)="Update(gsm_type.value, status.value, phoneNumber.value)">Update</button>
+<p><br></p>
+  <button (click)="!isError() && Update(gsm_type.value, status.value, phoneNumber.value)">Update</button>
   <button (click)="onCloseClick()">Cancel</button>
 
 
