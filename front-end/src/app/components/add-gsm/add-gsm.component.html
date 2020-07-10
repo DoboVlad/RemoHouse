@@ -2,9 +2,9 @@
   <p>Type: </p>
 <mat-form-field appearance="fill">
   <mat-label>Select</mat-label>
-  <mat-select>
-    <mat-option name="type" ngDefaultControl value="door" #gsm_type [(ngModel)]="data.gsm_type" >Door</mat-option>
-    <mat-option name="type" ngDefaultControl value="window" #gsm_type [(ngModel)]="data.gsm_type">Window</mat-option>
+  <mat-select #gsm_type [(ngModel)]="data.gsm_type" name="type" ngDefaultControl>
+    <mat-option value="door">Door</mat-option>
+    <mat-option value="window">Window</mat-option>
   </mat-select>
 </mat-form-field>
 <br>
