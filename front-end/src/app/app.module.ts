@@ -48,6 +48,7 @@ import {DeleteButtonDialogComponent} from "./components/delete-button-dialog/del
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { ControllerToggleComponent } from './components/controller-toggle/controller-toggle.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     UpdateGSMComponent,
     DeleteGSMComponent,
     LocationDialogComponent,
-    DeleteButtonDialogComponent
+    DeleteButtonDialogComponent,
+    ControllerToggleComponent
   ],
   imports: [
     BrowserModule,

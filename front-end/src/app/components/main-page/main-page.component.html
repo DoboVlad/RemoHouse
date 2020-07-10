@@ -100,19 +100,20 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list class="left">
-            <div class="border">
-              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
-              <mat-list-item>
-                <div class="row">Door</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle #door [(ngModel)]="toggleDoor"  id="door1" (change)="doorChange($event)"></mat-slide-toggle>
-              </mat-list-item></div>
-            <div class="border">
-              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
-              <mat-list-item>
-                <div class="row">Window</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle #window [(ngModel)]="toggleWindow"  id="window1" (change)="windowChange($event)"></mat-slide-toggle>
-              </mat-list-item></div>
+          <mat-list class="left" *ngIf="controllersObservable | async">
+            <app-controller-toggle (notify)="controllerToggled($event)" [controller]="gsm" *ngFor="let gsm of gsms"></app-controller-toggle>
+<!--            <div class="border">-->
+<!--              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>-->
+<!--              <mat-list-item>-->
+<!--                <div class="row">Door</div></mat-list-item>-->
+<!--              <mat-list-item><mat-slide-toggle #door [(ngModel)]="toggleDoor"  id="door1" (change)="doorChange($event)"></mat-slide-toggle>-->
+<!--              </mat-list-item></div>-->
+<!--            <div class="border">-->
+<!--              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>-->
+<!--              <mat-list-item>-->
+<!--                <div class="row">Window</div></mat-list-item>-->
+<!--              <mat-list-item><mat-slide-toggle #window [(ngModel)]="toggleWindow"  id="window1" (change)="windowChange($event)"></mat-slide-toggle>-->
+<!--              </mat-list-item></div>-->
           </mat-list>
         </mat-expansion-panel>
         </mat-accordion>

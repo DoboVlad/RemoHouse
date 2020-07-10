@@ -240,26 +240,30 @@ export class MainPageComponent implements OnInit {
   changeRoom(selected: MatListOption[]) {
     this.locationsLoaded.then(()=>{
       this.roomsLoaded = new Promise<boolean>(resolve => {
-        this.locations.forEach(location => {
-          if (location.name == selected[0].value) {
-            this.currentLocation = location;
-            this.getWeatherData();
-            this.roomsObservable = this.roomService.getRooms(this.user.id, this.currentLocation.id);
-            this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
-              this.rooms = rooms;
-              this.roomLength=rooms.length;
-              if(this.rooms.length!=0) {
-                resolve(true);
-                this.currentRoom = null;
-              }
-              else {
-                resolve(false);
-                this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+        this.gsmsLoaded = new Promise<boolean>(resolve1 => {
+          this.locations.forEach(location => {
+            if (location.name == selected[0].value) {
+              this.currentLocation = location;
+              this.getWeatherData();
+              this.roomsObservable = this.roomService.getRooms(this.user.id, this.currentLocation.id);
+              this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
+                this.rooms = rooms;
+                this.roomLength=rooms.length;
+                if(this.rooms.length!=0) {
+                  resolve(true);
+                  this.currentRoom = null;
+                }
+                else {
+                  resolve(false);
+                  this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+                }
+                this.gsms = [];
                 this.setImage();
-              }
-            });
-          }
-        });
+                resolve1();
+              });
+            }
+          });
+        })
       })
     })
   }
@@ -298,5 +302,14 @@ export class MainPageComponent implements OnInit {
         })
       })
     })
+  }
+
+  controllerToggled(controller : GSMController) {
+    // if(controller.type==="door"){
+    //   this.door = controller;
+    // }
+    // else{
+    //   this.window = controller;
+    // }
   }
 }
