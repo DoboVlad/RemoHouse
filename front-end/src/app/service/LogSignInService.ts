@@ -17,5 +17,6 @@ export class LogSignInService {
 
   getLogs(userID:number) : Observable<Array<LogSignIn>>{
     return this.http.get<Array<LogSignIn>>(this.url+"/getAll/"+userID)
+    return this.http.get<Array<LogSignIn>>(this.url+"/getAll/"+userID)
   }
 }
