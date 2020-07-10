@@ -23,6 +23,12 @@ public class UserController {
 
     @RequestMapping(value = "user/login", method = RequestMethod.PUT)
     boolean login(@RequestBody UserDto userDto){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         //send the user's ID from db!!
         log.trace("login - method entered user={}",userDto);
         User user = userConverter.convertDtoToModel(userDto);
@@ -33,6 +39,12 @@ public class UserController {
     }
     @RequestMapping(value = "user/signUp", method = RequestMethod.POST)
     String signUp(@RequestBody @Valid UserDto userDto, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         //return null if some error occurred
         log.trace("signUp - method entered user={}",userDto);
         if(errors.hasErrors()){
@@ -49,6 +61,12 @@ public class UserController {
 
     @RequestMapping(value = "user/changePassword/{userID}", method = RequestMethod.PUT)
     public String changePassword(@RequestBody @Valid UserDto userDto, @PathVariable Long userID, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("changePassword - method entered user={}",userDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
@@ -77,21 +95,33 @@ public class UserController {
 
     @RequestMapping(value = "user/getUserByCredential/{credential}", method = RequestMethod.GET)
     public UserDto getUserByCredential(@PathVariable String credential){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("getUserByCredential - method entered c={}",credential);
         Optional<User> result = userService.getUserByCredential(credential);
         log.trace("getUserByCredential - method finished r={}",result);
         AtomicBoolean userExists = new AtomicBoolean(false);
         result.ifPresent(user-> userExists.set(true));
         if(!userExists.get())
-            return null;
+            return new UserDto();
         return userConverter.convertModelToDto(result.get());
     }
     @RequestMapping(value = "user/recoverPassword/{credential}", method = RequestMethod.GET)
-    public String recoverPasswordByEmail(@PathVariable String credential){
+    public String recoverPassword(@PathVariable String credential){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("recoverPassword - method entered email={}",credential);
         String code="";
         if(credential.contains("@")){
-            code= userService.recoverPasswordByEmail(credential);
+            code= userService.recoverPasswordByEmail(userService.getUserByCredential(credential).get().getEmail());
         }
         else{
             if(credential.length()!=10){

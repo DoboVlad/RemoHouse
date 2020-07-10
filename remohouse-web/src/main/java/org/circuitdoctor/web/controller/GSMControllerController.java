@@ -37,6 +37,12 @@ public class GSMControllerController {
 
     @RequestMapping(value = "gsm/getGSMs/{userID}/{roomID}",method = RequestMethod.GET)
     Set<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("getGSMs - method entered u={} r={}",userID, roomID);
         Optional<Room> roomOptional = roomRepository.findById(roomID);
         AtomicBoolean ok = new AtomicBoolean(false);
@@ -55,8 +61,15 @@ public class GSMControllerController {
         log.trace("getGSMs - method finished r={}",result.get());
         return gsmControllerConverter.convertModelsToDtos(result.get());
     }
+
     @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
     public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -73,8 +86,15 @@ public class GSMControllerController {
         log.warn("addGSMController - {} has no access",userID);
         return "user has no access";
     }
+
     @RequestMapping(value = "gsm/open/{userID}/{message}", method = RequestMethod.PUT)
     boolean openGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("entered openGSM message={}",message);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -105,8 +125,15 @@ public class GSMControllerController {
         return true;
         //return "something went wrong when the open message was sent";
     }
+
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     boolean closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("entered closeGSM message={}",message);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -142,6 +169,12 @@ public class GSMControllerController {
 
     @RequestMapping(value = "gsm/update/{userID}", method = RequestMethod.PUT)
     String updateGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, BindingResult errors){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("entered updateGSM gsmDTO={}",gsmControllerDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -164,8 +197,15 @@ public class GSMControllerController {
         return "gsm updated";
 
     }
+
     @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
     String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID){
+        /*
+        DESCR:
+        PARAM:
+        PRE:
+        POST
+         */
         log.trace("entered deleteGSM gsmID={}",gsmID);
         if(!userID.equals(gsmControllerService.findByID(gsmID).getRoom().getLocation().getUser().getId())){
             log.warn("deleteGSM - user has no access to room");

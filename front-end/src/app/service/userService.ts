@@ -10,7 +10,13 @@ export class UserService {
   // };
 
   private url = 'http://localhost:8080/api/user';
-
+  private httpOptionsPlain = {
+    headers: new HttpHeaders({
+      'Accept': 'text/plain',
+      'Content-Type': 'text/plain'
+    }),
+    responseType: 'text' as 'json'
+  };
   constructor(private http: HttpClient) {
   }
 
@@ -32,5 +38,9 @@ export class UserService {
 
   getUserByCredential(credential : string) : Observable<User>{
     return this.http.get<User>(this.url+"/getUserByCredential/"+credential);
+  }
+
+  sendCode(credential:string) : Observable<any>{
+    return this.http.get<any>(this.url+"/recoverPassword/"+credential,this.httpOptionsPlain);
   }
 }

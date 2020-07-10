@@ -4,21 +4,19 @@
   height: 100vh;
 }
 
-.wrapper{
-  background-image: url("src/app/Lovepik_com-401462586-3d-tech-grid-background.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 p{
   color: white;
   font-size: 2em;
 }
 
 .date-time{
-  color: #011936;
+  color: #82A3A1;
   font-weight: bold;
-  text-shadow: 1px 1px #82A3A1;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
 
 .left-side{
@@ -46,20 +44,71 @@ img{
 /*mat-slide-toggle{
   margin-left:-10%;
 }*/
-.row{
-  color:#011936;
-  text-shadow: 1px 1px #82A3A1;
+mat-accordion{
+  width: 100%;
+}
+
+mat-expansion-panel{
+  background-color: transparent;
+  width: 100%;
+  box-shadow: none;
+}
+
+.locationList mat-list-option, .roomList mat-list-option{
+  color: #82A3A1;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  font-weight: bold;
+}
+
+mat-panel-title{
+  color: #82A3A1;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
   font-weight: bold;
   font-size: 1.5em;
+}
+
+mat-panel-description{
+  color: rgba(1, 25, 54, 0.5);
+  font-style: italic;
+}
+
+.del{
+  top:0;
+  right:0;
+  position: absolute;
+  color:#011936;
+}
+.row{
+  color:#465362;
+  text-shadow:
+    -1px -1px 0 #011936,
+    1px -1px 0 #011936,
+    -1px 1px 0 #011936,
+    1px 1px 0 #011936;
+  font-weight: bold;
+  font-size: 1.2em;
   margin-left:5%;
   margin-right:10%;
+  padding-top: 10%;
 
 }
 
-.date, .button-area, .weather{
-  background-color: rgba(130, 163, 161, 0.6);
-  border: rgba(130, 163, 161, 0.6);
+.date, .button-area, .weather, .pick-room, .pick-location{
+  background-color: rgba(70, 83, 98, 0.5);
+  border: rgba(70, 83, 98, 0.5);
   border-radius: 1em;
+}
+
+mat-expansion-panel-header:hover {
+  background-color: currentColor
 }
 
 .location{
@@ -81,6 +130,7 @@ img{
   width: 45%;
   padding-top: 4%;
   padding-bottom: 4%;
+  position: relative;
 }
 .weather{
   height: 100%;
@@ -88,10 +138,21 @@ img{
 
 #weather{
   display: block;
-  color: #011936;
-  text-shadow: 1px 1px #82A3A1;
+  color: #fff;
+  /*-webkit-text-stroke: 0.01em black;*/
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
   font-weight: bold;
   width: 100%;
+}
+
+.fas{
+  text-shadow: none;
+  font-weight: bold;
+  font-size: 5em;
 }
 
 .weatherWidgetRow{
@@ -131,3 +192,4 @@ img{
   from{margin-left: -55px;}
   to{margin-left: 65px;}
 }
+

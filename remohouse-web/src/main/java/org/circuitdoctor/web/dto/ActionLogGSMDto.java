@@ -20,12 +20,12 @@ public class ActionLogGSMDto extends BaseDto {
     @NonNull
     @NotBlank(message = "operationType is mandatory")
     private String operationType;
-
     @NonNull
     @NotBlank(message = "date is mandatory")
-    private LocalDateTime dateTime;
-
+    private String dateTime;
     private Long userID;
-
     private Long gsmControllerID;
+    private String gsmControllerType;
+    private String roomName;
+    private String locationName;
 }

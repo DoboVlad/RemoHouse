@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Table(name="action_log_gsm")
 public class ActionLogGSM extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)
-    private String operationType;
+    private String operationType; //open or close
     @Column(nullable = false,unique = true)
     private LocalDateTime dateTime;
     @ManyToOne(fetch = FetchType.EAGER)
