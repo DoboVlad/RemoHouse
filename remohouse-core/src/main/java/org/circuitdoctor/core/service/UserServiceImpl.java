@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
-import org.h2.engine.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

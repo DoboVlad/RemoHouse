@@ -28,7 +28,6 @@ dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
 
     //dbunit-test-config
-    //dbunit-test-config
     compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
     compile group: 'org.dbunit', name: 'dbunit', version: "$dbUnitVersion"
     compile group: 'com.h2database', name: 'h2', version: "$h2DbVersion"
