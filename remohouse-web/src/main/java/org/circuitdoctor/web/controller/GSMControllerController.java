@@ -139,10 +139,13 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     boolean closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:updates a gsmController making the status to be OFF
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              gsmControllerDto - GSMControllerDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, gsmControllerDto is valid
+        POST: return true if success
+                     false if user has no access to the gsmContrller or gsm is already closed or update failed
          */
         log.trace("entered closeGSM message={}",message);
         if(errors.hasErrors()){
@@ -180,10 +183,13 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/update/{userID}", method = RequestMethod.PUT)
     String updateGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:updates a gsmController
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              gsmControllerDto - GsmControllerDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, gsmControllerDto is valid
+        POST: return success essage if success
+                     return error message if user has no access to the gsm or update failed
          */
         log.trace("entered updateGSM gsmDTO={}",gsmControllerDto);
         if(errors.hasErrors()){
@@ -211,10 +217,12 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
     String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR: deletes a gsmController
+        PARAM: userID     - Long : If request is used, this is given in the path of the request
+               gsmID - Long : If request is used, this is given in the path of the request
+        PRE:userID > 0, gsmID>0
+        POST: returns success message if success
+                      return error message if the user has no access to the gsm or if the delete failed
          */
         log.trace("entered deleteGSM gsmID={}",gsmID);
         if(!userID.equals(gsmControllerService.findByID(gsmID).getRoom().getLocation().getUser().getId())){

@@ -99,8 +99,8 @@ public class RoomController {
         PARAM: userID     - Long : If request is used, this is given in the path of the request
                roomID - Long : If request is used, this is given in the path of the request
         PRE:userID > 0, roomID>0
-        POST: returns true if success
-                      false if the user has no access to the room or if the delete failed
+        POST: returns success message if success
+                      return error message if the user has no access to the room or if the delete failed
          */
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);
 

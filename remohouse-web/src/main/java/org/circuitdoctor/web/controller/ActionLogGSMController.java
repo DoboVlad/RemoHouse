@@ -30,10 +30,10 @@ public class ActionLogGSMController {
     @RequestMapping(value = "actionLogGSM/getActions/{userID}",method = RequestMethod.GET)
     Set<ActionLogGSMDto> getActions(@PathVariable Long userID){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR: gets all the actionLogGSMs of a user
+        PARAM:userID - Long : If request is used, this is given in the path of the request
+        PRE:userID>0
+        POST: returns the set of actionLogGSMDto of the given user
          */
         log.trace("getActions - method entered userID={}",userID);
         Set<ActionLogGSM> actions =actionLogGSMService.findAllActions(userID);
