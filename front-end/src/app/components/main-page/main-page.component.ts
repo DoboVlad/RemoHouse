@@ -51,6 +51,8 @@ export class MainPageComponent implements OnInit {
   gsmsLoaded: Promise<boolean>;
   startLoading: Promise<boolean>;
 
+  imageExists: boolean = true;
+
   constructor(public snackBar: MatSnackBar, private router: Router, private dialog: MatDialog, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService,
               private userService: UserService) {
@@ -107,16 +109,22 @@ export class MainPageComponent implements OnInit {
   }
 
   setImage() {
-    if(this.gsms.length>0) {
-      if (this.door.status == "ON" && this.window.status == "ON") {
-        this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openHouse.png`
-      } else if (this.door.status == "ON" && this.window.status == "OFF") {
-        this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openDoor.png`
-      } else if (this.door.status == "OFF" && this.window.status == "ON") {
-        this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openWindow.png`
-      } else {
-        this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/closedHouse.png`
+      if(this.gsms.length>0) {
+        if (this.door.status == "ON" && this.window.status == "ON") {
+          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openHouse.png`
+        } else if (this.door.status == "ON" && this.window.status == "OFF") {
+          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openDoor.png`
+        } else if (this.door.status == "OFF" && this.window.status == "ON") {
+          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openWindow.png`
+        } else if (this.door.status == "OFF" && this.window.status == "OFF"){
+          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/closedHouse.png`
+        }
+        else {
+          this.image = null;
+        }
       }
+    if(this.image!==null){
+      this.imageExists = true;
     }
   }
 
@@ -242,11 +250,12 @@ export class MainPageComponent implements OnInit {
               this.roomLength=rooms.length;
               if(this.rooms.length!=0) {
                 resolve(true);
-                this.currentRoom = rooms[0];
+                this.currentRoom = null;
               }
               else {
                 resolve(false);
                 this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+                this.setImage();
               }
             });
           }
