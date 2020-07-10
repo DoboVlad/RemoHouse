@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {LoginDialogData} from "../account/account.component";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-update-gsm',
@@ -9,6 +10,19 @@ import {LoginDialogData} from "../account/account.component";
 })
 export class UpdateGSMComponent implements OnInit {
 
+  typeControllForm=new FormControl('',[
+    Validators.required,
+    Validators.nullValidator,
+  ]);
+
+  phoneControllForm= new FormControl('',[
+    Validators.required,
+    Validators.nullValidator,
+    Validators.pattern("^-?[0-9]{1,10}(?:\\.[0-9]{1,10})?$")
+  ])
+  isError(){
+    return this.typeControllForm.invalid || this.phoneControllForm.invalid;
+  }
   ngOnInit(): void {
   }
   constructor(public dialogRef:MatDialogRef<UpdateGSMComponent>,@Inject(MAT_DIALOG_DATA) public data:LoginDialogData) {}
