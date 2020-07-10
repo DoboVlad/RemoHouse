@@ -11,7 +11,11 @@ export class LogSignInService {
   constructor(private http: HttpClient) {
   }
 
-  addLog(logSignIn:LogSignIn) : boolean{
-    return true;
+  addLog(logSignIn:LogSignIn) : Observable<boolean>{
+    return this.http.put<boolean>(this.url+"/add",logSignIn)
+  }
+
+  getLogs(userID:number) : Observable<Array<LogSignIn>>{
+    return this.http.get<Array<LogSignIn>>(this.url+"/getLogs/"+userID)
   }
 }

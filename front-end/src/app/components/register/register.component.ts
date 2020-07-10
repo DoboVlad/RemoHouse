@@ -7,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DeviceDetectorService} from "ngx-device-detector";
 import {LogSignIn} from "../../model/LogSignIn";
+import {LogSignInService} from "../../service/LogSignInService";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit {
     [Validators.required, Validators.minLength(7)]);
   errorLogIn: boolean;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService : UserService, private http:HttpClient, private deviceService:DeviceDetectorService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private logSignInService : LogSignInService, private userService : UserService, private http:HttpClient, private deviceService:DeviceDetectorService) {
   }
 
   ngOnInit(): void {
@@ -89,8 +90,9 @@ export class RegisterComponent implements OnInit {
           let deviceInfo = this.deviceService.getDeviceInfo()
           this.userService.getUserByCredential(credential).subscribe(user=>{
             let logSignIn = new LogSignIn(0,user.id,res.ip,deviceInfo.browser,deviceInfo.browser_version,deviceInfo.device,deviceInfo.os,deviceInfo.os_version,"");
-
-            this.router.navigate(["/mainpage"]);
+            this.logSignInService.addLog(logSignIn).subscribe(r=>{
+              this.router.navigate(["/mainpage"]);
+            })
           })
         });
       }

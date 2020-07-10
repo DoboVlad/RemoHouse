@@ -1,12 +1,13 @@
 package org.circuitdoctor.core.service;
 
-import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.model.ActionLogGSM;
+import org.circuitdoctor.core.model.GSMController;
+import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.ActionLogGSMRepository;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     private static final Logger log = LoggerFactory.getLogger(ActionLogGSMServiceImpl.class);
     @Autowired
-
     private ActionLogGSMRepository actionLogGSMRepository;
 
     @Autowired
