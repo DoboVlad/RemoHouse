@@ -23,8 +23,6 @@ import {ActionLogGSMService} from "../../service/ActionLogGSMService";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
-import {merge} from "rxjs";
-import {catchError, startWith, switchMap} from "rxjs/operators";
 import {LogSignIn} from "../../model/LogSignIn";
 import {LogSignInService} from "../../service/LogSignInService";
 
@@ -115,7 +113,7 @@ newPassword: string;}
     dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private logSignInService : LogSignInService, public dialog: MatDialog, private router: Router, private userService: UserService, private locationService: LocationService, private roomService: RoomService, private gsmControllerService: GsmControllerService, public snackBar: MatSnackBar, private actionLogService: ActionLogGSMService) {
+  constructor(private cdr : ChangeDetectorRef, private logSignInService : LogSignInService, public dialog: MatDialog, private router: Router, private userService: UserService, private locationService: LocationService, private roomService: RoomService, private gsmControllerService: GsmControllerService, public snackBar: MatSnackBar, private actionLogService: ActionLogGSMService) {
     if (localStorage.getItem("user") == "null") {
       this.router.navigate(["/unauthorizedaccess"]);
     }
@@ -134,6 +132,7 @@ newPassword: string;}
             console.log(logs);
             this.logSignIns = logs;
             this.dataSourceLogs = new MatTableDataSource<LogSignIn>(logs);
+            this.cdr.detectChanges()
             this.resultLengthLogs = logs.length;
           })
         })
@@ -143,7 +142,6 @@ newPassword: string;}
 
   ngOnInit(): void {
   }
-
   logOut() {
     localStorage.setItem("user", null);
     this.router.navigate(["/home"]);
