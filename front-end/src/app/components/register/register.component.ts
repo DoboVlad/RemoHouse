@@ -3,6 +3,10 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidatorF
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {LogSignIn} from "../../model/LogSignIn";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -24,7 +28,7 @@ export class RegisterComponent implements OnInit {
     [Validators.required, Validators.minLength(7)]);
   errorLogIn: boolean;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService : UserService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private userService : UserService, private http:HttpClient, private deviceService:DeviceDetectorService) {
   }
 
   ngOnInit(): void {
@@ -79,16 +83,26 @@ export class RegisterComponent implements OnInit {
       if(response) {
         if(credential.indexOf("@")!=-1)
           credential = credential.split(".")[0];
-        console.log(credential);
         localStorage.setItem('user',credential);
-        this.router.navigate(["/mainpage"]);
+        //get ip and device
+        this.getIPAddress().subscribe((res:any)=>{
+          let deviceInfo = this.deviceService.getDeviceInfo()
+          this.userService.getUserByCredential(credential).subscribe(user=>{
+            let logSignIn = new LogSignIn(0,user.id,res.ip,deviceInfo.browser,deviceInfo.browser_version,deviceInfo.device,deviceInfo.os,deviceInfo.os_version,"");
+
+            this.router.navigate(["/mainpage"]);
+          })
+        });
       }
       else
         this.errorLogIn = true;
     },error => {
       console.log("validation error", error);
     });
-
+  }
+  public getIPAddress()
+  {
+    return this.http.get("http://api.ipify.org/?format=json");
   }
 
   getNameErrorMessage() {

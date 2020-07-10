@@ -1,10 +1,11 @@
 package org.circuitdoctor.core.service;
 
 
-import org.apache.poi.hssf.util.HSSFColor;
-import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.model.ActionLogGSM;
+import org.circuitdoctor.core.model.GSMController;
+import org.circuitdoctor.core.model.GSMStatus;
+import org.circuitdoctor.core.model.Room;
 import org.circuitdoctor.core.repository.GSMControllerRepository;
-import org.circuitdoctor.core.repository.Repository;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -199,6 +197,7 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         List<GSMController> controllersToDelete  = gsmRepository.findAllByRoom(room);
         controllersToDelete.stream().forEach(controller->{
             log.trace("deleteGSMsWithRoom - delete gsm={}",controller.getId());
+            actionLogGSMService.deleteActionsWithGSMController(controller);
             gsmRepository.delete(controller);
         });
         log.trace("deleteGSMsWithRoom - method finished");
