@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-add-room',
@@ -7,6 +8,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./add-room.component.css']
 })
 export class AddRoomComponent implements OnInit {
+  nameControllForm=new FormControl('',[
+    Validators.required,
+    Validators.nullValidator
+  ]);
+  isError(){
+    return this.nameControllForm.invalid
+  }
 
   constructor(public dialogRef:MatDialogRef<AddRoomComponent>) { }
   closeDialog(){
