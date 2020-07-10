@@ -17,9 +17,11 @@ export class UpdateGSMComponent implements OnInit {
 
   phoneControllForm= new FormControl('',[
     Validators.required,
-    Validators.nullValidator,
-    Validators.pattern("^-?[0-9]{1,10}(?:\\.[0-9]{1,10})?$")
-  ])
+    Validators.minLength(10),
+    Validators.maxLength(10),
+    Validators.pattern(/^(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?([0-9]{3}(\s|\.|\-|)){2}$/)
+  ]);
+
   isError(){
     return this.typeControllForm.invalid || this.phoneControllForm.invalid;
   }
