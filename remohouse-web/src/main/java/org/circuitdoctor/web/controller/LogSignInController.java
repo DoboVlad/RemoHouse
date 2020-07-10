@@ -28,6 +28,12 @@ public class LogSignInController {
     private UserRepository userRepository;
     @RequestMapping(value = "/logSignIn/add",method = RequestMethod.PUT)
     public boolean addLog(@RequestBody LogSignInDto logSignInDto){
+        /*
+        DESCR:adds a new LogSignIn
+        PARAM:logSignIn  - logSignInDto  : must be valid. If request is used, this is given in the body of the request
+        PRE:-
+        POST: returns true if LogSignIn added
+         */
         log.trace("addLog - method entered l={}",logSignInDto);
         LocalDateTime date = LocalDateTime.now();
         logSignInDto.setDateTime(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -38,6 +44,12 @@ public class LogSignInController {
 
     @RequestMapping(value = "/logSignIn/getAll/{userID}",method = RequestMethod.GET)
     public Set<LogSignInDto> getLogs(@PathVariable Long userID){
+        /*
+        DESCR: gets all the LogSignIn of a user
+        PARAM:userID - Long : If request is used, this is given in the path of the request
+        PRE:userID>0
+        POST: returns the set of LogSignIn of the given user
+         */
         log.trace("getLogs - method entered id={}",userID);
         AtomicReference<Set<LogSignIn>> r = new AtomicReference<>();
         userRepository.findById(userID).ifPresent(user->{

@@ -33,6 +33,18 @@ public class RoomController {
 
     @RequestMapping(value = "room/addRoom/{userID}",method = RequestMethod.PUT)
     public String addRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long userID, BindingResult errors){
+        /*
+        DESCR:adds a new Room
+        PARAM:roomDto  - RoomDto  : must be valid. If request is used, this is given in the body of the request
+              userID       - Long         : If request is used, this is given in the path of the request
+              bindingResult- BindingResult:If there are any error validations, this is where they will be stored.
+        PRE:None of them null. RoomDto must be valid. UserID>0
+        POST: 405 if error validations - when request used
+              "validation errors" if any validation errors occured
+              "null" if there is no user with the given id
+              "different user ids" if the user does not have access to the room
+              the id of the saved room if success
+         */
         log.trace("addRoom - method entered roomdto={}",roomDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -52,6 +64,15 @@ public class RoomController {
 
     @RequestMapping(value = "room/updateRoom/{id}",method = RequestMethod.PUT)
     public String updateRoom(@RequestBody @Valid RoomDto roomDto,@PathVariable Long id, BindingResult errors){
+        /*
+        DESCR:updates a room
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              roomDto - RoomDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, roomDto is valid
+        POST: return true if success
+                     false if user has no access to the room or update failed
+         */
         log.trace("updateRoom - method entered roomdto={}",roomDto);
         if(errors.hasErrors()){
             errors.getAllErrors().forEach(error->log.error("error - {}",error.toString()));
@@ -73,6 +94,14 @@ public class RoomController {
     
     @RequestMapping(value = "room/deleteRoom/{id}/{roomID}",method = RequestMethod.DELETE)
     public String deleteRoom(@PathVariable Long roomID,@PathVariable Long id){
+        /*
+        DESCR: deletes a room
+        PARAM: userID     - Long : If request is used, this is given in the path of the request
+               roomID - Long : If request is used, this is given in the path of the request
+        PRE:userID > 0, roomID>0
+        POST: returns success message if success
+                      return error message if the user has no access to the room or if the delete failed
+         */
         log.trace("deleteRoom(controller) - method entered roomdto={}",roomID);
 
 
@@ -90,6 +119,13 @@ public class RoomController {
 
     @RequestMapping(value = "room/getRooms/{userID}/{locationID}",method = RequestMethod.GET)
     public Set<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
+        /*
+        DESCR: gets all the rooms of a user from a location
+        PARAM:userID - Long : If request is used, this is given in the path of the request
+                locationID - Long : If request is used, this is given in the path of the request
+        PRE:userID>0 locationID>0
+        POST: returns the set of roomDto of the given user and location
+         */
         log.trace("getRooms - method entered uid={} lid={}",userID,locationID);
         Optional<Location> locationOptional = locationRepository.findById(locationID);
         log.trace(locationOptional.toString());
