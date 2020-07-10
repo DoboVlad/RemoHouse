@@ -223,6 +223,7 @@ newPassword: string;}
               });
             });
           }
+          this.refreshTable();
         });
       }
       UpdateGSM(controller: any){
@@ -244,7 +245,9 @@ newPassword: string;}
               this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
               this.refreshTablegsm();
               });
-            }
+            this.refreshTablegsm();
+            this.refreshTable();
+          }
           });
       }
     refreshTablegsm(){
@@ -267,9 +270,10 @@ newPassword: string;}
            if(result!=null) {
              this.gsmControllerService.deleteGSM(this.user.id, controller["id"]).subscribe(result =>{
                this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
-               this.refreshTablegsm();
+
              });
            }
+           this.refreshTable();
          });
       }
 
