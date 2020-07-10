@@ -17,6 +17,12 @@ public class LogSignInServiceImpl implements LogSignInService {
     private LogSignInRepository logSignInRepository;
     @Override
     public Set<LogSignIn> getLogs(User user) {
+        /*
+        DESCR: returns a set of LogSignIn - the LogSignIns corresponding to the user {user}
+        PARAM: user : User
+        PRE: user has to have an already existing user id
+        POST: -
+         */
         log.trace("getLogs - method entered user={}",user);
         Set<LogSignIn> result = this.logSignInRepository.findAllByUser(user);
         log.trace("getLogs - method finished r={}",result);
@@ -25,6 +31,12 @@ public class LogSignInServiceImpl implements LogSignInService {
 
     @Override
     public LogSignIn addLog(LogSignIn logSignIn) {
+        /*
+        DESCR: adds LogSignIn to database
+        PARAM: LogSignIn : LogSignIn
+        PRE: logSignIn has to be a valid logSignIn
+        POST: returns saved logSignIn in database. The id will be changed based on the rule specified in BaseEntity
+         */
         log.trace("addLog - method entered l={}",logSignIn);
         LogSignIn r = this.logSignInRepository.save(logSignIn);
         log.trace("addLog - method finished r={}",logSignIn);
