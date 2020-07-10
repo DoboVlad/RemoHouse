@@ -55,7 +55,7 @@
         <p class="room-name" *ngIf="(roomsObservable | async) as rooms">{{getRoomName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="image" rowspan="12">
-        <img matListAvatar *ngIf="(gsmsLoaded | async)" [src]="getImage()" alt="room-image" class="img-responsive">
+        <img matListAvatar *ngIf="(gsmsLoaded | async)" [src]="getImage()" (error)="imageExists = false" [hidden]="!imageExists" alt="room-image" class="img-responsive">
       </mat-grid-tile>
     </mat-grid-list>
   </mat-grid-tile>
