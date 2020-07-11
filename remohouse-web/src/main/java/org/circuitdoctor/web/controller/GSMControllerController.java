@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 @CrossOrigin
@@ -232,5 +229,23 @@ public class GSMControllerController {
         boolean result=gsmControllerService.deleteGSMController(gsmID);
         log.trace("finished deleteGSM result={}",result);
         return "gsm deleted";
+    }
+
+    @RequestMapping(value = "gsm/qrcode/{gsmId}", method = RequestMethod.GET)
+    byte[] getQRCodeGSM(@PathVariable Long gsmId){
+        /*
+        DESCR:generates qrCode for GSMControllerDto -gsmControllerDto
+        PARAM:gsmId Long : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:gsmId >0
+        POST: returns the byte array of the qrCode
+              returns null if there is no gsmController with the id gsmId
+
+         */
+        log.trace("entered getQRCodeGSM gsmId={}",gsmId);
+        byte[] qrCode= gsmControllerService.getQRCode(gsmId);
+        log.trace("finished getQRCode");
+
+        return qrCode;
     }
 }

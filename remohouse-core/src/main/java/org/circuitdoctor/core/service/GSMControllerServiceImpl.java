@@ -202,4 +202,30 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         });
         log.trace("deleteGSMsWithRoom - method finished");
     }
+
+    @Override
+    public byte[] getQRCode(Long gsmId) {
+        /*
+        DESCR: generates a QRCode from the GSMController with the id {gsmId}
+        PARAM: gsmId - Long
+        PRE: gsmId>0
+        POST: returns the QR code in form of a byte array
+         */
+        log.trace("getQRCode - method entered gsmId={}",gsmId);
+
+        AtomicReference<byte[]> qrCode = new AtomicReference<>(null);
+        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmId);
+        gsmFromDB.ifPresent(gsmDB->{
+            ServiceUtils utils=new ServiceUtils();
+            qrCode.set(utils.getQRCode(gsmDB));
+
+        });
+
+
+
+        log.trace("getQRCode - method finished");
+        return qrCode.get();
+
+
+    }
 }

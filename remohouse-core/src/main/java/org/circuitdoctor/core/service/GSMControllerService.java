@@ -15,4 +15,5 @@ public interface GSMControllerService {
     String sendMessage(String message);
     List<GSMController> findAllByRoom(Room room);
     void deleteGSMsWithRoom(Room roomDB);
+    byte[] getQRCode(Long gsmId);
 }

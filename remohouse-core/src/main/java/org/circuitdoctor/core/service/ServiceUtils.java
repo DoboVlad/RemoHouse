@@ -1,11 +1,20 @@
 package org.circuitdoctor.core.service;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import org.circuitdoctor.core.model.GSMController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 public class ServiceUtils {
 
@@ -56,5 +65,38 @@ public class ServiceUtils {
 
         log.trace("sendMessage API- something is wrong");
         return "something went wrong";
+    }
+
+
+    public byte[] getQRCode(GSMController gsmController){
+        /*
+        DESCR: generates a QRCode from the GSMController {gsmController}
+        PARAM: gsmController - GSMController
+        PRE: GSMContrller has to be an already existing gsmController
+        POST: returns the QR code in form of a byte array
+                throws error if there is a problem when generating the QR code
+         */
+        try {
+            StringBuilder text=new StringBuilder("");
+            text.append("ID : ").append(gsmController.getId()).append("\n");
+            text.append("Phone Number : ").append(gsmController.getPhoneNumber()).append("\n");
+            text.append("Type : ").append(gsmController.getType()).append("\n");
+            text.append("City : ").append(gsmController.getRoom().getLocation().getCity());
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(text.toString(), BarcodeFormat.QR_CODE, 200, 200);
+            Path path = FileSystems.getDefault().getPath("./myQRCode.jpg");
+            MatrixToImageWriter.writeToPath(bitMatrix, "JPG", path);
+
+            ByteArrayOutputStream jpgOutputStream = new ByteArrayOutputStream();
+            MatrixToImageWriter.writeToStream(bitMatrix, "JPG", jpgOutputStream);
+
+
+            return jpgOutputStream.toByteArray();
+        } catch (WriterException e) {
+            log.trace("method getQrCode -Could not generate QR Code, WriterException :: " + e.getMessage());
+        } catch (IOException e) {
+            log.trace("method getQrCode -Could not generate QR Code, IOException :: " + e.getMessage());
+        }
+        return null;
     }
 }

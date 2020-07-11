@@ -37,10 +37,10 @@ dependencies {
 
     implementation files('activation.jar')
     implementation files('javax.mail-1.6.2.jar')
-
-    //spring boot
-//    compile("org.springframework.boot:spring-boot-starter-web")
-//    testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    //QR Code
+    compile "com.google.zxing:core:3.3.0"
+    compile 'com.google.zxing:javase:3.3.0'
 
 
 
