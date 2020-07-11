@@ -84,8 +84,7 @@ public class ServiceUtils {
             text.append("City : ").append(gsmController.getRoom().getLocation().getCity());
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(text.toString(), BarcodeFormat.QR_CODE, 200, 200);
-            Path path = FileSystems.getDefault().getPath("./myQRCode.jpg");
-            MatrixToImageWriter.writeToPath(bitMatrix, "JPG", path);
+            
 
             ByteArrayOutputStream jpgOutputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "JPG", jpgOutputStream);
