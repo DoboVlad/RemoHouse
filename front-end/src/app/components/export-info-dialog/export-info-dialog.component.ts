@@ -32,37 +32,37 @@ export class ExportInfoDialogComponent implements OnInit {
       this.locationService.getLocations(user.id).subscribe(locations => {
         this.locations = locations;
       })
-      })}
+    })}
 
   ngOnInit(): void {
   }
 
-   getRoom(selected: MatListOption[]) {
-        this.locations.forEach(location => {
-          selected.forEach(selected =>{
-          if (location.name == selected.value) {
-            this.currentLocation = location;
-            this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
-              this.rooms = rooms;
-            });
-          }}
-          )
-          this.totalRooms=this.rooms;
-        });
-      }
-      getGsm(selected: MatListOption[]){
-        this.rooms.forEach(room => {
-          selected.forEach(selected =>{
-            if (room.name == selected.value) {
-              this.currentRoom =room;
-              this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
-                this.gsms = gsms;
-              });
-            }}
-          )
-        });
+  getRoom(selected: MatListOption[]) {
+    this.locations.forEach(location => {
+      selected.forEach(selected =>{
+        if (location.name == selected.value) {
+          this.currentLocation = location;
+          this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
+            this.rooms = rooms;
+          });
+        }}
+      )
+      this.totalRooms=this.rooms;
+    });
+  }
+  getGsm(selected: MatListOption[]){
+    this.rooms.forEach(room => {
+      selected.forEach(selected =>{
+        if (room.name == selected.value) {
+          this.currentRoom =room;
+          this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
+            this.gsms = gsms;
+          });
+        }}
+      )
+    });
 
-      }
+  }
 
 
   closeDialog(){
