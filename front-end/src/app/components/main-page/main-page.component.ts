@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MatSlideToggle, MatSlideToggleChange} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -13,7 +13,8 @@ import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {LocationModel} from "../../model/LocationModel";
 import {MatListOption, MatSelectionList} from "@angular/material/list";
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
+import {combineAll} from "rxjs/operators";
 
 @Component({
   selector: 'app-main-page',
@@ -50,12 +51,14 @@ export class MainPageComponent implements OnInit {
   roomsLoaded: Promise<boolean>;
   gsmsLoaded: Promise<boolean>;
   startLoading: Promise<boolean>;
+  imageLoaded: Promise<boolean>;
 
   imageExists: boolean = true;
 
   constructor(public snackBar: MatSnackBar, private router: Router, private dialog: MatDialog, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService,
-              private userService: UserService) {
+              private userService: UserService,
+              private cdr: ChangeDetectorRef) {
     setInterval(() => {
       this.CurrentDate = new Date();
     }, 1);
@@ -63,7 +66,6 @@ export class MainPageComponent implements OnInit {
       this.usersObservable = this.userService.getUserByCredential(localStorage.getItem("user"));
       this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
         this.user = user;
-        // resolve();
         this.locationService.getLocations(user.id).subscribe(locations => {
           resolve();
           this.locations = locations;
@@ -109,76 +111,38 @@ export class MainPageComponent implements OnInit {
   }
 
   setImage() {
-      if(this.gsms.length>0) {
-        if (this.door.status == "ON" && this.window.status == "ON") {
-          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openHouse.png`
-        } else if (this.door.status == "ON" && this.window.status == "OFF") {
-          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openDoor.png`
-        } else if (this.door.status == "OFF" && this.window.status == "ON") {
-          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openWindow.png`
-        } else if (this.door.status == "OFF" && this.window.status == "OFF"){
-          this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/closedHouse.png`
+    this.gsmsLoaded.then(()=>{
+      this.imageLoaded = new Promise<boolean>(resolve => {
+        if(this.gsms.length>0) {
+          try{
+            console.log(`id ${this.door.id} type ${this.door.type} status ${this.door.status}`);
+            console.log(`id ${this.window.id} type ${this.window.type} status ${this.window.status}`);
+            if (this.door.status == "ON" && this.window.status == "ON") {
+              this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openHouse.png`
+            } else if (this.door.status == "ON" && this.window.status == "OFF") {
+              this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openDoor.png`
+            } else if (this.door.status == "OFF" && this.window.status == "ON") {
+              this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/openWindow.png`
+            } else if (this.door.status == "OFF" && this.window.status == "OFF"){
+              this.image = `assets/${this.currentLocation.name}/${this.currentRoom.name}/closedHouse.png`
+            }
+            else {
+              this.image = null;
+            }
+            resolve(true);
+          }
+          catch (e) {
+            this.image = null;
+            resolve(false);
+          }
         }
-        else {
-          this.image = null;
+        if(this.image!==null){
+          resolve(false);
+          this.imageExists = true;
         }
-      }
-    if(this.image!==null){
-      this.imageExists = true;
-    }
-  }
+      })
+    })
 
-  doorChange($event: MatSlideToggleChange) {
-    if ($event.checked) {
-      this.gsmService.openGSM(this.door, this.user.id).subscribe(response => {
-        if (response) {
-          this.openSnackBar("Opened door", "OK");
-          this.door.status = "ON";
-          this.setImage()
-        } else {
-          this.refDoor.toggle();
-          this.openSnackBar("Something went wrong", "OK");
-        }
-
-      });
-    } else {
-      this.gsmService.closeGSM(this.door, this.user.id).subscribe(response => {
-        if (response) {
-          this.openSnackBar("Closed door", "OK");
-          this.door.status = "OFF";
-          this.setImage()
-        } else {
-          this.refDoor.toggle();
-          this.openSnackBar("Something went wrong", "OK");
-        }
-      });
-    }
-  }
-
-  windowChange($event: MatSlideToggleChange) {
-    if ($event.checked) {
-      this.gsmService.openGSM(this.window, this.user.id).subscribe(response => {
-        if (response) {
-          this.openSnackBar("Opened window", "OK");
-          this.window.status = "ON";
-          this.setImage()
-        } else {
-          this.refWindow.toggle();
-          this.openSnackBar("Something went wrong", "OK");
-        }
-      });
-    } else {
-      this.gsmService.closeGSM(this.window, this.user.id).subscribe(response => {
-        if (response) {
-          this.openSnackBar("Closed window", "OK");
-          this.window.status = "OFF";
-          this.setImage()
-        } else {
-          this.refWindow.toggle();
-          this.openSnackBar("Something went wrong", "OK");
-        }
-      });
-    }
   }
 
   getWeatherData() {
@@ -210,56 +174,37 @@ export class MainPageComponent implements OnInit {
     return true;
   }
 
-  deleteButton() {
-    const dialogRef = this.dialog.open(DeleteButtonDialogComponent)
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) { //fix this
-          this.openSnackBar("The controller was deleted", "OK");
-        }
-      }
-    )
-  }
-
-  setStatusToggles(){
-    this.locationsLoaded.then(() =>{
-      if (this.door.status == "ON" && this.refDoor.checked==false) {
-        this.refDoor.toggle();
-      }
-      if (this.window.status == "ON" && this.refWindow.checked==false) {
-        this.refWindow.toggle();
-      }
-      if (this.door.status == "OFF" && this.refDoor.checked) {
-        this.refDoor.toggle();
-      }
-      if (this.window.status == "OFF" && this.refWindow.checked) {
-        this.refWindow.toggle();
-      }
-    })
-      .catch(error => console.log(error));
-  }
   changeRoom(selected: MatListOption[]) {
     this.locationsLoaded.then(()=>{
       this.roomsLoaded = new Promise<boolean>(resolve => {
-        this.locations.forEach(location => {
-          if (location.name == selected[0].value) {
-            this.currentLocation = location;
-            this.getWeatherData();
-            this.roomsObservable = this.roomService.getRooms(this.user.id, this.currentLocation.id);
-            this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
-              this.rooms = rooms;
-              this.roomLength=rooms.length;
-              if(this.rooms.length!=0) {
-                resolve(true);
-                this.currentRoom = null;
-              }
-              else {
-                resolve(false);
-                this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+        this.gsmsLoaded = new Promise<boolean>(resolve1 => {
+          this.locations.forEach(location => {
+            if (location.name == selected[0].value) {
+              this.currentLocation = location;
+              console.log("changed location");
+              this.getWeatherData();
+              this.roomsObservable = this.roomService.getRooms(this.user.id, this.currentLocation.id);
+              this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
+                this.rooms = rooms;
+                this.roomLength=rooms.length;
+                if(this.rooms.length!=0) {
+                  resolve(true);
+                  this.currentRoom = null;
+                }
+                //we don't need this anymore
+                /*
+                else {
+                  resolve(false);
+                  this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
+                }
+                */
+                this.gsms = [];
                 this.setImage();
-              }
-            });
-          }
-        });
+                resolve1();
+              });
+            }
+          });
+        })
       })
     })
   }
@@ -275,22 +220,17 @@ export class MainPageComponent implements OnInit {
               this.controllersObservable = this.gsmService.getGSMs(this.user.id, this.currentRoom.id);
               this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
                 this.gsms=gsms;
+                console.log(gsms);
                 if(gsms.length==0) {
                   this.openSnackBar(this.currentRoom.name + " has no controllers", "Ok");
                   resolve(false);
                 }
                 //fix this later
                 if(gsms.length==2) {
+                  this.door = undefined;
+                  this.window = undefined;
                   resolve(true);
-                  if (gsms[0].type == "door") {
-                    this.door = gsms[0];
-                    this.window = gsms[1];
-                  } else {
-                    this.door = gsms[1];
-                    this.window = gsms[0];
-                  }
                   this.setImage();
-                  this.setStatusToggles()
                 }
               })
             }
@@ -298,5 +238,24 @@ export class MainPageComponent implements OnInit {
         })
       })
     })
+  }
+
+  controllerToggled(controller : GSMController) {
+    if(controller.type == "door"){
+      this.door = controller;
+    }
+    else{
+      this.window = controller;
+    }
+    this.setImage();
+  }
+  //kinda cheap, but it works :/
+  hasRooms(){
+    return this.roomsObservable && this.roomLength != 0;
+  }
+
+  hasGSM(){
+    //console.log(this.gsms);
+    return this.gsms && this.gsms.length!=0;
   }
 }

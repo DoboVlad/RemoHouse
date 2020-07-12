@@ -50,6 +50,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ExportInfoDialogComponent } from './components/export-info-dialog/export-info-dialog.component';
 import {MatStepperModule} from "@angular/material/stepper";
+import { ControllerToggleComponent } from './components/controller-toggle/controller-toggle.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import {MatStepperModule} from "@angular/material/stepper";
     DeleteGSMComponent,
     LocationDialogComponent,
     DeleteButtonDialogComponent,
-    ExportInfoDialogComponent
+    ExportInfoDialogComponent,
+    ControllerToggleComponent
   ],
   imports: [
     BrowserModule,

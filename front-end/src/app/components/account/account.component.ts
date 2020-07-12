@@ -212,19 +212,19 @@ newPassword: string;}
           console.log(result);
           //result can be null on cancel
           if(result!=null) {
-            //TODO: validation for latitude/longitude + refresh table
             var gsmController=new GSMController(0,this.expandedRoom.id,result.phoneNumber,result.status,result.gsm_type);
             this.gsmControllerService.addGSMController(this.user.id,gsmController).subscribe(response=>{
               console.log(response);
+              this.refreshTablegsm();
               this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
               this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
                 this.gsmController = GSMController;
                 this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
-                this.refreshTable();
+
               });
             });
           }
-          this.refreshTable();
+          this.refreshTablegsm();
         });
       }
       UpdateGSM(controller: any){
@@ -241,22 +241,23 @@ newPassword: string;}
           console.log(controller);
           if(result!=null) {
             console.log("Am ajuns aici!");
+            this.refreshTablegsm();
             var gsmcontroller = new GSMController(controller['id'], controller['roomID'], result.phoneNumber, controller['status'], result.gsm_type);
             this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
+              console.log(controller);
               this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
-              this.refreshTablegsm();
               });
-            this.refreshTablegsm();
-            this.refreshTable();
           }
+          this.refreshTablegsm();
           });
       }
+
     refreshTablegsm(){
     this.gsmControllerService.getGSMs(this.user.id,this.expandedRoom.id).subscribe(controller => {
-      this.gsmController = controller;
       this.controllerDataSource = new MatTableDataSource<GSMController>(controller);
     });
   }
+
       DeleteGSM(controller:any){
          const dialogRef=this.dialog.open(DeleteGSMComponent,{
            width: '300px',
@@ -271,11 +272,12 @@ newPassword: string;}
            if(result!=null) {
              this.gsmControllerService.deleteGSM(this.user.id, controller["id"]).subscribe(result =>{
                this.snackBar.open(String("Deleted GSM."),"Ok",{duration:2000});
-
+               this.refreshTablegsm();
              });
            }
-           this.refreshTable();
+           this.refreshTablegsm();
          });
+        this.refreshTablegsm();
       }
 
       //CRUD room
@@ -394,6 +396,7 @@ newPassword: string;}
           }
         });
       }
+
       refreshTable(){
         this.locationService.getLocations(this.user.id).subscribe(locations => {
           this.locations = locations;
