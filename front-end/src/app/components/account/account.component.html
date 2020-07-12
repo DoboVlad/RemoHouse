@@ -279,8 +279,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <mat-paginator *ngIf="!isLoadingResults" [length]="resultsActionLength" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <button class="export" mat-button (click)="exportInfo()">Export info</button>
       </div>
-      <button class="export" mat-button (click)="exportInfo()">Export info</button>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
