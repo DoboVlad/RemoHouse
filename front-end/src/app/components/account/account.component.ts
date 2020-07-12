@@ -25,6 +25,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {merge} from "rxjs";
 import {catchError, startWith, switchMap} from "rxjs/operators";
+import {ExportInfoDialogComponent} from "../export-info-dialog/export-info-dialog.component";
 
 export interface DialogData {
 oldPassword: string;
@@ -407,6 +408,16 @@ newPassword: string;}
         if (this.dataSourceActions.paginator) {
           this.dataSourceActions.paginator.firstPage();
         }
+      }
+      exportInfo(){
+        const dialogRef=this.dialog.open(ExportInfoDialogComponent);
+        dialogRef.afterClosed().subscribe(result =>{
+          if(result=="true"){
+            this.snackBar.open(String("Export finished"), "Ok", {duration: 2000});
+
+          }
+
+        })
       }
 
 }

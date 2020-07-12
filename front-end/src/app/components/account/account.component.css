@@ -408,3 +408,13 @@ tr.location-row:not(.example-expanded-row):active {
 .spinner-message {
   text-align: center;
 }
+.export{
+  margin-top:5%;
+  left:45%;
+  position: absolute;
+  background-color:#011936;
+  border-radius: 20px;
+  border: 1px solid #82A3A1;
+  font-size: 0.8em;
+  color:#FFFFFF;
+}
