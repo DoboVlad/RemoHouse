@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -62,6 +65,25 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         return result;
     }
 
+    public Set<ActionLogGSM> findAllActionsBeetwenDates(Long userID,String startDate,String endDate) {
+        /*
+        DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID} and made beetwen the 2 dates
+        PARAM: userID : Long,startDate : String,endDate : String
+        PRE: userID > 0 ,valid dates
+        POST: -
+         */
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime start=LocalDateTime.parse(startDate,formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate,formatter);
+        log.trace("findAllActions -method entered userID={}",userID);
+        Set<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+                .filter(action -> action.getUser().getId().equals(userID))
+                .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
+                .collect(Collectors.toSet());
+        log.trace("findAllActions -method finished result={}",result);
+        return result;
+    }
+
     @Override
     public void deleteActionsWithUser(User user) {
         /*
@@ -94,5 +116,30 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
             log.trace("deleteActionsWithGSMController - delete action a={}",action.getId());
         });
         log.trace("deleteActionsWithGSMController - method finished");
+    }
+
+    @Override
+    public void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll) {
+        log.trace("entered sendEmailActonLogs user={}",userId);
+        String from = "remo@circuitdoctor.ro";
+        String password="ParolaRemo123";
+        // Assuming you are sending email from localhost
+        String message="Action Logs";
+        String subject="Action Logs";
+        Optional<User> userFromDB = userRepository.findById(userId);
+        String filename="logFile."+extension;
+        userFromDB.ifPresent(user->{
+            ServiceUtils utils=new ServiceUtils();
+            try {
+                if(takeAll)
+                    utils.writeToFile(findAllActions(userId),filename);
+                else
+                    utils.writeToFile(findAllActionsBeetwenDates(userId,startDate,endDate),filename);
+                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+            }
+        });
+        log.trace("method finished - sendEmailActionLog");
     }
 }

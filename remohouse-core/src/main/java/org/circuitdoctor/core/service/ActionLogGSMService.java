@@ -12,4 +12,5 @@ public interface ActionLogGSMService {
     Set<ActionLogGSM> findAllActions(Long userID);
     void deleteActionsWithUser(User user);
     void deleteActionsWithGSMController(GSMController gsmController);
+    void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll);
 }
