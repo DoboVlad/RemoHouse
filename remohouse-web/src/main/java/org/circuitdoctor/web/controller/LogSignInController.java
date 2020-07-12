@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -43,7 +44,7 @@ public class LogSignInController {
     }
 
     @RequestMapping(value = "/logSignIn/getAll/{userID}",method = RequestMethod.GET)
-    public Set<LogSignInDto> getLogs(@PathVariable Long userID){
+    public List<LogSignInDto> getLogs(@PathVariable Long userID){
         /*
         DESCR: gets all the LogSignIn of a user
         PARAM:userID - Long : If request is used, this is given in the path of the request

@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     private RoomService roomService;
     @Override
-    public Set<Location> getAllLocations(Long userID) {
+    public List<Location> getAllLocations(Long userID) {
         /*
         DESCR: returns a set of Location = the locations of the user with user ID {userID}
         PARAM : userID : long
@@ -31,9 +30,10 @@ public class LocationServiceImpl implements LocationService {
         POST: -
          */
         log.trace("getAllLocations - method entered id={}",userID);
-        Set<Location> result = locationRepository.findAll().stream()
+        List<Location> result = locationRepository.findAll().stream()
                 .filter(location -> location.getUser().getId().equals(userID))
-                .collect(Collectors.toSet());
+                .sorted(Comparator.comparing(Location::getName))
+                .collect(Collectors.toList());
         log.trace("getAllLocations - method finished result={}",result);
         return result;
     }

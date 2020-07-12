@@ -1,4 +1,5 @@
 package org.circuitdoctor.core.service;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ActionLogGSMService actionLogGSMService;
     @Override
     public List<User> getAllUsers() {
         /*
@@ -283,6 +286,32 @@ public class UserServiceImpl implements UserService {
             result[i] = (char) (pass.charAt(i) - (i+1));
         }
         return new String(result);
+    }
+
+
+    @Override
+    public void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll) {
+        log.trace("entered sendEmailActonLogs user={}",userId);
+        String from = "remo@circuitdoctor.ro";
+        String password="ParolaRemo123";
+        // Assuming you are sending email from localhost
+        String message="Action Logs";
+        String subject="Action Logs";
+        Optional<User> userFromDB = userRepository.findById(userId);
+        String filename="logFile."+extension;
+        userFromDB.ifPresent(user->{
+            ServiceUtils utils=new ServiceUtils();
+            try {
+                if(takeAll)
+                    utils.writeToFile(actionLogGSMService.findAllActions(userId),filename);
+                else
+                    utils.writeToFile(actionLogGSMService.findAllActionsBeetwenDates(userId,startDate,endDate),filename);
+                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+            }
+        });
+        log.trace("method finished - sendEmailActionLog");
     }
 
 }

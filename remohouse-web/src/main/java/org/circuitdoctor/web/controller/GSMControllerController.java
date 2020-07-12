@@ -33,7 +33,7 @@ public class GSMControllerController {
     private RoomRepository roomRepository;
 
     @RequestMapping(value = "gsm/getGSMs/{userID}/{roomID}",method = RequestMethod.GET)
-    Set<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
+    List<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
         /*
         DESCR: gets all the gsmControllers of a user from a room
         PARAM:userID - Long : If request is used, this is given in the path of the request

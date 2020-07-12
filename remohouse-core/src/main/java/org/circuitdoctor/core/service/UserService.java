@@ -13,6 +13,7 @@ public interface UserService {
     Optional<User> getUserByCredential(String credential);
     String recoverPasswordByEmail(String email);
     String recoverPasswordByMessage(String phoneNumber);
+    void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll);
 
 
     String confirmEmail(String email);

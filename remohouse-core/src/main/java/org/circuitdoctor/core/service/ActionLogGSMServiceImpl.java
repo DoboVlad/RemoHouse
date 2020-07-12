@@ -50,7 +50,7 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     }
 
     @Override
-    public Set<ActionLogGSM> findAllActions(Long userID) {
+    public List<ActionLogGSM> findAllActions(Long userID) {
         /*
         DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID}
         PARAM: userID : Long
@@ -58,14 +58,14 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         POST: -
          */
         log.trace("findAllActions -method entered userID={}",userID);
-        Set<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+        List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
                 .filter(action -> action.getUser().getId().equals(userID))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         log.trace("findAllActions -method finished result={}",result);
         return result;
     }
 
-    public Set<ActionLogGSM> findAllActionsBeetwenDates(Long userID,String startDate,String endDate) {
+    public List<ActionLogGSM> findAllActionsBeetwenDates(Long userID,String startDate,String endDate) {
         /*
         DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID} and made beetwen the 2 dates
         PARAM: userID : Long,startDate : String,endDate : String
@@ -76,10 +76,10 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         LocalDateTime start=LocalDateTime.parse(startDate,formatter);
         LocalDateTime end = LocalDateTime.parse(endDate,formatter);
         log.trace("findAllActions -method entered userID={}",userID);
-        Set<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+        List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
                 .filter(action -> action.getUser().getId().equals(userID))
                 .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
         log.trace("findAllActions -method finished result={}",result);
         return result;
     }
@@ -118,28 +118,5 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         log.trace("deleteActionsWithGSMController - method finished");
     }
 
-    @Override
-    public void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll) {
-        log.trace("entered sendEmailActonLogs user={}",userId);
-        String from = "remo@circuitdoctor.ro";
-        String password="ParolaRemo123";
-        // Assuming you are sending email from localhost
-        String message="Action Logs";
-        String subject="Action Logs";
-        Optional<User> userFromDB = userRepository.findById(userId);
-        String filename="logFile."+extension;
-        userFromDB.ifPresent(user->{
-            ServiceUtils utils=new ServiceUtils();
-            try {
-                if(takeAll)
-                    utils.writeToFile(findAllActions(userId),filename);
-                else
-                    utils.writeToFile(findAllActionsBeetwenDates(userId,startDate,endDate),filename);
-                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
-            } catch (IOException e) {
-                log.warn(e.getMessage());
-            }
-        });
-        log.trace("method finished - sendEmailActionLog");
-    }
+
 }

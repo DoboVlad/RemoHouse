@@ -170,7 +170,7 @@ public class ServiceUtils {
         }
     }
 
-    public void writeToFile(Set<ActionLogGSM> actionLogGSMList,String fileName) throws IOException {
+    public void writeToFile(List<ActionLogGSM> actionLogGSMList,String fileName) throws IOException {
         List<List<String>> rows=new ArrayList<>();
         for (ActionLogGSM action:actionLogGSMList) {
             rows.add(Arrays.asList(action.getOperationType(), action.getDateTime().toString(), action.getGsmController().getId().toString()

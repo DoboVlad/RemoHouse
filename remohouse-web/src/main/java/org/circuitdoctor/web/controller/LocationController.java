@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 @CrossOrigin
@@ -101,7 +102,7 @@ public class LocationController {
     }
 
     @RequestMapping(value = "location/getLocations/{userID}",method = RequestMethod.GET)
-    Set<LocationDto> getLocations(@PathVariable Long userID){
+    List<LocationDto> getLocations(@PathVariable Long userID){
         /*
         DESCR: gets all the locations of a user
         PARAM:userID - Long : If request is used, this is given in the path of the request
@@ -109,7 +110,7 @@ public class LocationController {
         POST: returns the set of locationDto of the guven user
          */
         log.trace("getLocations - method entered userID={}",userID);
-        Set<Location> locations = locationService.getAllLocations(userID);
+        List<Location> locations = locationService.getAllLocations(userID);
         log.trace("getLocations - method finished l={}",locations);
         return locationConverter.convertModelsToDtos(locations);
     }

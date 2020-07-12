@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -181,6 +182,7 @@ public class GSMControllerServiceImpl implements GSMControllerService {
          */
         log.trace("findAllByRoom - method entered r-{}",room);
         List<GSMController> result = gsmRepository.findAllByRoom(room);
+        result.sort(Comparator.comparing(GSMController::getType));
         log.trace("findAllByRoom - method finished r={}",result);
         return result;
     }

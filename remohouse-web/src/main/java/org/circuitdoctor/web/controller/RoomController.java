@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -118,7 +119,7 @@ public class RoomController {
 
 
     @RequestMapping(value = "room/getRooms/{userID}/{locationID}",method = RequestMethod.GET)
-    public Set<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
+    public List<RoomDto> getRooms(@PathVariable Long userID, @PathVariable Long locationID){
         /*
         DESCR: gets all the rooms of a user from a location
         PARAM:userID - Long : If request is used, this is given in the path of the request
@@ -142,6 +143,7 @@ public class RoomController {
             log.trace("getRoom - locationID invalid");
             return null;
         }
-        return roomConverter.convertModelsToDtos(result.get());
+
+        return roomConverter.convertModelsToDtos(result.get()) ;
     }
 }

@@ -172,4 +172,21 @@ public class UserController {
         log.trace("validateAccount - method finished");
     }
 
+    @RequestMapping(value = "user/sendEmailActions/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
+    String sendEmailWithActions(@PathVariable Long userID,@PathVariable String ext,@PathVariable String startDate,
+                                @PathVariable String endDate,@PathVariable boolean takeAll){
+
+        log.trace("getActions - method entered userID={}",userID);
+        if(ext.equals("csv") || ext.equals("txt")){
+            userService.sendEmailWithActionLogs(userID,ext,startDate,endDate,takeAll);
+            log.trace("getActions - method finished");
+            return "email sent";
+        }
+
+        return "the extension must be txt or csv";
+
+
+
+    }
+
 }
