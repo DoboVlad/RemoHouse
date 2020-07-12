@@ -25,6 +25,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {LogSignIn} from "../../model/LogSignIn";
 import {LogSignInService} from "../../service/LogSignInService";
+import {ExportInfoDialogComponent} from "../export-info-dialog/export-info-dialog.component";
 
 export interface DialogData {
 oldPassword: string;
@@ -446,6 +447,16 @@ newPassword: string;}
   applyFilterLogs($event: KeyboardEvent) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceLogs.filter = filterValue.trim().toLowerCase();
+  }
+  exportInfo(){
+    const dialogRef=this.dialog.open(ExportInfoDialogComponent);
+    dialogRef.afterClosed().subscribe(result =>{
+      if(result=="true"){
+        this.snackBar.open(String("Export finished"), "Ok", {duration: 2000});
+
+      }
+
+    })
   }
 }
 
