@@ -66,10 +66,10 @@ export class RegisterComponent implements OnInit {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
         localStorage.setItem("user",this.user.phoneNumber);
-        this.router.navigate(["/mainpage"]);
+        this.router.navigate(["/validate-account"]);
       }, error => {
         console.log("validation error", error);
-        alert("Please try again with valid details.")
+        alert("Invalid credentials, or your e-mail was not validated.")
       });
     }
 

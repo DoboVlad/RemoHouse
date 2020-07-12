@@ -1,0 +1,18 @@
+<div id="reset1" style="display: none">
+  <form>
+    <p>
+      Please check your <span id="span1"></span> to see if you received a text message with a code. The code consists of 6 characters.
+    </p>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-flag color-blue"></i></span>
+        <input #code placeholder="code" required="required" class="form-control"  type="text" [formControl]="codeControlForm">
+      </div>
+      <mat-error *ngIf="codeControlForm.touched && codeControlForm.invalid">
+        Incorrect code. A new one is being sent.
+      </mat-error>
+    </div>
+    <div class="form-group">
+      <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Continue" type="submit" (click)="!isError3() && continue(code.value)">
+    </div>
+  </form>

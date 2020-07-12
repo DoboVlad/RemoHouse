@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         log.trace("email");
         userFromDB.ifPresent(userDB->{
             log.trace(userDB.toString());
-            if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
+            if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password)))
                 result.set(true);
         });
         if(!result.get()){
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
             userFromDB = userRepository.findAllByPhoneNumber(user.getPhoneNumber());
             userFromDB.ifPresent(userDB->{
                 log.trace(userDB.toString());
-                if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
+                if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password)))
                     result.set(true);
             });
         }

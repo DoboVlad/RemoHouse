@@ -45,7 +45,7 @@ export class MainPageComponent implements OnInit {
   usersObservable: Observable<User>;
   locationsObservable: Observable<LocationModel[]>;
   roomsObservable: Observable<Room[]>;
-  controllersObservable: Observable<GSMController[]>;
+  controllersObservable: Observable<GSMController[]>
 
   locationsLoaded: Promise<boolean>;
   roomsLoaded: Promise<boolean>;
