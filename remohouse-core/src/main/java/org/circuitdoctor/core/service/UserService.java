@@ -15,4 +15,5 @@ public interface UserService {
     String recoverPasswordByMessage(String phoneNumber);
 
 
+    String confirmEmail(String email);
 }

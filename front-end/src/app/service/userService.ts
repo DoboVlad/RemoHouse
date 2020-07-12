@@ -43,4 +43,12 @@ export class UserService {
   sendCode(credential:string) : Observable<any>{
     return this.http.get<any>(this.url+"/recoverPassword/"+credential,this.httpOptionsPlain);
   }
+
+  sendConfirmationCode(email:string):Observable<string>{
+    return this.http.get<string>(this.url+"/confirmEmail/"+email,this.httpOptionsPlain);
+  }
+
+  validateAccount(email : string){
+    return this.http.get(this.url+"/validateAccount/"+email)
+  }
 }

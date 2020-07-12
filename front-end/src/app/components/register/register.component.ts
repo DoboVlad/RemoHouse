@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, Validators} from "@angular/forms";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {DeviceDetectorService} from "ngx-device-detector";
 import {LogSignIn} from "../../model/LogSignIn";
 import {LogSignInService} from "../../service/LogSignInService";
@@ -65,8 +64,8 @@ export class RegisterComponent implements OnInit {
     if (this.nameControl.valid && this.phoneNoControl.valid && this.emailControl.valid && this.passwordControl.valid) {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
-        localStorage.setItem("user",this.user.phoneNumber);
-        this.router.navigate(["/validate-account"]);
+          localStorage.setItem("email",email);
+          this.router.navigate(["/validate-email"]);
       }, error => {
         console.log("validation error", error);
         alert("Invalid credentials, or your e-mail was not validated.")
@@ -115,7 +114,6 @@ export class RegisterComponent implements OnInit {
   }
 
   getPhoneNoErrorMessage() {
-    console.log(this.phoneNoControl.errors);
     if (this.phoneNoControl.hasError('required'))
       return 'You must enter a value';
     return 'Invalid phone number';

@@ -49,7 +49,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ControllerToggleComponent } from './components/controller-toggle/controller-toggle.component';
-import { ValidateAccountComponent } from './components/validate-account/validate-account.component';
+import { ValidateEmailComponent } from './components/validate-email/validate-email.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +71,7 @@ import { ValidateAccountComponent } from './components/validate-account/validate
     LocationDialogComponent,
     DeleteButtonDialogComponent,
     ControllerToggleComponent,
-    ValidateAccountComponent
+    ValidateEmailComponent
   ],
   imports: [
     BrowserModule,

@@ -143,7 +143,7 @@ newPassword: string;}
   ngOnInit(): void {
   }
   logOut() {
-    localStorage.setItem("user", null);
+    localStorage.clear();
     this.router.navigate(["/home"]);
   }
 
