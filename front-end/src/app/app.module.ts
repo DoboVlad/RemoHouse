@@ -73,7 +73,8 @@ import { ValidateEmailComponent } from './components/validate-email/validate-ema
     LocationDialogComponent,
     DeleteButtonDialogComponent,
     ControllerToggleComponent,
-    ValidateEmailComponent
+    ValidateEmailComponent,
+    ExportInfoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +105,8 @@ import { ValidateEmailComponent } from './components/validate-email/validate-ema
     MatExpansionModule,
     MatSortModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatStepperModule
   ],
   entryComponents:[],
   providers: [UserService, RoomService, LocationService, GsmControllerService],

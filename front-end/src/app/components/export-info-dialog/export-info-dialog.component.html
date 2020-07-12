@@ -1,7 +1,7 @@
 <h2>Export info</h2>
 <mat-dialog-content>
   <mat-horizontal-stepper [linear]="false" #stepper>
-    <mat-step>
+    <mat-stng ep>
         <ng-template matStepLabel>Select the location</ng-template>
         <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
           <mat-list-option *ngFor="let location of locations" [value]="location.name">
@@ -11,7 +11,7 @@
         <div>
           <button mat-button matStepperNext>Next</button>
         </div>
-    </mat-step>
+    </mat-stng>
     <mat-step>
         <ng-template matStepLabel>Select the room</ng-template>
         <mat-selection-list #room multiple="true" (selectionChange)="getGsm(room.selectedOptions.selected)">
