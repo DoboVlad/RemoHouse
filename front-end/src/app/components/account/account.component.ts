@@ -25,6 +25,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {merge} from "rxjs";
 import {catchError, startWith, switchMap} from "rxjs/operators";
+import {ExportInfoDialogComponent} from "../export-info-dialog/export-info-dialog.component";
 
 export interface DialogData {
 oldPassword: string;
@@ -214,14 +215,16 @@ newPassword: string;}
             var gsmController=new GSMController(0,this.expandedRoom.id,result.phoneNumber,result.status,result.gsm_type);
             this.gsmControllerService.addGSMController(this.user.id,gsmController).subscribe(response=>{
               console.log(response);
+              this.refreshTablegsm();
               this.snackBar.open(String("Added GSM."),"Ok",{duration:2000});
               this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController =>{
                 this.gsmController = GSMController;
                 this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
-                this.refreshTablegsm();
+
               });
             });
           }
+          this.refreshTablegsm();
         });
       }
       UpdateGSM(controller: any){
@@ -238,20 +241,19 @@ newPassword: string;}
           console.log(controller);
           if(result!=null) {
             console.log("Am ajuns aici!");
+            this.refreshTablegsm();
             var gsmcontroller = new GSMController(controller['id'], controller['roomID'], result.phoneNumber, controller['status'], result.gsm_type);
             this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
               console.log(controller);
               this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
-              this.refreshTablegsm();
               });
-
           }
+          this.refreshTablegsm();
           });
       }
 
     refreshTablegsm(){
     this.gsmControllerService.getGSMs(this.user.id,this.expandedRoom.id).subscribe(controller => {
-      this.gsmController = controller;
       this.controllerDataSource = new MatTableDataSource<GSMController>(controller);
     });
   }
@@ -273,7 +275,9 @@ newPassword: string;}
                this.refreshTablegsm();
              });
            }
+           this.refreshTablegsm();
          });
+        this.refreshTablegsm();
       }
 
       //CRUD room
@@ -408,5 +412,16 @@ newPassword: string;}
           this.dataSourceActions.paginator.firstPage();
         }
       }
+      exportInfo(){
+        const dialogRef=this.dialog.open(ExportInfoDialogComponent);
+        dialogRef.afterClosed().subscribe(result =>{
+          if(result=="true"){
+            this.snackBar.open(String("Export finished"), "Ok", {duration: 2000});
+
+          }
+
+        })
+      }
+
 }
 

@@ -1,0 +1,56 @@
+<h2>Export info</h2>
+<mat-dialog-content>
+  <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-step>
+        <ng-template matStepLabel>Select the location</ng-template>
+        <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
+          <mat-list-option *ngFor="let location of locations" [value]="location.name">
+            {{location.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Select the room</ng-template>
+        <mat-selection-list #room multiple="true" (selectionChange)="getGsm(room.selectedOptions.selected)">
+          <mat-list-option *ngFor="let room of rooms">
+            {{room.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Select the controllers</ng-template>
+      <mat-selection-list #gsm multiple="true">
+        <mat-list-option *ngFor="let gsm of gsms">
+          {{gsm.type}}
+        </mat-list-option>
+      </mat-selection-list>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Select the export method</ng-template>
+      <mat-selection-list>
+        <mat-list-option *ngFor="let method of methods" multiple="true">
+          {{method}}
+        </mat-list-option>
+      </mat-selection-list>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button (click)="export()">Export</button>
+</mat-dialog-actions>
