@@ -70,6 +70,15 @@ mat-expansion-panel{
   margin-left: 25px;
 }
 
+.not_found{
+  position: fixed;
+  top: 50%;
+  font-size: 40px;
+  color: white;
+  margin: auto;
+  text-align: center;
+}
+
 mat-panel-title{
   color: #82A3A1;
   text-shadow:

@@ -191,10 +191,13 @@ export class MainPageComponent implements OnInit {
                   resolve(true);
                   this.currentRoom = null;
                 }
+                //we don't need this anymore
+                /*
                 else {
                   resolve(false);
                   this.currentRoom = new Room(0, 0, "Sorry. There are no rooms here.");
                 }
+                */
                 this.gsms = [];
                 this.setImage();
                 resolve1();
