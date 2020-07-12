@@ -2,10 +2,13 @@
 <mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Add room name</mat-label>
-    <input matInput #name>
+    <input matInput #name [formControl]="nameControllForm">
+    <mat-error *ngIf="nameControllForm.touched && nameControllForm.invalid">
+      Please enter a name
+    </mat-error>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button mat-button (click)="add(name.value)" cdkFocusInitial>Add</button>
+  <button mat-button (click)="!isError() && add(name.value)" cdkFocusInitial>Add</button>
 </mat-dialog-actions>

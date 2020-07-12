@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../service/userService";
 import {User} from "../../model/user";
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,6 +17,30 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  emailControllForm= new FormControl('',[
+    Validators.required,
+    Validators.minLength(5),
+    Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i)
+  ]);
+
+  phoneControllForm= new FormControl('',[
+    Validators.required,
+    Validators.minLength(10),
+    Validators.maxLength(10),
+    Validators.pattern(/^(07[0-8]{1}[0-9]{1}|02[0-9]{2}|03[0-9]{2}){1}?([0-9]{3}(\s|\.|\-|)){2}$/)
+  ]);
+
+  codeControlForm= new FormControl('',[
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(6)
+  ]);
+
+  passwordControlForm = new FormControl('', [
+      Validators.required,
+      Validators.minLength(7)
+  ]);
+
 
   resetPassword() {
     document.getElementById("titlu").innerHTML = "You can reset your password here!<br> Just enter your phone number!";
@@ -40,12 +65,6 @@ export class ForgotPasswordComponent implements OnInit {
     console.log(credential);
     this.credential=credential;
     this.userService.getUserByCredential(credential.split(".")[0]).subscribe(result=> {
-      if (result.name == null)
-        if(c=="email")
-          alert("This e-mail does not belong to any user.");
-        else
-          alert("This phone number does not belong to any user");
-      else {
         this.user=result;
         document.getElementById("titlu").innerHTML = "Please enter your code below!";
         document.getElementById("reset1").style.display = "block";
@@ -57,7 +76,7 @@ export class ForgotPasswordComponent implements OnInit {
           console.log(code)
           localStorage.setItem("resetCode", code);
         });
-      }
+
     });
   }
 
@@ -71,7 +90,6 @@ export class ForgotPasswordComponent implements OnInit {
       document.getElementById("resetPhone").style.display = "none";
       document.getElementById("continue").style.display = "block";
     }else{
-      alert("Incorrect code. A new one is being sent.")
       this.userService.sendCode(this.credential.split(".")[0]).subscribe(code=> {
         localStorage.setItem("resetCode", code);
       });
@@ -87,10 +105,21 @@ export class ForgotPasswordComponent implements OnInit {
         });
         document.getElementById("continue").style.display = "none";
         document.getElementById("succes").style.display = "block";
-      }
-      else
-        alert("Password is too short.");
-    }else
-      alert("The passwords don't coincide.");
+      }}
+    else
+      document.getElementById("coincide").innerHTML="The passwords don't coincide."
+  }
+
+  isError1(){
+    return this.emailControllForm.invalid;
+  }
+  isError2(){
+    return this.phoneControllForm.invalid;
+  }
+  isError3(){
+    return this.codeControlForm.invalid;
+  }
+  isError4(){
+    return this.passwordControlForm.invalid;
   }
 }
