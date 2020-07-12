@@ -246,4 +246,13 @@ export class MainPageComponent implements OnInit {
     }
     this.setImage();
   }
+  //kinda cheap, but it works :/
+  hasRooms(){
+    return this.roomsObservable && this.roomLength != 0;
+  }
+
+  hasGSM(){
+    //console.log(this.gsms);
+    return this.gsms && this.gsms.length!=0;
+  }
 }

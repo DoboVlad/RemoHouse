@@ -77,8 +77,10 @@
           <mat-selection-list #location class="locationList" [(ngModel)]="locationList" multiple="false" (selectionChange)="changeRoom(location.selectedOptions.selected)">
             <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
           </mat-selection-list>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle>
+        </mat-expansion-panel><!-- Rooms-->
+          <h1 *ngIf="!hasRooms()" class="unexistent">There are no rooms</h1>
+          <mat-expansion-panel *ngIf="hasRooms()" hideToggle>
+
           <mat-expansion-panel-header>
             <mat-panel-title>
               Rooms
@@ -91,7 +93,9 @@
             </mat-selection-list>
           <mat-list></mat-list>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle>
+          <!-- Controllers-->
+          <h1 *ngIf="hasRooms() && !hasGSM()" class="unexistent">There are no gsms</h1>
+          <mat-expansion-panel *ngIf="hasGSM()" hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Controllers
