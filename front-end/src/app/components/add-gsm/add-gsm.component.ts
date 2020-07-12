@@ -29,7 +29,7 @@ export class AddGSMComponent implements OnInit {
     this.dialogRef.close(null);
   }
   add(type: string, status: string, phoneNumber:string) {
-    console.log(type);
+    console.log(status);
     this.data.gsm_type = type;
     this.data.status=status;
     this.data.phoneNumber=phoneNumber;
