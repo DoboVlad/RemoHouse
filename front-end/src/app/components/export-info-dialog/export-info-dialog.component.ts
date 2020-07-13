@@ -1,14 +1,17 @@
-import {Component, OnInit, ViewChildren} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {LocationService} from "../../service/locationService";
 import {User} from "../../model/user";
 import {LocationModel} from "../../model/LocationModel";
-import {MatListOption, MatSelectionList} from "@angular/material/list";
+import {MatListOption} from "@angular/material/list";
 import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
+import {SelectionModel} from "@angular/cdk/collections";
+import {MatStep} from "@angular/material/stepper";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -22,9 +25,15 @@ export class ExportInfoDialogComponent implements OnInit {
   selectedGSMs : Dictionary<Array<number>> = {};
   rooms: Dictionary<Array<Room>> = {};
   methods: string[] = ['Mail', 'PDF', 'Word'];
+  @ViewChild("step1") step1: MatStep;
+  @ViewChild("step2") step2: MatStep;
+  @ViewChild("step3") step3: MatStep;
+  @ViewChild("step4") step4: MatStep;
+  @ViewChild("step5") step5: MatStep;
 
   constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService) {
+    this.allTheTime=false;
     this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
       this.user = user;
       this.locationService.getLocations(user.id).subscribe(locations => {
@@ -43,6 +52,7 @@ export class ExportInfoDialogComponent implements OnInit {
         this.rooms[location.value.name] = rooms;
       })
     });
+    this.step1.completed = selected.length > 0;
   }
 
   getGsm(locationName: string, selected: MatListOption[]){
@@ -55,6 +65,7 @@ export class ExportInfoDialogComponent implements OnInit {
     if(selected.length == 0){
       delete this.gsms[locationName];
     }
+    this.step2.completed = selected.length > 0;
   }
 
   closeDialog(){
@@ -75,13 +86,39 @@ export class ExportInfoDialogComponent implements OnInit {
     console.log(this.selectedGSMs)
   }
 
-  private flattenSelectedGSMS() : Array<number>{
+  private flattenSelectedGSMS() : Array<number> {
     let list = [];
     for (let key in this.selectedGSMs) {
-      this.selectedGSMs[key].forEach(v=>list.push(v));
+      this.selectedGSMs[key].forEach(v => list.push(v));
     }
     console.log(list)
     return list;
+  }
+  changeGSM(selected: MatListOption[]) {
+    this.step3.completed = selected.length > 0;
+  }
+
+  isStep4Completed(val:boolean){
+    if(val){
+      this.allTheTime=!this.allTheTime;
+    }
+    this.step4.completed= this.allTheTime==true || (this.dateStart!=undefined && this.dateFinish!=undefined);
+  }
+
+  dateStart;
+  dateFinish;
+  allTheTime: boolean;
+
+  changeFinishDate($event: MatDatepickerInputEvent<unknown>) {
+    console.log($event.value);
+    this.dateFinish=$event.value;
+    this.isStep4Completed(false);
+  }
+
+  changeStartDate($event: MatDatepickerInputEvent<unknown>) {
+    console.log($event.value);
+    this.dateStart=$event.value;
+    this.isStep4Completed(false);
   }
 }
 
