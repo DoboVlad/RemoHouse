@@ -55,6 +55,7 @@ import { ValidateEmailComponent } from './components/validate-email/validate-ema
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {DatePipe} from "@angular/common";
 @NgModule({
   declarations: [
     AppComponent,
@@ -115,7 +116,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatCheckboxModule
   ],
   entryComponents:[],
-  providers: [UserService, RoomService, LocationService, GsmControllerService],
+  providers: [UserService, RoomService, LocationService, GsmControllerService, DatePipe],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}

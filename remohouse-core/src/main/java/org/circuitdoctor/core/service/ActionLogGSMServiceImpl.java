@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -76,7 +75,7 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         log.trace("findAllActions -method entered userID={}",userID);
         List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
                 .filter(action -> action.getUser().getId().equals(userID))
-                .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
+                .filter(action -> (action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end)) || action.getDateTime().isEqual(start) || action.getDateTime().isEqual(end))
                 .collect(Collectors.toList());
         log.trace("findAllActions -method finished result={}",result);
         return result;

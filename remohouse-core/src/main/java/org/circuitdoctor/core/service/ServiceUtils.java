@@ -127,7 +127,7 @@ public class ServiceUtils {
             {from} and {to} are existing emails
         POST:-
          */
-        to="andrei.bangau99@gmail.com";
+        //to="andrei.bangau99@gmail.com";
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "mail.circuitdoctor.ro");
