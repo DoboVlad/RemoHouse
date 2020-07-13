@@ -32,7 +32,7 @@ export class GsmControllerService {
   }
 
   updateGSMController(userID : number, gsm : GSMController) : Observable<boolean>{
-    return this.http.put<boolean>(this.url+"/update/"+userID,gsm);
+    return this.http.put<boolean>(this.url+"/update/"+userID,gsm,this.httpOptionsPlain);
   }
 
   deleteGSM(userID : number, gsmID : number) : Observable<boolean>{
