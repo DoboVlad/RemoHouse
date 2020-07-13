@@ -9,7 +9,9 @@ import java.util.Set;
 
 public interface ActionLogGSMService {
     ActionLogGSM addActionLogGSM(ActionLogGSM actionLogGSM);
-    Set<ActionLogGSM> findAllActions(Long userID);
+    List<ActionLogGSM> findAllActions(Long userID);
     void deleteActionsWithUser(User user);
     void deleteActionsWithGSMController(GSMController gsmController);
+    List<ActionLogGSM> findAllActionsBeetwenDates(Long userId,String startDate,String endDate);
+
 }

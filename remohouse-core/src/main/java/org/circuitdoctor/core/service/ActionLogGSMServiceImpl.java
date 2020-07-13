@@ -1,15 +1,19 @@
 package org.circuitdoctor.core.service;
 
-import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.model.ActionLogGSM;
+import org.circuitdoctor.core.model.GSMController;
+import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.ActionLogGSMRepository;
 import org.circuitdoctor.core.repository.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,7 +24,6 @@ import java.util.stream.Collectors;
 public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     private static final Logger log = LoggerFactory.getLogger(ActionLogGSMServiceImpl.class);
     @Autowired
-
     private ActionLogGSMRepository actionLogGSMRepository;
 
     @Autowired
@@ -47,7 +50,7 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     }
 
     @Override
-    public Set<ActionLogGSM> findAllActions(Long userID) {
+    public List<ActionLogGSM> findAllActions(Long userID) {
         /*
         DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID}
         PARAM: userID : Long
@@ -55,9 +58,28 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         POST: -
          */
         log.trace("findAllActions -method entered userID={}",userID);
-        Set<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+        List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
                 .filter(action -> action.getUser().getId().equals(userID))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
+        log.trace("findAllActions -method finished result={}",result);
+        return result;
+    }
+
+    public List<ActionLogGSM> findAllActionsBeetwenDates(Long userID,String startDate,String endDate) {
+        /*
+        DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID} and made beetwen the 2 dates
+        PARAM: userID : Long,startDate : String,endDate : String
+        PRE: userID > 0 ,valid dates
+        POST: -
+         */
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime start=LocalDateTime.parse(startDate,formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate,formatter);
+        log.trace("findAllActions -method entered userID={}",userID);
+        List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+                .filter(action -> action.getUser().getId().equals(userID))
+                .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
+                .collect(Collectors.toList());
         log.trace("findAllActions -method finished result={}",result);
         return result;
     }
@@ -95,4 +117,6 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         });
         log.trace("deleteActionsWithGSMController - method finished");
     }
+
+
 }

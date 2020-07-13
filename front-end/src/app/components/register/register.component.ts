@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, NgForm, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, Validators} from "@angular/forms";
 import {User} from "../../model/user";
 import {UserService} from "../../service/userService";
 import {Router} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {DeviceDetectorService} from "ngx-device-detector";
+import {LogSignIn} from "../../model/LogSignIn";
+import {LogSignInService} from "../../service/LogSignInService";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -24,7 +28,7 @@ export class RegisterComponent implements OnInit {
     [Validators.required, Validators.minLength(7)]);
   errorLogIn: boolean;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private userService : UserService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private logSignInService : LogSignInService, private userService : UserService, private http:HttpClient, private deviceService:DeviceDetectorService) {
   }
 
   ngOnInit(): void {
@@ -60,11 +64,11 @@ export class RegisterComponent implements OnInit {
     if (this.nameControl.valid && this.phoneNoControl.valid && this.emailControl.valid && this.passwordControl.valid) {
       this.user = new User(0, name, surname, phoneNo, password, email);
       this.userService.signup(this.user).subscribe(response => {
-        localStorage.setItem("user",this.user.phoneNumber);
-        this.router.navigate(["/mainpage"]);
+          localStorage.setItem("email",email);
+          this.router.navigate(["/validate-email"]);
       }, error => {
         console.log("validation error", error);
-        alert("Please try again with valid details.")
+        alert("Invalid credentials, or your e-mail was not validated.")
       });
     }
 
@@ -79,16 +83,27 @@ export class RegisterComponent implements OnInit {
       if(response) {
         if(credential.indexOf("@")!=-1)
           credential = credential.split(".")[0];
-        console.log(credential);
         localStorage.setItem('user',credential);
-        this.router.navigate(["/mainpage"]);
+        //get ip and device
+        this.getIPAddress().subscribe((res:any)=>{
+          let deviceInfo = this.deviceService.getDeviceInfo()
+          this.userService.getUserByCredential(credential).subscribe(user=>{
+            let logSignIn = new LogSignIn(0,user.id,res.ip,deviceInfo.browser,deviceInfo.browser_version,deviceInfo.device,deviceInfo.os,deviceInfo.os_version,"");
+            this.logSignInService.addLog(logSignIn).subscribe(r=>{
+              this.router.navigate(["/mainpage"]);
+            })
+          })
+        });
       }
       else
         this.errorLogIn = true;
     },error => {
       console.log("validation error", error);
     });
-
+  }
+  public getIPAddress()
+  {
+    return this.http.get("http://api.ipify.org/?format=json");
   }
 
   getNameErrorMessage() {
@@ -99,7 +114,6 @@ export class RegisterComponent implements OnInit {
   }
 
   getPhoneNoErrorMessage() {
-    console.log(this.phoneNoControl.errors);
     if (this.phoneNoControl.hasError('required'))
       return 'You must enter a value';
     return 'Invalid phone number';

@@ -12,9 +12,9 @@
 </mat-form-field>
 <br>
 <label>Status: </label>
-<mat-radio-group>
-  <mat-radio-button value="ON" name="status" ngDefaultControl color="warn" #status [(ngModel)]="data.status">ON</mat-radio-button>
-  <mat-radio-button value="OFF" name="status" ngDefaultControl class="button2" color="warn" #status [(ngModel)]="data.status">OFF</mat-radio-button>
+<mat-radio-group #status [(ngModel)]="data.status">
+  <mat-radio-button value="ON" name="status" ngDefaultControl color="warn">ON</mat-radio-button>
+  <mat-radio-button value="OFF" name="status" ngDefaultControl class="button2" color="warn">OFF</mat-radio-button>
 </mat-radio-group>
 <br>
   <p><br>Phone number:</p>

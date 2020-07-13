@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 @CrossOrigin
@@ -36,12 +33,13 @@ public class GSMControllerController {
     private RoomRepository roomRepository;
 
     @RequestMapping(value = "gsm/getGSMs/{userID}/{roomID}",method = RequestMethod.GET)
-    Set<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
+    List<GSMControllerDto> getGSMs(@PathVariable Long userID, @PathVariable Long roomID){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR: gets all the gsmControllers of a user from a room
+        PARAM:userID - Long : If request is used, this is given in the path of the request
+                roomID - Long : If request is used, this is given in the path of the request
+        PRE:userID>0 roomID>0
+        POST: returns the set of gsmControllerDto of the given user and room
          */
         log.trace("getGSMs - method entered u={} r={}",userID, roomID);
         Optional<Room> roomOptional = roomRepository.findById(roomID);
@@ -65,10 +63,16 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/addGSM/{userID}",method = RequestMethod.PUT)
     public String addGSMController(@RequestBody @Valid GSMControllerDto gsmControllerDto,@PathVariable Long userID, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:adds a new GSMController
+        PARAM:gsmControllerDto  - GSMController  : must be valid. If request is used, this is given in the body of the request
+              userID       - Long         : If request is used, this is given in the path of the request
+              bindingResult- BindingResult:If there are any error validations, this is where they will be stored.
+        PRE:None of them null. GSMControllerDto must be valid. UserID>0
+        POST: 405 if error validations - when request used
+              "validation errors" if any validation errors occured
+              "null" if there is no user with the given id
+              "different user ids" if the user does not have access to the gsmController
+              the id of the saved gsmCnotroller if success
          */
         log.trace("addGSMController - method entered gsmControllerdto={}",gsmControllerDto);
         if(errors.hasErrors()){
@@ -90,10 +94,13 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/open/{userID}/{message}", method = RequestMethod.PUT)
     boolean openGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:updates a gsmController making the status to be ON
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              gsmControllerDto - GSMControllerDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, gsmControllerDto is valid
+        POST: return true if success
+                     false if user has no access to the gsmContrller or gsm is already opened or update failed
          */
         log.trace("entered openGSM message={}",message);
         if(errors.hasErrors()){
@@ -129,10 +136,13 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/close/{userID}/{message}", method = RequestMethod.PUT)
     boolean closeGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, @PathVariable String message, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:updates a gsmController making the status to be OFF
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              gsmControllerDto - GSMControllerDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, gsmControllerDto is valid
+        POST: return true if success
+                     false if user has no access to the gsmContrller or gsm is already closed or update failed
          */
         log.trace("entered closeGSM message={}",message);
         if(errors.hasErrors()){
@@ -170,10 +180,13 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/update/{userID}", method = RequestMethod.PUT)
     String updateGSM(@RequestBody @Valid GSMControllerDto gsmControllerDto, @PathVariable Long userID, BindingResult errors){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR:updates a gsmController
+        PARAM:userID      - Long         : If request is used, this is given in the path of the request
+              gsmControllerDto - GsmControllerDto  : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:None null, userID>0, gsmControllerDto is valid
+        POST: return success essage if success
+                     return error message if user has no access to the gsm or update failed
          */
         log.trace("entered updateGSM gsmDTO={}",gsmControllerDto);
         if(errors.hasErrors()){
@@ -201,10 +214,12 @@ public class GSMControllerController {
     @RequestMapping(value = "gsm/delete/{userID}/{gsmID}", method = RequestMethod.DELETE)
     String deleteGSM(@PathVariable Long gsmID, @PathVariable Long userID){
         /*
-        DESCR:
-        PARAM:
-        PRE:
-        POST
+        DESCR: deletes a gsmController
+        PARAM: userID     - Long : If request is used, this is given in the path of the request
+               gsmID - Long : If request is used, this is given in the path of the request
+        PRE:userID > 0, gsmID>0
+        POST: returns success message if success
+                      return error message if the user has no access to the gsm or if the delete failed
          */
         log.trace("entered deleteGSM gsmID={}",gsmID);
         if(!userID.equals(gsmControllerService.findByID(gsmID).getRoom().getLocation().getUser().getId())){
@@ -214,5 +229,23 @@ public class GSMControllerController {
         boolean result=gsmControllerService.deleteGSMController(gsmID);
         log.trace("finished deleteGSM result={}",result);
         return "gsm deleted";
+    }
+
+    @RequestMapping(value = "gsm/qrcode/{gsmId}", method = RequestMethod.GET)
+    byte[] getQRCodeGSM(@PathVariable Long gsmId){
+        /*
+        DESCR:generates qrCode for GSMControllerDto -gsmControllerDto
+        PARAM:gsmId Long : If request is used, this is sent in the body of the request
+              errors      - BindingResult: here will be stored all the validation erros
+        PRE:gsmId >0
+        POST: returns the byte array of the qrCode
+              returns null if there is no gsmController with the id gsmId
+
+         */
+        log.trace("entered getQRCodeGSM gsmId={}",gsmId);
+        byte[] qrCode= gsmControllerService.getQRCode(gsmId);
+        log.trace("finished getQRCode");
+
+        return qrCode;
     }
 }

@@ -15,6 +15,7 @@ public class UserConverter extends BaseConverter<User, UserDto> {
                 .password(dto.getPassword())
                 .phoneNumber(dto.getPhoneNumber())
                 .surname(dto.getSurname())
+                .isValidated(dto.isValidated())
                 .build();
         userResult.setId(dto.getId());
         return userResult;
@@ -29,6 +30,7 @@ public class UserConverter extends BaseConverter<User, UserDto> {
                 .phoneNumber(user.getPhoneNumber())
                 .name(user.getName())
                 .surname(user.getSurname())
+                .isValidated(user.isValidated())
                 .build();
         return userDto;
     }

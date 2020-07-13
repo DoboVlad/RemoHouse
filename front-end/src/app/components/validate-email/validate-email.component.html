@@ -1,0 +1,58 @@
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+
+<div class="form-gap"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="text-center">
+            <h3><i class="fa fa-lock fa-4x"></i></h3>
+            <div class="panel-body">
+              <!--PANOUL IN CARE TREBUIE SA COMPLETEZE CU CODUL PRIMIT-->
+              <div *ngIf="!validated" id="reset1">
+                <form>
+                  <p>
+                    An e-mail with a confirmation code has been sent to you. The code consists of 6 characters.
+                  </p>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-flag color-blue"></i></span>
+                      <input #code placeholder="code" required="required" class="form-control"  type="text" [formControl]="codeControlForm">
+                    </div>
+                    <mat-error *ngIf="codeControlForm.touched && codeControlForm.invalid">
+                      Incorrect code. A new one is being sent.
+                    </mat-error>
+                  </div>
+                  <div class="form-group">
+                    <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Continue" type="submit" (click)="checkCode(code.value)">
+                  </div>
+                </form>
+              </div>
+
+            <!--PANOUL FINAL, IN CARE APARE UN MESAJ SPECIFIC-->
+            <div *ngIf="validated" id="succes">
+              <p>
+                Your email has been confirmed.
+                Click below to go to register page.
+              </p>
+              <div class="form-group">
+                <input name="succes" class="btn btn-lg btn-primary btn-block" value="GO BACK TO SIGN IN" type="submit" routerLink="/register">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>

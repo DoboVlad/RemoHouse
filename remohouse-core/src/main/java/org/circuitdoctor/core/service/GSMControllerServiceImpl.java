@@ -1,10 +1,11 @@
 package org.circuitdoctor.core.service;
 
 
-import org.apache.poi.hssf.util.HSSFColor;
-import org.circuitdoctor.core.model.*;
+import org.circuitdoctor.core.model.ActionLogGSM;
+import org.circuitdoctor.core.model.GSMController;
+import org.circuitdoctor.core.model.GSMStatus;
+import org.circuitdoctor.core.model.Room;
 import org.circuitdoctor.core.repository.GSMControllerRepository;
-import org.circuitdoctor.core.repository.Repository;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -183,6 +182,7 @@ public class GSMControllerServiceImpl implements GSMControllerService {
          */
         log.trace("findAllByRoom - method entered r-{}",room);
         List<GSMController> result = gsmRepository.findAllByRoom(room);
+        result.sort(Comparator.comparing(GSMController::getType));
         log.trace("findAllByRoom - method finished r={}",result);
         return result;
     }
@@ -199,8 +199,35 @@ public class GSMControllerServiceImpl implements GSMControllerService {
         List<GSMController> controllersToDelete  = gsmRepository.findAllByRoom(room);
         controllersToDelete.stream().forEach(controller->{
             log.trace("deleteGSMsWithRoom - delete gsm={}",controller.getId());
+            actionLogGSMService.deleteActionsWithGSMController(controller);
             gsmRepository.delete(controller);
         });
         log.trace("deleteGSMsWithRoom - method finished");
+    }
+
+    @Override
+    public byte[] getQRCode(Long gsmId) {
+        /*
+        DESCR: generates a QRCode from the GSMController with the id {gsmId}
+        PARAM: gsmId - Long
+        PRE: gsmId>0
+        POST: returns the QR code in form of a byte array
+         */
+        log.trace("getQRCode - method entered gsmId={}",gsmId);
+
+        AtomicReference<byte[]> qrCode = new AtomicReference<>(null);
+        Optional<GSMController> gsmFromDB = gsmRepository.findById(gsmId);
+        gsmFromDB.ifPresent(gsmDB->{
+            ServiceUtils utils=new ServiceUtils();
+            qrCode.set(utils.getQRCode(gsmDB));
+
+        });
+
+
+
+        log.trace("getQRCode - method finished");
+        return qrCode.get();
+
+
     }
 }

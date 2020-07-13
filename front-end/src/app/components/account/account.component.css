@@ -109,13 +109,10 @@ button{
   max-width: 1000px;
   color: white;
   background-color: rgba(70,83,98,0.5);
-  -webkit-text-stroke:0.03em black;
 }
 
 .sessions{
-  height: 25%;
-  width: 90%;
-  margin-left: 10%;
+  width: 100%;
 }
 
 .password{
@@ -407,4 +404,14 @@ tr.location-row:not(.example-expanded-row):active {
 
 .spinner-message {
   text-align: center;
+}
+.export{
+  margin-top:5%;
+  left:45%;
+  position: absolute;
+  background-color:#011936;
+  border-radius: 20px;
+  border: 1px solid #82A3A1;
+  font-size: 0.8em;
+  color:#FFFFFF;
 }

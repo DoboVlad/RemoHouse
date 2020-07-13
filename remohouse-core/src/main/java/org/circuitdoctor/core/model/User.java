@@ -1,10 +1,12 @@
 package org.circuitdoctor.core.model;
 
 import lombok.*;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.*;
+import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -46,4 +48,6 @@ public class User extends BaseEntity<Long> implements Serializable {
     @NotBlank(message = "email is mandatory")
     @Email
     private String email;
+    @Column(nullable = false)
+    private boolean isValidated = false;
 }

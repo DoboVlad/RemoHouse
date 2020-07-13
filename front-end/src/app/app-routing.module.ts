@@ -8,6 +8,7 @@ import {MainPageComponent} from "./components/main-page/main-page.component";
 import {AccountComponent} from "./components/account/account.component";
 import {UnauthorizedAccessComponent} from "./components/unauthorized-access/unauthorized-access.component";
 import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
+import {ValidateEmailComponent} from "./components/validate-email/validate-email.component";
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'mainpage', component: MainPageComponent},
   {path: 'account', component: AccountComponent},
   {path: 'unauthorizedaccess', component: UnauthorizedAccessComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent}
+  {path: 'forgot-password', component: ForgotPasswordComponent},
+  {path: 'validate-email', component: ValidateEmailComponent}
 ];
 
 @NgModule({

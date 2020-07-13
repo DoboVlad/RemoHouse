@@ -1,4 +1,5 @@
 package org.circuitdoctor.core.service;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ActionLogGSMService actionLogGSMService;
     @Override
     public List<User> getAllUsers() {
         /*
@@ -56,7 +59,7 @@ public class UserServiceImpl implements UserService {
         log.trace("email");
         userFromDB.ifPresent(userDB->{
             log.trace(userDB.toString());
-            if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
+            if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password)))
                 result.set(true);
         });
         if(!result.get()){
@@ -64,7 +67,7 @@ public class UserServiceImpl implements UserService {
             userFromDB = userRepository.findAllByPhoneNumber(user.getPhoneNumber());
             userFromDB.ifPresent(userDB->{
                 log.trace(userDB.toString());
-                if((userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password))
+                if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password)))
                     result.set(true);
             });
         }
@@ -101,7 +104,7 @@ public class UserServiceImpl implements UserService {
         AtomicReference<User> newUser = new AtomicReference<>();
         Optional<User> userFromDB = userRepository.findById(user.getId());
         if(userFromDB.get().getPassword().length()<7){
-            log.trace("changePassord - invalid Password size(<7)");
+            log.trace("changePassword - invalid Password size(<7)");
             return userFromDB.get();
 
         }
@@ -112,7 +115,7 @@ public class UserServiceImpl implements UserService {
             newUser.set(userDB);
         });
 
-        log.trace("\"changePassword - method finished user={}",newUser);
+        log.trace("changePassword - method finished user={}",newUser);
         return newUser.get();
 
     }
@@ -193,6 +196,34 @@ public class UserServiceImpl implements UserService {
         return result.get() ;
     }
 
+    @Override
+    public String confirmEmail(String email) {
+        /*
+        DESCR:generates a code that will be sent via email to the given email
+        PARAM:email - string
+        PRE:one of the existing users has this email
+        POST:returns the generated code if a user with this email exists
+                     "" otherwise
+         */
+        log.trace("cofirmEmail -method entered email={}",email);
+        Optional<User> user=userRepository.findAllByEmail(email);
+        AtomicReference<String> result= new AtomicReference<>("incorrect email");
+        user.ifPresent(u->{
+            //String to = email;
+            String generatedCode=generateRandomString();
+            // Sender's email ID needs to be mentioned
+            String from = "remo@circuitdoctor.ro";
+            String password="ParolaRemo123";
+            // Assuming you are sending email from localhost
+            String message="Confirmation code: "+generatedCode;
+            String subject="Confirm account REMO";
+            sendEmail(from,email,password,message,subject);
+            log.trace("confirmEmail -method finished code={}",generatedCode);
+            result.set(generatedCode);
+        });
+        return result.get();
+    }
+
 
     static void sendEmail(String from,String to,String password,String emailMessage,String subject){
         /*
@@ -255,6 +286,32 @@ public class UserServiceImpl implements UserService {
             result[i] = (char) (pass.charAt(i) - (i+1));
         }
         return new String(result);
+    }
+
+
+    @Override
+    public void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll) {
+        log.trace("entered sendEmailActonLogs user={}",userId);
+        String from = "remo@circuitdoctor.ro";
+        String password="ParolaRemo123";
+        // Assuming you are sending email from localhost
+        String message="Action Logs";
+        String subject="Action Logs";
+        Optional<User> userFromDB = userRepository.findById(userId);
+        String filename="logFile."+extension;
+        userFromDB.ifPresent(user->{
+            ServiceUtils utils=new ServiceUtils();
+            try {
+                if(takeAll)
+                    utils.writeToFile(actionLogGSMService.findAllActions(userId),filename);
+                else
+                    utils.writeToFile(actionLogGSMService.findAllActionsBeetwenDates(userId,startDate,endDate),filename);
+                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+            }
+        });
+        log.trace("method finished - sendEmailActionLog");
     }
 
 }

@@ -47,7 +47,6 @@
   <mat-grid-list *ngIf="isUserLoggedIn()" class="wrapper" cols="5" rowHeight="fit">
   <mat-grid-tile colspan="4">
     <mat-grid-list class="left-side" cols="1" rowHeight="fit">
-<!--      <mat-grid-tile></mat-grid-tile>-->
       <mat-grid-tile class="location" rowspan="2">
         <p class="room-name left" *ngIf="(locationsObservable | async) as locations">{{getLocationName()}}</p>
       </mat-grid-tile>
@@ -55,7 +54,9 @@
         <p class="room-name" *ngIf="(roomsObservable | async) as rooms">{{getRoomName()}}</p>
       </mat-grid-tile>
       <mat-grid-tile class="image" rowspan="12">
-        <img matListAvatar *ngIf="(gsmsLoaded | async)" [src]="getImage()" (error)="imageExists = false" [hidden]="!imageExists" alt="room-image" class="img-responsive">
+        <div class="not_found" *ngIf="!hasRooms()">Sorry! There are no rooms here.</div>
+        <div class="not_found" *ngIf="hasRooms() && !hasGSM()">Sorry! There are no GSMS here.</div>
+        <img matListAvatar *ngIf="(imageLoaded | async)" [src]="getImage()" (error)="imageExists = false" [hidden]="!imageExists" alt="room-image" class="img-responsive">
       </mat-grid-tile>
     </mat-grid-list>
   </mat-grid-tile>
@@ -78,8 +79,10 @@
           <mat-selection-list #location class="locationList" [(ngModel)]="locationList" multiple="false" (selectionChange)="changeRoom(location.selectedOptions.selected)">
             <mat-list-option *ngFor="let location of locations" [value]="location.name">{{location.name}}</mat-list-option>
           </mat-selection-list>
-        </mat-expansion-panel>
-        <mat-expansion-panel hideToggle>
+        </mat-expansion-panel><!-- Rooms-->
+          <h1 *ngIf="!hasRooms()" class="unexistent">There are no rooms</h1>
+          <mat-expansion-panel *ngIf="hasRooms()" hideToggle>
+
           <mat-expansion-panel-header>
             <mat-panel-title>
               Rooms
@@ -92,7 +95,9 @@
             </mat-selection-list>
           <mat-list></mat-list>
         </mat-expansion-panel>
-        <mat-expansion-panel hideToggle>
+          <!-- Controllers-->
+          <h1 *ngIf="hasRooms() && !hasGSM()" class="unexistent">There are no gsms</h1>
+          <mat-expansion-panel *ngIf="hasGSM()" hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
               Controllers
@@ -100,19 +105,8 @@
             <mat-panel-description>
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <mat-list class="left">
-            <div class="border">
-              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
-              <mat-list-item>
-                <div class="row">Door</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle #door [(ngModel)]="toggleDoor"  id="door1" (change)="doorChange($event)"></mat-slide-toggle>
-              </mat-list-item></div>
-            <div class="border">
-              <button class="del" mat-icon-button color="primary" (click)="deleteButton()"><mat-icon>delete</mat-icon></button>
-              <mat-list-item>
-                <div class="row">Window</div></mat-list-item>
-              <mat-list-item><mat-slide-toggle #window [(ngModel)]="toggleWindow"  id="window1" (change)="windowChange($event)"></mat-slide-toggle>
-              </mat-list-item></div>
+          <mat-list class="left" *ngIf="controllersObservable | async">
+            <app-controller-toggle (notify)="controllerToggled($event)" [controller]="gsm" *ngFor="let gsm of gsms"></app-controller-toggle>
           </mat-list>
         </mat-expansion-panel>
         </mat-accordion>

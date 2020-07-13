@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -69,6 +70,7 @@ public class RoomServiceImpl implements RoomService {
          */
         log.trace("getRooms - method entered l={}",location);
         List<Room> result =  roomRepository.findAllByLocation(location);
+        result.sort(Comparator.comparing(Room::getName));
         log.trace("getRooms - method finished r={}",result);
         return result;
     }
