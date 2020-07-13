@@ -11,6 +11,7 @@ import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatStep} from "@angular/material/stepper";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -27,9 +28,11 @@ export class ExportInfoDialogComponent implements OnInit {
   @ViewChild("step2") step2: MatStep;
   @ViewChild("step3") step3: MatStep;
   @ViewChild("step4") step4: MatStep;
+  @ViewChild("step5") step5: MatStep;
 
   constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService) {
+    this.allTheTime=false;
     this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
       this.user = user;
       this.locationService.getLocations(user.id).subscribe(locations => {
@@ -77,6 +80,28 @@ export class ExportInfoDialogComponent implements OnInit {
 
   changeGSM(selected: MatListOption[]) {
     this.step3.completed = selected.length > 0;
+  }
+
+  isStep4Completed(val:boolean){
+    if(val){
+      this.allTheTime=!this.allTheTime;
+    }
+    this.step4.completed= this.allTheTime==true || (this.dateStart!=undefined && this.dateFinish!=undefined);
+  }
+
+  dateStart;
+  dateFinish;
+  allTheTime: boolean;
+  changeFinishDate($event: MatDatepickerInputEvent<unknown>) {
+    console.log($event.value);
+    this.dateFinish=$event.value;
+    this.isStep4Completed(false);
+  }
+
+  changeStartDate($event: MatDatepickerInputEvent<unknown>) {
+    console.log($event.value);
+    this.dateStart=$event.value;
+    this.isStep4Completed(false);
   }
 }
 

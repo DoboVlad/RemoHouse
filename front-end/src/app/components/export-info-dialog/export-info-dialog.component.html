@@ -44,6 +44,31 @@
       </div>
     </mat-step>
     <mat-step #step4>
+      <ng-template matStepLabel>Select the dates which you want to export</ng-template>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Choose start date</mat-label>
+        <input matInput [matDatepicker]="pickerStart" (dateChange)="changeStartDate($event)" [disabled]="allTheTime">
+        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+        <mat-datepicker #pickerStart></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Choose finish date</mat-label>
+        <input matInput [matDatepicker]="pickerFinish" (dateChange)="changeFinishDate($event)" [disabled]="allTheTime">
+        <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFinish></mat-datepicker>
+      </mat-form-field>
+      <section>
+        <mat-checkbox (click)="isStep4Completed(true)">All time</mat-checkbox>
+      </section>
+
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext [disabled]="!step4.completed">Next</button>
+      </div>
+    </mat-step>
+    <mat-step #step5>
       <ng-template matStepLabel>Select the export method</ng-template>
       <mat-selection-list #optionList multiple="false">
         <mat-list-option *ngFor="let method of methods">
