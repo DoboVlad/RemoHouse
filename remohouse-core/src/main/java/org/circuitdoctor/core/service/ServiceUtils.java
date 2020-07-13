@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.circuitdoctor.core.model.ActionLogGSM;
 import org.circuitdoctor.core.model.GSMController;
+import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,7 @@ import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ServiceUtils {
 
@@ -192,6 +194,13 @@ public class ServiceUtils {
         csvWriter.flush();
         csvWriter.close();
     }
+    public String hashPassword(String password){
 
+        Integer salt=ThreadLocalRandom.current().nextInt(5, 15 + 1);
+        return BCrypt.hashpw(password, BCrypt.gensalt(salt));
+    }
+    public boolean checkPassword(String dumbPassword,String hashedPassword){
+        return BCrypt.checkpw(dumbPassword, hashedPassword);
+    }
 
 }

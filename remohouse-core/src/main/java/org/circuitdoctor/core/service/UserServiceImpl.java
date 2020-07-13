@@ -57,9 +57,11 @@ public class UserServiceImpl implements UserService {
         AtomicBoolean result = new AtomicBoolean(false);
         Optional<User> userFromDB = userRepository.findAllByEmail(user.getEmail());
         log.trace("email");
+        ServiceUtils utils =new ServiceUtils();
         userFromDB.ifPresent(userDB->{
             log.trace(userDB.toString());
-            if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) && userDB.getPassword().equals(password)))
+            if((userDB.isValidated() && (userDB.getPhoneNumber().equals(phoneNo) || userDB.getEmail().equals(email)) &&
+                    utils.checkPassword(password,userDB.getPassword())))
                 result.set(true);
         });
         if(!result.get()){
@@ -84,6 +86,8 @@ public class UserServiceImpl implements UserService {
         POST:returns the user that was saved in the database. The id is updated with respect to the rule in BaseEntity
          */
         log.trace("signUp - method entered user={}",user);
+        ServiceUtils utils =new ServiceUtils();
+        user.setPassword(utils.hashPassword(user.getPassword()));
         User newUser=userRepository.save(user);
 
         log.trace("signUp - method finished newUser={}",newUser);
@@ -100,7 +104,7 @@ public class UserServiceImpl implements UserService {
                       null if the password is not valid or if the user has other fields modified.
          */
         log.trace("changePassword - method entered user={}",user);
-
+        ServiceUtils utils =new ServiceUtils();
         AtomicReference<User> newUser = new AtomicReference<>();
         Optional<User> userFromDB = userRepository.findById(user.getId());
         if(userFromDB.get().getPassword().length()<7){
@@ -110,7 +114,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userFromDB.ifPresent(userDB->{
-            userDB.setPassword(user.getPassword());
+            userDB.setPassword(utils.hashPassword(user.getPassword()));
             userRepository.save(userDB);
             newUser.set(userDB);
         });
@@ -280,13 +284,7 @@ public class UserServiceImpl implements UserService {
 
         return generatedString;
     }
-    String hashPassword(String pass){
-        char[] result = new char[pass.length()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = (char) (pass.charAt(i) - (i+1));
-        }
-        return new String(result);
-    }
+
 
 
     @Override

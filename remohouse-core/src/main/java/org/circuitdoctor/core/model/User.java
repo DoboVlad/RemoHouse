@@ -51,4 +51,5 @@ public class User extends BaseEntity<Long> implements Serializable {
     @Column(nullable = false)
     @Builder.Default
     private boolean isValidated = false;
+
 }
