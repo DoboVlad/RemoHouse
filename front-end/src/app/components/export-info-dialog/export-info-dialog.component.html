@@ -1,77 +1,45 @@
 <h2>Export info</h2>
 <mat-dialog-content>
-  <mat-horizontal-stepper [linear]="true" #stepper>
-    <mat-step #step1 [completed]="false">
-      <ng-template matStepLabel>Select the location</ng-template>
-      <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
-        <mat-list-option *ngFor="let location of locations" [value]="location">
-          {{location.name}}
-        </mat-list-option>
-      </mat-selection-list>
-      <div>
-        <button mat-button matStepperNext [disabled]="!step1.completed">Next</button>
-      </div>
+  <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-step>
+        <ng-template matStepLabel>Select the location</ng-template>
+        <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
+          <mat-list-option *ngFor="let location of locations" [value]="location.name">
+            {{location.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
     </mat-step>
-    <mat-step #step2 [completed]="false">
-      <ng-template matStepLabel>Select the room</ng-template>
-      <mat-selection-list #room *ngFor="let roomNow of rooms | keyvalue" multiple="true" (selectionChange)="getGsm(roomNow.key, room.selectedOptions.selected)">
-        <h3 matSubheader >{{roomNow.key}}</h3>
-        <mat-list-option *ngFor="let roomList of roomNow.value" [value]="roomList">
-          {{roomList.name}}
-        </mat-list-option>
-        <mat-divider></mat-divider>
-      </mat-selection-list>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="!step2.completed">Next</button>
-      </div>
+    <mat-step>
+        <ng-template matStepLabel>Select the room</ng-template>
+        <mat-selection-list #room multiple="true" (selectionChange)="getGsm(room.selectedOptions.selected)">
+          <mat-list-option *ngFor="let room of rooms">
+            {{room.name}}
+          </mat-list-option>
+        </mat-selection-list>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
     </mat-step>
-    <mat-step #step3 [completed]="false">
+    <mat-step>
       <ng-template matStepLabel>Select the controllers</ng-template>
-      <mat-list *ngFor="let gsm of gsms | keyvalue">
-          <h3 matSubheader>{{gsm.key}}</h3>
-          <mat-selection-list #controllers *ngFor="let gsmList of gsm.value | keyvalue" multiple = "true" (selectionChange)="changeGSM(gsmList.key,controllers.selectedOptions.selected)">
-            <h3 matSubheader>{{gsmList.key}}</h3>
-            <mat-list-option *ngFor="let gsmController of gsmList.value" [value]="gsmController.id">
-              {{gsmController.type}}
-            </mat-list-option>
-            <mat-divider></mat-divider>
-          </mat-selection-list>
-      </mat-list>
+      <mat-selection-list #gsm multiple="true">
+        <mat-list-option *ngFor="let gsm of gsms">
+          {{gsm.type}}
+        </mat-list-option>
+      </mat-selection-list>
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="!step3.completed">Next</button>
+        <button mat-button matStepperNext>Next</button>
       </div>
     </mat-step>
-    <mat-step #step4>
-      <ng-template matStepLabel>Select the dates which you want to export</ng-template>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Choose start date</mat-label>
-        <input matInput [matDatepicker]="pickerStart" (dateChange)="changeStartDate($event)" [disabled]="allTheTime">
-        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-        <mat-datepicker #pickerStart></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Choose finish date</mat-label>
-        <input matInput [matDatepicker]="pickerFinish" (dateChange)="changeFinishDate($event)" [disabled]="allTheTime">
-        <mat-datepicker-toggle matSuffix [for]="pickerFinish"></mat-datepicker-toggle>
-        <mat-datepicker #pickerFinish></mat-datepicker>
-      </mat-form-field>
-      <section>
-        <mat-checkbox (click)="isStep4Completed(true)">All time</mat-checkbox>
-      </section>
-
-
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext [disabled]="!step4.completed">Next</button>
-      </div>
-    </mat-step>
-    <mat-step #step5>
+    <mat-step>
       <ng-template matStepLabel>Select the export method</ng-template>
-      <mat-selection-list #optionList multiple="false">
-        <mat-list-option *ngFor="let method of methods">
+      <mat-selection-list>
+        <mat-list-option *ngFor="let method of methods" multiple="true">
           {{method}}
         </mat-list-option>
       </mat-selection-list>
@@ -84,5 +52,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button mat-button (click)="export(optionList.selectedOptions.selected)">Export</button>
+  <button mat-button (click)="export()">Export</button>
 </mat-dialog-actions>
