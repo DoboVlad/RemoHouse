@@ -13,6 +13,6 @@ public interface ActionLogGSMService {
     void deleteActionsWithUser(User user);
     void deleteActionsWithGSMController(GSMController gsmController);
     List<ActionLogGSM> findAllActionsBeetwenDates(Long userId,String startDate,String endDate);
-    List<ActionLogGSM> findAllActionsFromGSMsBeetwenDates(Long userId,List<Long> gsmIds,String startDate,String endDate);
+    List<ActionLogGSM> findAllActionsFromGSMsBeetwenDates(Long userId,List<Long> gsmIds,String startDate,String endDate,boolean takeAll);
 
 }

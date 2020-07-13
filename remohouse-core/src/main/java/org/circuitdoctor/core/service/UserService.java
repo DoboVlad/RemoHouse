@@ -14,7 +14,7 @@ public interface UserService {
     String recoverPasswordByEmail(String email);
     String recoverPasswordByMessage(String phoneNumber);
     void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll);
-    void sendEmailWithActionLogsFromGSMs(Long userId,String extension,List<Long> gsmIds,String startDate,String endDate);
+    void sendEmailWithActionLogsFromGSMs(Long userId,String extension,List<Long> gsmIds,String startDate,String endDate,boolean takeAll);
 
 
     String confirmEmail(String email);

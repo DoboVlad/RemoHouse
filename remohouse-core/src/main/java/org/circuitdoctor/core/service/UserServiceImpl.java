@@ -315,7 +315,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void sendEmailWithActionLogsFromGSMs(Long userId, String extension, List<Long> gsmIds, String startDate, String endDate) {
+    public void sendEmailWithActionLogsFromGSMs(Long userId, String extension, List<Long> gsmIds, String startDate, String endDate,boolean takeAll) {
         log.trace("entered sendEmailActonLogsFromGSMs user={}",userId);
         String from = "remo@circuitdoctor.ro";
         String password="ParolaRemo123";
@@ -327,7 +327,7 @@ public class UserServiceImpl implements UserService {
         userFromDB.ifPresent(user->{
             ServiceUtils utils=new ServiceUtils();
             try {
-                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate),filename);
+                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
                 utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
             } catch (IOException e) {
                 log.warn(e.getMessage());
