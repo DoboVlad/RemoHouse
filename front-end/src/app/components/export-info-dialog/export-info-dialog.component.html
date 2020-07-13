@@ -45,7 +45,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Select the export method</ng-template>
-      <mat-selection-list>
+      <mat-selection-list #optionList multiple="false">
         <mat-list-option *ngFor="let method of methods">
           {{method}}
         </mat-list-option>
@@ -59,5 +59,5 @@
 </mat-dialog-content>
 <mat-dialog-actions align="center">
   <button mat-button (click)="closeDialog()">Cancel</button>
-  <button mat-button (click)="export()">Export</button>
+  <button mat-button (click)="export(optionList.selectedOptions.selected)">Export</button>
 </mat-dialog-actions>

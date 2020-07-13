@@ -243,10 +243,10 @@ newPassword: string;}
         this.gsmControllerService.addGSMController(this.user.id, gsmController).subscribe(response => {
           console.log(response);
           this.snackBar.open(String("Added GSM."), "Ok", {duration: 2000});
-          this.gsmControllerService.getGSMs(this.user.id, this.room.id).subscribe(GSMController => {
+          this.gsmControllerService.getGSMs(this.user.id, this.expandedRoom.id).subscribe(GSMController => {
             this.gsmController = GSMController;
             this.controllerDataSource = new MatTableDataSource<GSMController>(GSMController);
-            this.refreshTable();
+            this.refreshTablegsm();
           });
         });
       }
@@ -279,7 +279,6 @@ newPassword: string;}
 
   refreshTablegsm() {
     this.gsmControllerService.getGSMs(this.user.id, this.expandedRoom.id).subscribe(controller => {
-      this.gsmController = controller;
       this.controllerDataSource = new MatTableDataSource<GSMController>(controller);
     });
   }
@@ -303,6 +302,7 @@ newPassword: string;}
           this.refreshTablegsm();
         });
       }
+      this.refreshTablegsm();
     });
   }
 

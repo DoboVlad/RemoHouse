@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 @CrossOrigin
@@ -180,6 +181,28 @@ public class UserController {
         if(ext.equals("csv") || ext.equals("txt")){
             userService.sendEmailWithActionLogs(userID,ext,startDate,endDate,takeAll);
             log.trace("getActions - method finished");
+            return "email sent";
+        }
+
+        return "the extension must be txt or csv";
+
+
+
+    }
+    @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
+    String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
+                                        @PathVariable String endDate,boolean takeAll,BindingResult errors){
+
+        log.trace("getActionsFromGSMs - method entered userID={}",userID);
+        //System.out.println(gsmIds);
+        if(errors.hasErrors()){
+            errors.getAllErrors().forEach(error-> log.trace("error - {}",error.toString()));
+            log.trace("sendEmailWithActionsFromGSMs - validation error");
+            return "validation errors";
+        }
+        if(ext.equals("csv") || ext.equals("txt")){
+            userService.sendEmailWithActionLogsFromGSMs(userID,ext,gsmIds,startDate,endDate,takeAll);
+            log.trace("getActionsFromGSMs - method finished");
             return "email sent";
         }
 

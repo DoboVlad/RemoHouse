@@ -10,26 +10,28 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-import org.springframework.http.MediaType;
 import org.springframework.validation.BeanPropertyBindingResult;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import static org.hamcrest.CoreMatchers.anyOf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 public class LocationControllerTest {
 
     private MockMvc mockMvc;
@@ -157,8 +159,8 @@ public class LocationControllerTest {
 
     @Test
     public void getLocations() throws Exception {
-        Set<Location> locationSet = new HashSet<>(Arrays.asList(location1,location2));
-        Set<LocationDto> locationDtos = new HashSet<>(Arrays.asList(locationDto1,locationDto2));
+        List<Location> locationSet = Arrays.asList(location1,location2);
+        List<LocationDto> locationDtos = Arrays.asList(locationDto1,locationDto2);
         Long userID = user1.getId();
         when(locationService.getAllLocations(userID)).thenReturn(locationSet);
         when(locationConverter.convertModelsToDtos(locationSet)).thenReturn(locationDtos);

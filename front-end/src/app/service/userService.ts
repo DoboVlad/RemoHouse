@@ -51,4 +51,9 @@ export class UserService {
   validateAccount(email : string){
     return this.http.get(this.url+"/validateAccount/"+email)
   }
+
+  sendRaportViaEmail(userID : number, startDate:string, endDate:string, takeAll:boolean) : Observable<string>{
+    return this.http.get<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll)
+
+  }
 }
