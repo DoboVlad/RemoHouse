@@ -85,6 +85,27 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     }
 
     @Override
+    public List<ActionLogGSM> findAllActionsFromGSMsBeetwenDates(Long userId, List<Long> gsmIds, String startDate, String endDate) {
+        /*
+        DESCR: returns a set of ActionLogGSM - the ActionLogGSMs corresponding to the userID {userID} and made beetwen the 2 dates
+        PARAM: userID : Long,startDate : String,endDate : String
+        PRE: userID > 0 ,valid dates
+        POST: -
+         */
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime start=LocalDateTime.parse(startDate,formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate,formatter);
+        log.trace("findAllActions -method entered userID={}",userId);
+        List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
+                .filter(action -> action.getUser().getId().equals(userId))
+                .filter(action -> gsmIds.contains(action.getGsmController().getId()))
+                .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
+                .collect(Collectors.toList());
+        log.trace("findAllActions -method finished result={}",result);
+        return result;
+    }
+
+    @Override
     public void deleteActionsWithUser(User user) {
         /*
         DESCR: deletes actionLogGSMs with User {user} from database
