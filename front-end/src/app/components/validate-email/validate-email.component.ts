@@ -11,7 +11,7 @@ export class ValidateEmailComponent implements OnInit {
 
   constructor(private userService : UserService) {
     this.validated = false;
-    this.userService.sendConfirmationCode(localStorage.getItem("email").split(".")[0]).subscribe(code=>{
+    this.userService.sendConfirmationCode(localStorage.getItem("email").split("@")[0]+"@").subscribe(code=>{
       localStorage.setItem("confirmationCode",code);
     });
   }
@@ -30,11 +30,11 @@ export class ValidateEmailComponent implements OnInit {
     console.log("hi",localStorage.getItem("confirmationCode"),code)
     if(localStorage.getItem("confirmationCode")==code) {
       this.validated = true;
-      this.userService.validateAccount(localStorage.getItem("email").split(".")[0]).subscribe(response=>{
+      this.userService.validateAccount(localStorage.getItem("email").split("@")[0]+"@").subscribe(response=>{
         localStorage.clear();
       });
     }else{
-      this.userService.sendCode(localStorage.getItem("email").split(".")[0]).subscribe(code=> {
+      this.userService.sendCode(localStorage.getItem("email").split("@")[0]+"@").subscribe(code=> {
         localStorage.setItem("confirmationCode", code);
       });
     }
