@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChildren} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {LocationService} from "../../service/locationService";
 import {User} from "../../model/user";
 import {LocationModel} from "../../model/LocationModel";
-import {MatListOption} from "@angular/material/list";
+import {MatListOption, MatSelectionList} from "@angular/material/list";
 import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
-import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -20,6 +19,7 @@ export class ExportInfoDialogComponent implements OnInit {
   user: User;
   locations: Array<LocationModel>;
   gsms: Dictionary<Dictionary<Array<GSMController>>> = {};
+  selectedGSMs : Dictionary<Array<number>> = {};
   rooms: Dictionary<Array<Room>> = {};
   methods: string[] = ['Mail', 'PDF', 'Word'];
 
@@ -63,11 +63,26 @@ export class ExportInfoDialogComponent implements OnInit {
 
   export(selected: MatListOption[]){
     //by default send to email
-    //this.userService.sendRaportViaEmail(this.user.id,starDate,endDate,takeAll).subsribe(respones=>{
-    //console.log("raport sent")
-    //})
+    // this.userService.sendRaportViaEmail(this.flattenSelectedGSMS(),this.user.id,startDate,endDate,takeAll).subscribe(respones=>{
+    // console.log("raport sent")
+    // })
   }
 
+  setSelectedGSMS(roomName: string, selected: MatListOption[]) {
+    let selectedIDs = []
+    selected.forEach(s=>selectedIDs.push(s.value))
+    this.selectedGSMs[roomName]=selectedIDs;
+    console.log(this.selectedGSMs)
+  }
+
+  private flattenSelectedGSMS() : Array<number>{
+    let list = [];
+    for (let key in this.selectedGSMs) {
+      this.selectedGSMs[key].forEach(v=>list.push(v));
+    }
+    console.log(list)
+    return list;
+  }
 }
 
 

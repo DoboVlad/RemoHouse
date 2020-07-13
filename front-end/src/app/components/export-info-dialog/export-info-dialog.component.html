@@ -30,9 +30,9 @@
       <ng-template matStepLabel>Select the controllers</ng-template>
       <mat-list *ngFor="let gsm of gsms | keyvalue">
           <h3 matSubheader>{{gsm.key}}</h3>
-          <mat-selection-list *ngFor="let gsmList of gsm.value | keyvalue" multiple = "true">
+          <mat-selection-list #gsm *ngFor="let gsmList of gsm.value | keyvalue" multiple = "true" (selectionChange)="setSelectedGSMS(gsmList.key,gsm.selectedOptions.selected)">
             <h3 matSubheader>{{gsmList.key}}</h3>
-            <mat-list-option *ngFor="let gsmController of gsmList.value" [value]="gsmList">
+            <mat-list-option *ngFor="let gsmController of gsmList.value" [value]="gsmController.id">
               {{gsmController.type}}
             </mat-list-option>
             <mat-divider></mat-divider>
