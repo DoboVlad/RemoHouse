@@ -18,11 +18,8 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 export class ExportInfoDialogComponent implements OnInit {
   user: User;
   locations: Array<LocationModel>;
-  currentLocation: LocationModel;
-  currentRoom: Room;
-  gsms: Array<GSMController>;
-  rooms: Array<Room>;
-  totalRooms: Array<Room>;
+  gsms: Dictionary<Dictionary<Array<GSMController>>> = {};
+  rooms: Dictionary<Array<Room>> = {};
   methods: string[] = ['Mail', 'PDF', 'Word'];
 
   constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
@@ -38,30 +35,25 @@ export class ExportInfoDialogComponent implements OnInit {
   }
 
   getRoom(selected: MatListOption[]) {
-    this.locations.forEach(location => {
-      selected.forEach(selected =>{
-        if (location.name == selected.value) {
-          this.currentLocation = location;
-          this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
-            this.rooms = rooms;
-          });
-        }}
-      )
-      this.totalRooms=this.rooms;
+    //this.rooms = new Array<RoomDTO>();
+    this.rooms = {};
+    selected.forEach(location =>{
+      this.roomService.getRooms(this.user.id, location.value.id).subscribe(rooms =>{
+        this.rooms[location.value.name] = rooms;
+      })
     });
   }
-  getGsm(selected: MatListOption[]){
-    this.rooms.forEach(room => {
-      selected.forEach(selected =>{
-        if (room.name == selected.value) {
-          this.currentRoom =room;
-          this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
-            this.gsms = gsms;
-          });
-        }}
-      )
-    });
 
+  getGsm(locationName: string, selected: MatListOption[]){
+   this.gsms[locationName] = {};
+    selected.forEach(room=>{
+      this.gsmService.getGSMs(this.user.id, room.value.id).subscribe(controller=>{
+        this.gsms[locationName][room.value.name] = controller;
+      });
+    });
+    if(selected.length == 0){
+      delete this.gsms[locationName];
+    }
   }
 
 
@@ -72,4 +64,27 @@ export class ExportInfoDialogComponent implements OnInit {
     this.dialogRef.close(true);
   }
 
+}
+
+
+export class RoomDTO {
+  locationName: string;
+  rooms: Room[];
+  constructor(private name: string, private roomList: Room[]) {
+    this.locationName = name;
+    this.rooms = roomList;
+  }
+}
+
+export class GSMDTO{
+  roomName: string;
+  gsms: GSMController[];
+  constructor(private namer: string, private gsmList: GSMController[]) {
+    this.roomName = namer;
+    this.gsms = gsmList;
+  }
+}
+
+export interface Dictionary<T> {
+  [K: string]: T;
 }
