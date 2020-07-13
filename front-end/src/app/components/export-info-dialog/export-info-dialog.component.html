@@ -1,52 +1,14 @@
 <h2>Export info</h2>
 <mat-dialog-content>
-<<<<<<< HEAD
-  <mat-horizontal-stepper [linear]="false" #stepper>
-    <mat-step>
-      <ng-template matStepLabel>Select the location</ng-template>
-      <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
-        <mat-list-option *ngFor="let location of locations" [value]="location.name">
-=======
   <mat-horizontal-stepper [linear]="true" #stepper>
     <mat-step #step1 [completed]="false">
       <ng-template matStepLabel>Select the location</ng-template>
       <mat-selection-list #location multiple="true" (selectionChange)="getRoom(location.selectedOptions.selected)">
         <mat-list-option *ngFor="let location of locations" [value]="location">
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
           {{location.name}}
         </mat-list-option>
       </mat-selection-list>
       <div>
-<<<<<<< HEAD
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Select the room</ng-template>
-      <mat-selection-list #room multiple="true" (selectionChange)="getGsm(room.selectedOptions.selected)">
-        <mat-list-option *ngFor="let room of rooms">
-          {{room.name}}
-        </mat-list-option>
-      </mat-selection-list>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Select the controllers</ng-template>
-      <mat-selection-list #gsm multiple="true">
-        <mat-list-option *ngFor="let gsm of gsms">
-          {{gsm.type}}
-        </mat-list-option>
-      </mat-selection-list>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step>
-    <mat-step>
-=======
         <button mat-button matStepperNext [disabled]="!step1.completed">Next</button>
       </div>
     </mat-step>
@@ -107,7 +69,6 @@
       </div>
     </mat-step>
     <mat-step #step5>
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
       <ng-template matStepLabel>Select the export method</ng-template>
       <mat-selection-list #optionList multiple="false">
         <mat-list-option *ngFor="let method of methods">

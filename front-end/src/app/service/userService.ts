@@ -52,13 +52,7 @@ export class UserService {
     return this.http.get(this.url+"/validateAccount/"+email)
   }
 
-<<<<<<< HEAD
-  sendRaportViaEmail(userID : number, startDate:string, endDate:string, takeAll:boolean) : Observable<string>{
-    return this.http.get<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll)
-
-=======
   sendRaportViaEmail(gsms:Array<number>, userID : number, startDate:string, endDate:string, takeAll:boolean) : Observable<string>{
     return this.http.put<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll,gsms,this.httpOptionsPlain)
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
   }
 }

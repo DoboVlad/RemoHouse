@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Component, OnInit } from '@angular/core';
-=======
 import {Component, OnInit, ViewChild} from '@angular/core';
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
 import {MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {LocationService} from "../../service/locationService";
@@ -14,12 +10,9 @@ import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
 import {SelectionModel} from "@angular/cdk/collections";
-<<<<<<< HEAD
-=======
 import {MatStep} from "@angular/material/stepper";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import {DatePipe} from "@angular/common";
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -29,17 +22,6 @@ import {DatePipe} from "@angular/common";
 export class ExportInfoDialogComponent implements OnInit {
   user: User;
   locations: Array<LocationModel>;
-<<<<<<< HEAD
-  currentLocation: LocationModel;
-  currentRoom: Room;
-  gsms: Array<GSMController>;
-  rooms: Array<Room>;
-  totalRooms: Array<Room>;
-  methods: string[] = ['Mail', 'PDF', 'Word'];
-
-  constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
-              private roomService: RoomService, private gsmService: GsmControllerService) {
-=======
   gsms: Dictionary<Dictionary<Array<GSMController>>> = {};
   selectedGSMs : Dictionary<Array<number>> = {};
   rooms: Dictionary<Array<Room>> = {};
@@ -57,7 +39,6 @@ export class ExportInfoDialogComponent implements OnInit {
   constructor(private datePipe:DatePipe, public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService) {
     this.allTheTime=false;
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
     this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
       this.user = user;
       this.locationService.getLocations(user.id).subscribe(locations => {
@@ -69,32 +50,6 @@ export class ExportInfoDialogComponent implements OnInit {
   }
 
   getRoom(selected: MatListOption[]) {
-<<<<<<< HEAD
-    this.locations.forEach(location => {
-      selected.forEach(selected =>{
-        if (location.name == selected.value) {
-          this.currentLocation = location;
-          this.roomService.getRooms(this.user.id, this.currentLocation.id).subscribe(rooms => {
-            this.rooms = rooms;
-          });
-        }}
-      )
-      this.totalRooms=this.rooms;
-    });
-  }
-  getGsm(selected: MatListOption[]){
-    this.rooms.forEach(room => {
-      selected.forEach(selected =>{
-        if (room.name == selected.value) {
-          this.currentRoom =room;
-          this.gsmService.getGSMs(this.user.id, this.currentRoom.id).subscribe(gsms => {
-            this.gsms = gsms;
-          });
-        }}
-      )
-    });
-
-=======
     //this.rooms = new Array<RoomDTO>();
     this.rooms = {};
     selected.forEach(location =>{
@@ -116,7 +71,6 @@ export class ExportInfoDialogComponent implements OnInit {
       delete this.gsms[locationName];
     }
     this.step2.completed = selected.length > 0;
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
   }
 
   closeDialog(){
@@ -125,13 +79,6 @@ export class ExportInfoDialogComponent implements OnInit {
 
   export(selected: MatListOption[]){
     //by default send to email
-<<<<<<< HEAD
-    //this.userService.sendRaportViaEmail(this.user.id,starDate,endDate,takeAll).subsribe(respones=>{
-    //console.log("raport sent")
-    //})
-  }
-
-=======
     let list = this.flattenSelectedGSMS()
     this.userService.sendRaportViaEmail(list,this.user.id,this.datePipe.transform(this.dateStart,"yyyy-MM-dd HH:mm:ss"),this.datePipe.transform(this.dateFinish,"yyyy-MM-dd HH:mm:ss"),this.allTheTime).subscribe(respones=>{
       if(respones=="email sent")
@@ -195,5 +142,4 @@ export class GSMDTO{
 
 export interface Dictionary<T> {
   [K: string]: T;
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
 }

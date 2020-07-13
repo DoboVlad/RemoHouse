@@ -32,6 +32,8 @@ dependencies {
     //QR Code
     compile "com.google.zxing:core:3.3.0"
     compile 'com.google.zxing:javase:3.3.0'
+    //Hashing
+    implementation "org.mindrot:jbcrypt:0.4"
 
 
 

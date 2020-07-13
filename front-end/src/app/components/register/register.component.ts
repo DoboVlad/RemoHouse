@@ -82,11 +82,7 @@ export class RegisterComponent implements OnInit {
     this.userService.login(this.user).subscribe(response=>{
       if(response) {
         if(credential.indexOf("@")!=-1)
-<<<<<<< HEAD
-          credential = credential.split(".")[0];
-=======
           credential = credential.split("@")[0]+"@";
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
         localStorage.setItem('user',credential);
         //get ip and device
         this.getIPAddress().subscribe((res:any)=>{

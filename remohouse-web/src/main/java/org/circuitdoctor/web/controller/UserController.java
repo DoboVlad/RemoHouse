@@ -173,17 +173,9 @@ public class UserController {
         log.trace("validateAccount - method finished");
     }
 
-
     @RequestMapping(value = "user/sendEmailActions/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActions(@PathVariable Long userID,@PathVariable String ext,@PathVariable String startDate,
                                 @PathVariable String endDate,@PathVariable boolean takeAll){
-
-
-
-    @RequestMapping(value = "user/sendEmailActions/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
-    String sendEmailWithActions(@PathVariable Long userID,@PathVariable String ext,@PathVariable String startDate,
-                                @PathVariable String endDate,@PathVariable boolean takeAll){
-
 
         log.trace("getActions - method entered userID={}",userID);
         if(ext.equals("csv") || ext.equals("txt")){
@@ -197,7 +189,6 @@ public class UserController {
 
 
     }
-
     @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
                                         @PathVariable String endDate,boolean takeAll){
@@ -216,6 +207,5 @@ public class UserController {
 
 
     }
-
 
 }

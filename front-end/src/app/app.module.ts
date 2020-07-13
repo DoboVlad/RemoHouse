@@ -52,14 +52,10 @@ import { ExportInfoDialogComponent } from './components/export-info-dialog/expor
 import {MatStepperModule} from "@angular/material/stepper";
 import { ControllerToggleComponent } from './components/controller-toggle/controller-toggle.component';
 import { ValidateEmailComponent } from './components/validate-email/validate-email.component';
-<<<<<<< HEAD
-
-=======
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {DatePipe} from "@angular/common";
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,15 +109,11 @@ import {DatePipe} from "@angular/common";
     MatSortModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-<<<<<<< HEAD
-    MatStepperModule
-=======
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSliderModule,
     MatCheckboxModule
->>>>>>> 1c8feeb7ed9989c0e4ccb4ebdec6fbb1c46c38f9
   ],
   entryComponents:[],
   providers: [UserService, RoomService, LocationService, GsmControllerService, DatePipe],
