@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {UserService} from "../../service/userService";
 import {LocationService} from "../../service/locationService";
@@ -10,6 +10,7 @@ import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
 import {SelectionModel} from "@angular/cdk/collections";
+import {MatStep} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -22,6 +23,10 @@ export class ExportInfoDialogComponent implements OnInit {
   gsms: Dictionary<Dictionary<Array<GSMController>>> = {};
   rooms: Dictionary<Array<Room>> = {};
   methods: string[] = ['Mail', 'PDF', 'Word'];
+  @ViewChild("step1") step1: MatStep;
+  @ViewChild("step2") step2: MatStep;
+  @ViewChild("step3") step3: MatStep;
+  @ViewChild("step4") step4: MatStep;
 
   constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService) {
@@ -43,6 +48,7 @@ export class ExportInfoDialogComponent implements OnInit {
         this.rooms[location.value.name] = rooms;
       })
     });
+    this.step1.completed = selected.length > 0;
   }
 
   getGsm(locationName: string, selected: MatListOption[]){
@@ -55,6 +61,7 @@ export class ExportInfoDialogComponent implements OnInit {
     if(selected.length == 0){
       delete this.gsms[locationName];
     }
+    this.step2.completed = selected.length > 0;
   }
 
   closeDialog(){
@@ -68,6 +75,9 @@ export class ExportInfoDialogComponent implements OnInit {
     //})
   }
 
+  changeGSM(selected: MatListOption[]) {
+    this.step3.completed = selected.length > 0;
+  }
 }
 
 
