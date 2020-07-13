@@ -31,7 +31,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
-import {MatOptionModule, MatRippleModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule, MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import { AddRoomComponent } from './components/add-room/add-room.component';
 import { UpdateRoomComponent } from './components/update-room/update-room.component';
@@ -51,7 +51,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ExportInfoDialogComponent } from './components/export-info-dialog/export-info-dialog.component';
 import {MatStepperModule} from "@angular/material/stepper";
 import { ControllerToggleComponent } from './components/controller-toggle/controller-toggle.component';
-
+import { ValidateEmailComponent } from './components/validate-email/validate-email.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {DatePipe} from "@angular/common";
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,8 +75,9 @@ import { ControllerToggleComponent } from './components/controller-toggle/contro
     DeleteGSMComponent,
     LocationDialogComponent,
     DeleteButtonDialogComponent,
-    ExportInfoDialogComponent,
-    ControllerToggleComponent
+    ControllerToggleComponent,
+    ValidateEmailComponent,
+    ExportInfoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -104,10 +109,14 @@ import { ControllerToggleComponent } from './components/controller-toggle/contro
     MatSortModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatStepperModule
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule,
+    MatCheckboxModule
   ],
   entryComponents:[],
-  providers: [UserService, RoomService, LocationService, GsmControllerService],
+  providers: [UserService, RoomService, LocationService, GsmControllerService, DatePipe],
   bootstrap: [AppComponent,UnauthorizedAccessComponent]
 })
 export class AppModule {}
