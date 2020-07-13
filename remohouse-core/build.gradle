@@ -7,8 +7,11 @@ buildscript {
     }
 }
 apply plugin: 'org.springframework.boot'
-dependencies {
 
+bootRepackage {
+    mainClass = 'starter.StartRestServer'
+}
+dependencies {
     //jpa
     compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
 

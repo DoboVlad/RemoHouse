@@ -11,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -25,7 +23,6 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
     private static final Logger log = LoggerFactory.getLogger(ActionLogGSMServiceImpl.class);
     @Autowired
     private ActionLogGSMRepository actionLogGSMRepository;
-
     @Autowired
     private Repository<User,Long> userRepository;
 

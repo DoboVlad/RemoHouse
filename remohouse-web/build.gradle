@@ -2,40 +2,28 @@ plugins {
     id 'org.springframework.boot' version '2.2.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
-}
-plugins {
     id 'war'
-
 }
 war {
     zip64 true
 }
-apply plugin: 'org.springframework.boot'
-
-
-
-
 
 dependencies {
     compile project(':remohouse-core')
-
     compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonDatabindVersion"
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: "$jacksonDatabindVersion"
 
     compile group: 'javax.servlet', name: 'javax.servlet-api', version: "$javaxServeletApiVersion"
-    //compile group: 'org.mockito', name: 'mockito-core', version: '2.22.0'
-
     testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
-    testCompile (group: 'org.mockito', name: 'mockito-core', version: '2.22.0'){
-        exclude group:'org.hamcrest',module:'hamcrest-core'
+    testCompile(group: 'org.mockito', name: 'mockito-core', version: '2.22.0') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
-    testCompile (group: 'com.jayway.jsonpath', name: 'json-path-assert', version: '2.2.0'){
-        exclude group:'org.hamcrest',module:'hamcrest-core'
-        exclude group:'org.slf4j',module:'slf4j-api'
+    testCompile(group: 'com.jayway.jsonpath', name: 'json-path-assert', version: '2.2.0') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
     }
-    // https://mvnrepository.com/artifact/org.springframework/spring-web
     compile group: 'org.springframework', name: 'spring-web', version: "$springVersion"
 
     //spring boot
@@ -43,15 +31,4 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-
-
-
-
-
-
-
-
-
 }
-
