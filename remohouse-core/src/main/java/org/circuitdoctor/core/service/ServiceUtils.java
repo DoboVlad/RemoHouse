@@ -35,7 +35,6 @@ public class ServiceUtils {
         String user="579042";
         String parola="ca00ddee9a532243928f16c22b49002b";
         String telefon=phoneNumber;
-        String text=message;
 
 
         StringBuilder command = new StringBuilder("curl -X POST https://www.clickphone.ro/api/sms");
@@ -44,7 +43,7 @@ public class ServiceUtils {
         param.append(" --data ").append("user=").append(user);
         param.append(" --data ").append("parola=").append(parola);
         param.append(" --data ").append("telefon=").append(telefon);
-        param.append(" --data ").append("text=").append(text);
+        param.append(" --data ").append("text=").append(message);
         command.append(param);
         System.out.println(command);
 
