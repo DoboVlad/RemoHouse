@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
         user.ifPresent(u->{
             String generatedCode=generateRandomString();
             ServiceUtils utils=new ServiceUtils();
-            String res=utils.sendMessage("REMO change password code: "+generatedCode,phoneNumber);
+            String res=utils.sendMessage("code:"+generatedCode,phoneNumber);
 
             log.trace("recover password by message -method finished code={}",generatedCode);
 

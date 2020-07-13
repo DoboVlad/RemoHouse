@@ -4,6 +4,9 @@ plugins {
     id 'java'
     id 'war'
 }
+bootJar {
+    mainClassName = 'cpm.baeldung.DemoApplication'
+}
 war {
     zip64 true
 }
