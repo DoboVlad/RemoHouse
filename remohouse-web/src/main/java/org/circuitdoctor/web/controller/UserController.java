@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 @CrossOrigin
@@ -172,9 +173,17 @@ public class UserController {
         log.trace("validateAccount - method finished");
     }
 
+
     @RequestMapping(value = "user/sendEmailActions/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActions(@PathVariable Long userID,@PathVariable String ext,@PathVariable String startDate,
                                 @PathVariable String endDate,@PathVariable boolean takeAll){
+
+
+
+    @RequestMapping(value = "user/sendEmailActions/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
+    String sendEmailWithActions(@PathVariable Long userID,@PathVariable String ext,@PathVariable String startDate,
+                                @PathVariable String endDate,@PathVariable boolean takeAll){
+
 
         log.trace("getActions - method entered userID={}",userID);
         if(ext.equals("csv") || ext.equals("txt")){
@@ -188,5 +197,25 @@ public class UserController {
 
 
     }
+
+    @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
+    String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
+                                        @PathVariable String endDate,boolean takeAll){
+
+        log.trace("getActionsFromGSMs - method entered userID={}",userID);
+        System.out.println(gsmIds);
+        //System.out.println(gsmIds);
+        if(ext.equals("csv") || ext.equals("txt")){
+            userService.sendEmailWithActionLogsFromGSMs(userID,ext,gsmIds,startDate,endDate,takeAll);
+            log.trace("getActionsFromGSMs - method finished");
+            return "email sent";
+        }
+
+        return "the extension must be txt or csv";
+
+
+
+    }
+
 
 }

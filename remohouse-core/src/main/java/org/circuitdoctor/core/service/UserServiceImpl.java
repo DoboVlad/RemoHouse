@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
         user.ifPresent(u->{
             String generatedCode=generateRandomString();
             ServiceUtils utils=new ServiceUtils();
-            String res=utils.sendMessage("REMO change password code: "+generatedCode,phoneNumber);
+            String res=utils.sendMessage("code:"+generatedCode,phoneNumber);
 
             log.trace("recover password by message -method finished code={}",generatedCode);
 
@@ -312,6 +312,28 @@ public class UserServiceImpl implements UserService {
             }
         });
         log.trace("method finished - sendEmailActionLog");
+    }
+
+    @Override
+    public void sendEmailWithActionLogsFromGSMs(Long userId, String extension, List<Long> gsmIds, String startDate, String endDate,boolean takeAll) {
+        log.trace("entered sendEmailActonLogsFromGSMs user={}",userId);
+        String from = "remo@circuitdoctor.ro";
+        String password="ParolaRemo123";
+        // Assuming you are sending email from localhost
+        String message="Action Logs";
+        String subject="Action Logs";
+        Optional<User> userFromDB = userRepository.findById(userId);
+        String filename="logFile."+extension;
+        userFromDB.ifPresent(user->{
+            ServiceUtils utils=new ServiceUtils();
+            try {
+                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
+                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+            }
+        });
+        log.trace("method finished - sendEmailActionLogFromGSMs");
     }
 
 }
