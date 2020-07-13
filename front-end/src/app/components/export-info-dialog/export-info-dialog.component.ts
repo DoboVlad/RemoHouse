@@ -12,6 +12,7 @@ import {GsmControllerService} from "../../service/gsmControllerService";
 import {SelectionModel} from "@angular/cdk/collections";
 import {MatStep} from "@angular/material/stepper";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -31,7 +32,11 @@ export class ExportInfoDialogComponent implements OnInit {
   @ViewChild("step4") step4: MatStep;
   @ViewChild("step5") step5: MatStep;
 
-  constructor(public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
+  dateStart = Date.now().toString();
+  dateFinish =Date.now().toString();
+  allTheTime: boolean;
+
+  constructor(private datePipe:DatePipe, public dialogRef:MatDialogRef<ExportInfoDialogComponent>, private userService: UserService, private locationService: LocationService,
               private roomService: RoomService, private gsmService: GsmControllerService) {
     this.allTheTime=false;
     this.userService.getUserByCredential(localStorage.getItem("user")).subscribe(user => {
@@ -74,27 +79,27 @@ export class ExportInfoDialogComponent implements OnInit {
 
   export(selected: MatListOption[]){
     //by default send to email
-    // this.userService.sendRaportViaEmail(this.flattenSelectedGSMS(),this.user.id,startDate,endDate,takeAll).subscribe(respones=>{
-    // console.log("raport sent")
-    // })
-  }
-
-  setSelectedGSMS(roomName: string, selected: MatListOption[]) {
-    let selectedIDs = []
-    selected.forEach(s=>selectedIDs.push(s.value))
-    this.selectedGSMs[roomName]=selectedIDs;
-    console.log(this.selectedGSMs)
+    let list = this.flattenSelectedGSMS()
+    this.userService.sendRaportViaEmail(list,this.user.id,this.datePipe.transform(this.dateStart,"yyyy-MM-dd HH:mm:ss"),this.datePipe.transform(this.dateFinish,"yyyy-MM-dd HH:mm:ss"),this.allTheTime).subscribe(respones=>{
+      if(respones=="email sent")
+        alert("The report was e-mailed to you successfully.")
+    })
   }
 
   private flattenSelectedGSMS() : Array<number> {
     let list = [];
-    for (let key in this.selectedGSMs) {
-      this.selectedGSMs[key].forEach(v => list.push(v));
-    }
+    Object.entries(this.selectedGSMs).forEach(
+        ([key, value]) => {
+          value.forEach(v=>list.push(v))
+        });
     console.log(list)
     return list;
   }
-  changeGSM(selected: MatListOption[]) {
+  changeGSM(roomName:string,selected: MatListOption[]) {
+    let selectedIDs = []
+    selected.forEach(s=>selectedIDs.push(s.value))
+    this.selectedGSMs[roomName]=selectedIDs;
+    console.log(selectedIDs,this.selectedGSMs)
     this.step3.completed = selected.length > 0;
   }
 
@@ -105,18 +110,12 @@ export class ExportInfoDialogComponent implements OnInit {
     this.step4.completed= this.allTheTime==true || (this.dateStart!=undefined && this.dateFinish!=undefined);
   }
 
-  dateStart;
-  dateFinish;
-  allTheTime: boolean;
-
-  changeFinishDate($event: MatDatepickerInputEvent<unknown>) {
-    console.log($event.value);
+  changeFinishDate($event: MatDatepickerInputEvent<any>) {
     this.dateFinish=$event.value;
     this.isStep4Completed(false);
   }
 
-  changeStartDate($event: MatDatepickerInputEvent<unknown>) {
-    console.log($event.value);
+  changeStartDate($event: MatDatepickerInputEvent<any>) {
     this.dateStart=$event.value;
     this.isStep4Completed(false);
   }

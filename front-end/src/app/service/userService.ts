@@ -53,6 +53,6 @@ export class UserService {
   }
 
   sendRaportViaEmail(gsms:Array<number>, userID : number, startDate:string, endDate:string, takeAll:boolean) : Observable<string>{
-    return this.http.put<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll,gsms)
+    return this.http.put<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll,gsms,this.httpOptionsPlain)
   }
 }
