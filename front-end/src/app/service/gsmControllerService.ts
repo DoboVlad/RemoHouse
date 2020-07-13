@@ -36,7 +36,7 @@ export class GsmControllerService {
   }
 
   deleteGSM(userID : number, gsmID : number) : Observable<boolean>{
-    return this.http.delete<boolean>(this.url+"/delete/"+userID+"/"+gsmID);
+    return this.http.delete<boolean>(this.url+"/delete/"+userID+"/"+gsmID,this.httpOptionsPlain);
   }
 
 }
