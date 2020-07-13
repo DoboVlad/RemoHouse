@@ -9,6 +9,7 @@ import {Room} from "../../model/Room";
 import {RoomService} from "../../service/roomService";
 import {GSMController} from "../../model/GSMController";
 import {GsmControllerService} from "../../service/gsmControllerService";
+import {SelectionModel} from "@angular/cdk/collections";
 
 @Component({
   selector: 'app-export-info-dialog',
@@ -64,12 +65,15 @@ export class ExportInfoDialogComponent implements OnInit {
 
   }
 
-
   closeDialog(){
     this.dialogRef.close(false);
   }
-  export(){
-    this.dialogRef.close(true);
+
+  export(selected: MatListOption[]){
+    //by default send to email
+    //this.userService.sendRaportViaEmail(this.user.id,starDate,endDate,takeAll).subsribe(respones=>{
+    //console.log("raport sent")
+    //})
   }
 
 }
