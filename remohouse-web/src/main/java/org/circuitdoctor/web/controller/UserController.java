@@ -191,8 +191,8 @@ public class UserController {
     }
     @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
-                                        @PathVariable String endDate,boolean takeAll){
-
+                                        @PathVariable String endDate,@PathVariable boolean takeAll){
+        System.out.println(takeAll);
         log.trace("getActionsFromGSMs - method entered userID={}",userID);
         System.out.println(gsmIds);
         //System.out.println(gsmIds);

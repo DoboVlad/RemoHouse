@@ -94,6 +94,7 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         LocalDateTime end = LocalDateTime.parse(endDate,formatter);
         log.trace("findAllActions -method entered userID={}",userId);
         List<ActionLogGSM> result;
+        System.out.println(takeAll);
 
         if(takeAll){
             result = actionLogGSMRepository.findAll().stream()
