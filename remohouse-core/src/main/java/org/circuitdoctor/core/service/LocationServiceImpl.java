@@ -65,7 +65,7 @@ public class LocationServiceImpl implements LocationService {
         Optional<Location> locationOpt = locationRepository.findById(locationID);
         AtomicReference<Boolean> result = new AtomicReference<>(false);
         locationOpt.ifPresent(location->{
-            if(location.getUser().getId()==userID)
+            if(location.getUser().getId().equals(userID))
                 result.set(true);
         });
         log.trace("checkAccessLocation - method finished r={}",result.get());
