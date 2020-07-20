@@ -34,6 +34,9 @@ dependencies {
     compile 'com.google.zxing:javase:3.3.0'
     //Hashing
     implementation "org.mindrot:jbcrypt:0.4"
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-crypto
+    compile group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.3.3.RELEASE'
+
 
 
 

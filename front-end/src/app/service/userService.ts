@@ -17,6 +17,13 @@ export class UserService {
     }),
     responseType: 'text' as 'json'
   };
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }),
+    responseType: 'text' as 'json'
+  };
   constructor(private http: HttpClient) {
   }
 
@@ -53,6 +60,6 @@ export class UserService {
   }
 
   sendRaportViaEmail(gsms:Array<number>, userID : number, startDate:string, endDate:string, takeAll:boolean) : Observable<string>{
-    return this.http.put<string>(this.url+"/sendEmailActions/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll,gsms,this.httpOptionsPlain)
+    return this.http.put<string>(this.url+"/sendEmailActionsFromGSMs/"+userID+"/csv/"+startDate+"/"+endDate+"/"+takeAll,gsms,this.httpOptions)
   }
 }
