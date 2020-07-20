@@ -10,6 +10,7 @@ import org.circuitdoctor.core.model.GSMController;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -27,6 +28,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Service
 public class ServiceUtils {
 
     private static final Logger log = LoggerFactory.getLogger(ServiceUtils.class);
