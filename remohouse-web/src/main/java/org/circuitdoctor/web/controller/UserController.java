@@ -63,7 +63,6 @@ public class UserController {
         return String.valueOf(userDto.getId());
     }
 
-
     @RequestMapping(value = "user/changePassword/{userID}", method = RequestMethod.PUT)
     public String changePassword(@RequestBody @Valid UserDto userDto, @PathVariable Long userID, BindingResult errors){
         /*
@@ -78,8 +77,6 @@ public class UserController {
             log.trace("changePassword - validation error");
             return "validation errors";
         }
-
-
 
         if(userID.equals(userDto.getId())) {
             User user = userConverter.convertDtoToModel(userDto);
@@ -185,9 +182,6 @@ public class UserController {
         }
 
         return "the extension must be txt or csv";
-
-
-
     }
     @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
@@ -203,9 +197,6 @@ public class UserController {
         }
 
         return "the extension must be txt or csv";
-
-
-
     }
 
 }
