@@ -155,71 +155,62 @@ newPassword: string;}
       rez = false;
     }
     return rez;
-
-
   }
 
   //functions to determine the page
   isProfile() {
     return this.page === "Profile";
   }
-
   isSecurity() {
     return this.page === "Security";
   }
-
   isManageLocations() {
     return this.page === "ManageLocations";
   }
-
   isPastActions() {
     return this.page === "PastActions"
   }
-
   setProfile() {
     this.page = "Profile";
   }
-
   setManageLocations() {
     this.page = "ManageLocations"
   }
-
   setSecurity() {
     this.page = "Security"
   }
-
   setPastAction() {
     this.page = "PastActions"
   }
 
   changePassword2(oldPassword: string, newPassword: string, confirmPassword: string) {
-    if (this.user.password === oldPassword) {
-      if (newPassword === confirmPassword) {
-        if (!this.checkPassword(newPassword)) {
-          this.snackBar.open("The new password is too short.", "Ok", {duration: 2000});
+    this.userService.verifyOldPassword(oldPassword,this.user.id).subscribe(result=>{
+      if(result) {
+        if (newPassword === confirmPassword) {
+          if (!this.checkPassword(newPassword)) {
+            this.snackBar.open("The new password is too short.", "Ok", {duration: 2000});
+          } else {
+            this.user.password = newPassword;
+            console.log("changing password ", newPassword);
+            this.userService.changePassword(this.user.id, this.user).subscribe(response => {
+              console.log(response);
+              this.snackBar.open("Password changed.", "Ok", {duration: 2000});
+            });
+          }
         } else {
-          this.user.password = newPassword;
-          console.log("changing password ", newPassword);
-          this.userService.changePassword(this.user.id, this.user).subscribe(response => {
-            console.log(response);
-            this.snackBar.open("Password changed.", "Ok", {duration: 2000});
-          });
+          this.snackBar.open("The new password and confirm password are different.", "Ok", {duration: 2000});
         }
       } else {
-        this.snackBar.open("The new password and confirm password are different.", "Ok", {duration: 2000});
+        this.snackBar.open("The old password is incorect.", "Ok", {duration: 2000});
       }
-    } else {
-      this.snackBar.open("The old password is incorect.", "Ok", {duration: 2000});
-    }
+    })
   }
-
   toggleLocationRow(location: LocationModel) {
     this.expandedLocation = this.expandedLocation === location ? null : location;
     this.roomService.getRooms(this.user.id, location.id).subscribe(rooms => {
       this.roomDataSource = new MatTableDataSource<Room>(rooms);
     });
   }
-
   toggleRooms(room: Room) {
     this.expandedRoom = this.expandedRoom === room ? null : room;
     this.gsmControllerService.getGSMs(this.user.id, room.id).subscribe(gsms => {
@@ -252,7 +243,6 @@ newPassword: string;}
       }
     });
   }
-
   UpdateGSM(controller: any) {
     const dialogRef = this.dialog.open(UpdateGSMComponent, {
       width: '300px',
@@ -276,13 +266,11 @@ newPassword: string;}
       }
     });
   }
-
   refreshTablegsm() {
     this.gsmControllerService.getGSMs(this.user.id, this.expandedRoom.id).subscribe(controller => {
       this.controllerDataSource = new MatTableDataSource<GSMController>(controller);
     });
   }
-
   DeleteGSM(controller: any) {
     const dialogRef = this.dialog.open(DeleteGSMComponent, {
       width: '300px',
@@ -324,7 +312,6 @@ newPassword: string;}
       }
     })
   }
-
   deleteRoom() {
     const dialogRef = this.dialog.open(DeleteRoomComponent)
     dialogRef.afterClosed().subscribe(result => {
@@ -342,7 +329,6 @@ newPassword: string;}
       }
     )
   }
-
   updateRoom() {
     const dialogRef = this.dialog.open(UpdateRoomComponent)
     dialogRef.afterClosed().subscribe(name => {
@@ -379,7 +365,6 @@ newPassword: string;}
       }
     });
   }
-
   updateLocation(location: any) {
     const dialogRef = this.dialog.open(LocationDialogComponent, {
       width: '300px',
@@ -404,7 +389,6 @@ newPassword: string;}
       }
     });
   }
-
   deleteLocation(location: any) {
     const dialogRef = this.dialog.open(LocationDialogComponent, {
       width: '300px',
@@ -433,8 +417,6 @@ newPassword: string;}
       this.locationDataSource = new MatTableDataSource<LocationModel>(locations);
     });
   }
-
-
   applyFilterActions($event: KeyboardEvent) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceActions.filter = filterValue.trim().toLowerCase();

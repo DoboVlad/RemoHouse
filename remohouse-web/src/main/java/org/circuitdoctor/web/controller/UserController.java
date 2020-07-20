@@ -199,4 +199,12 @@ public class UserController {
         return "the extension must be txt or csv";
     }
 
+    @RequestMapping(value = "user/checkPassword/{userID}",method = RequestMethod.PUT)
+    boolean verifyPasword(@RequestBody String password, @PathVariable Long userID){
+        log.trace("verifyPassword - method entered u={}",userID);
+        boolean ok = this.userService.verifyPassword(userID,password);
+        log.trace("verifyPassword - method finished r={}",ok);
+        return ok;
+    }
+
 }

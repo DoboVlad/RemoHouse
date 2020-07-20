@@ -1,7 +1,7 @@
 package org.circuitdoctor.core.service;
 import java.io.IOException;
-import java.util.*;
 
+import java.util.*;
 
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
@@ -27,6 +27,8 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private ActionLogGSMService actionLogGSMService;
+    @Autowired
+    private ServiceUtils serviceUtils;
     @Override
     public List<User> getAllUsers() {
         /*
@@ -226,6 +228,17 @@ public class UserServiceImpl implements UserService {
             result.set(generatedCode);
         });
         return result.get();
+    }
+
+    @Override
+    public boolean verifyPassword(Long userID, String password) {
+        log.trace("verifyPassword - method enetered u={}",userID);
+        AtomicBoolean ok = new AtomicBoolean(false);
+        this.userRepository.findById(userID).ifPresent(user->{
+            ok.set(this.serviceUtils.checkPassword(password, user.getPassword()));
+        });
+        log.trace("verifyPassword - method finished r={}",ok.get());
+        return ok.get();
     }
 
 

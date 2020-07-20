@@ -18,4 +18,6 @@ public interface UserService {
 
 
     String confirmEmail(String email);
+
+    boolean verifyPassword(Long userID, String password);
 }
