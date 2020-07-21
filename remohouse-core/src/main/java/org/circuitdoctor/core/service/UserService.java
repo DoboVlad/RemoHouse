@@ -13,7 +13,10 @@ public interface UserService {
     Optional<User> getUserByCredential(String credential);
     String recoverPasswordByEmail(String email);
     String recoverPasswordByMessage(String phoneNumber);
-    void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll);
+
+    void setFileToBeDownloaded(Long userId, String extension,List<Long> gsmIds, String startDate, String endDate, boolean takeAll);
+
+    void sendEmailWithActionLogs(Long userId, String extension, String startDate, String endDate, boolean takeAll);
     void sendEmailWithActionLogsFromGSMs(Long userId,String extension,List<Long> gsmIds,String startDate,String endDate,boolean takeAll);
 
 

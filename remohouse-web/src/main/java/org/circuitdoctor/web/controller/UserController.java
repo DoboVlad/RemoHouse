@@ -1,4 +1,6 @@
 package org.circuitdoctor.web.controller;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.poi.util.IOUtils;
 import org.circuitdoctor.core.model.User;
 import org.circuitdoctor.core.repository.UserRepository;
 import org.circuitdoctor.core.service.UserService;
@@ -7,10 +9,20 @@ import org.circuitdoctor.web.dto.UserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -205,6 +217,34 @@ public class UserController {
         boolean ok = this.userService.verifyPassword(userID,password);
         log.trace("verifyPassword - method finished r={}",ok);
         return ok;
+    }
+
+    @RequestMapping(value="user/downloadLogFile/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.GET,
+    produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> getLogFile(HttpSession session, HttpServletResponse response, @RequestBody List<Long> gsmIds,
+                                             @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
+                                             @PathVariable String endDate, @PathVariable boolean takeAll) throws Exception {
+        try {
+            if(ext.equals("csv") || ext.equals("txt")){
+                userService.setFileToBeDownloaded(userID,ext,gsmIds,startDate,endDate,takeAll);
+                String filename="logFile."+ext;
+                FileSystemResource fileResource = new FileSystemResource(filename);
+
+                byte[] base64Bytes = Base64.encodeBase64(IOUtils.toByteArray(fileResource.getInputStream()));
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(filename, fileResource.getFilename());
+
+                return ResponseEntity.ok().headers(headers).body(base64Bytes);
+            }
+            throw new Exception("extension must  be txt or csv");
+
+
+        } catch (Exception e){
+
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

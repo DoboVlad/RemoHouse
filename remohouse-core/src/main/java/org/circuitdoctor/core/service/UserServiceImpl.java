@@ -298,7 +298,22 @@ public class UserServiceImpl implements UserService {
         return generatedString;
     }
 
+    @Override
+    public void setFileToBeDownloaded(Long userId, String extension, List<Long> gsmIds, String startDate, String endDate, boolean takeAll) {
+        log.trace("entered setFileToBeDownloaded user={}",userId);
 
+        Optional<User> userFromDB = userRepository.findById(userId);
+        String filename="logFile."+extension;
+        userFromDB.ifPresent(user->{
+            ServiceUtils utils=new ServiceUtils();
+            try {
+                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
+            } catch (IOException e) {
+                log.warn(e.getMessage());
+            }
+        });
+        log.trace("method finished - sendEmailActionLog");
+    }
 
     @Override
     public void sendEmailWithActionLogs(Long userId,String extension,String startDate,String endDate,boolean takeAll) {
