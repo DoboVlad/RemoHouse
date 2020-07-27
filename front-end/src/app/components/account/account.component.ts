@@ -198,10 +198,10 @@ newPassword: string;}
             });
           }
         } else {
-          this.snackBar.open("The new password and confirm password are different.", "Ok", {duration: 2000});
+          this.snackBar.open("The passwords are different.", "Ok", {duration: 2000});
         }
       } else {
-        this.snackBar.open("The old password is incorect.", "Ok", {duration: 2000});
+        this.snackBar.open("The old password is incorrect.", "Ok", {duration: 2000});
       }
     })
   }
