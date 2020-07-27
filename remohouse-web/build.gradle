@@ -42,6 +42,8 @@ dependencies {
     implementation "org.mindrot:jbcrypt:0.4"
 
     //spring security
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.apache.httpcomponents:httpclient'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
+    //implementation 'org.springframework.security.oauth:spring-security-oauth2:2.3.3.RELEASE'
 }

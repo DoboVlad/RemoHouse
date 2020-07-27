@@ -307,7 +307,7 @@ public class UserServiceImpl implements UserService {
         userFromDB.ifPresent(user->{
             ServiceUtils utils=new ServiceUtils();
             try {
-                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
+                    utils.writeToCSVFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
             } catch (IOException e) {
                 log.warn(e.getMessage());
             }
@@ -328,11 +328,20 @@ public class UserServiceImpl implements UserService {
         userFromDB.ifPresent(user->{
             ServiceUtils utils=new ServiceUtils();
             try {
-                if(takeAll)
-                    utils.writeToFile(actionLogGSMService.findAllActions(userId),filename);
-                else
-                    utils.writeToFile(actionLogGSMService.findAllActionsBeetwenDates(userId,startDate,endDate),filename);
-                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+                if(extension.equals("pdf")){
+                    if (takeAll)
+                        utils.writeToPDFFile(actionLogGSMService.findAllActions(userId), filename,takeAll,startDate,endDate);
+                    else
+                        utils.writeToPDFFile(actionLogGSMService.findAllActionsBeetwenDates(userId, startDate, endDate), filename,takeAll,startDate,endDate);
+                    utils.sendEmailWithAttachment(from, user.getEmail(), password, message, subject, filename);
+                }
+                else {
+                    if (takeAll)
+                        utils.writeToCSVFile(actionLogGSMService.findAllActions(userId), filename);
+                    else
+                        utils.writeToCSVFile(actionLogGSMService.findAllActionsBeetwenDates(userId, startDate, endDate), filename);
+                    utils.sendEmailWithAttachment(from, user.getEmail(), password, message, subject, filename);
+                }
             } catch (IOException e) {
                 log.warn(e.getMessage());
             }
@@ -350,11 +359,19 @@ public class UserServiceImpl implements UserService {
         String subject="Action Logs";
         Optional<User> userFromDB = userRepository.findById(userId);
         String filename="logFile."+extension;
+
         userFromDB.ifPresent(user->{
             ServiceUtils utils=new ServiceUtils();
             try {
-                    utils.writeToFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId,gsmIds,startDate,endDate,takeAll),filename);
-                utils.sendEmailWithAttachment(from,user.getEmail(),password,message,subject,filename);
+                if(extension.equals("pdf")){
+
+                    utils.writeToPDFFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId, gsmIds, startDate, endDate, takeAll), filename,takeAll,startDate,endDate);
+                    utils.sendEmailWithAttachment(from, user.getEmail(), password, message, subject, filename);
+                }
+                else {
+                    utils.writeToCSVFile(actionLogGSMService.findAllActionsFromGSMsBeetwenDates(userId, gsmIds, startDate, endDate, takeAll), filename);
+                    utils.sendEmailWithAttachment(from, user.getEmail(), password, message, subject, filename);
+                }
             } catch (IOException e) {
                 log.warn(e.getMessage());
             }

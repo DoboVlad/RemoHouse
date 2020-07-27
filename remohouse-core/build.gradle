@@ -28,6 +28,9 @@ dependencies {
 
     implementation files('activation.jar')
     implementation files('javax.mail-1.6.2.jar')
+
+    //for pdf
+    implementation files('itextpdf-5.3.2.jar')
     
     //QR Code
     compile "com.google.zxing:core:3.3.0"

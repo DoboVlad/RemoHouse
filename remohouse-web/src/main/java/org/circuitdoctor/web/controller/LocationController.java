@@ -13,8 +13,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class LocationController {
     private static final Logger log = LoggerFactory.getLogger(LocationController.class);

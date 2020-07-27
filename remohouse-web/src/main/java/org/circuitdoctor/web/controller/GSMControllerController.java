@@ -19,8 +19,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class GSMControllerController {
     private static final Logger log = LoggerFactory.getLogger(GSMControllerController.class);

@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class ActionLogGSMController {
     private static final Logger log = LoggerFactory.getLogger(ActionLogGSMController.class);

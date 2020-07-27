@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class LogSignInController {
     private static final Logger log = LoggerFactory.getLogger(LogSignInController.class);

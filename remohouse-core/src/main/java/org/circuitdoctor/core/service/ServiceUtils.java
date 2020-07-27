@@ -5,6 +5,10 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.circuitdoctor.core.model.ActionLogGSM;
 import org.circuitdoctor.core.model.GSMController;
 import org.mindrot.jbcrypt.BCrypt;
@@ -23,10 +27,13 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 @Service
 public class ServiceUtils {
@@ -129,7 +136,7 @@ public class ServiceUtils {
             {from} and {to} are existing emails
         POST:-
          */
-        //to="andrei.bangau99@gmail.com";
+        to="andrei.bangau99@gmail.com";
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "mail.circuitdoctor.ro");
@@ -172,8 +179,81 @@ public class ServiceUtils {
             mex.printStackTrace();
         }
     }
+    public void writeToPDFFile(List<ActionLogGSM> actionLogGSMList,String fileName,boolean takeAll,String startDate,String endDate){
+        try{
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream("logFile.pdf"));
 
-    public void writeToFile(List<ActionLogGSM> actionLogGSMList,String fileName) throws IOException {
+            document.open();
+            Font bold =  new Font(com.itextpdf.text.Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
+            String title="";
+            if(takeAll){
+                title="All time actions table from the gsm controllers selected";
+            }
+            else{
+                title="Actions table from the gsm controllers selected that happened between "+startDate+" and "+endDate;
+            }
+            Paragraph p=new Paragraph(title,bold);
+
+            p.setAlignment(Element.ALIGN_CENTER);
+            document.add(p);
+            document.add(Chunk.NEWLINE);
+            PdfPTable table = new PdfPTable(4);
+            addTableHeader(table);
+            for (ActionLogGSM action:actionLogGSMList) {
+                addCustomRows(table,action);
+            }
+
+            document.add(table);
+            document.close();
+        }
+        catch (Exception e){
+            log.trace(e.getMessage());
+        }
+
+
+    }
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("operation type", "Date", "Gsm Id","User name")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                    header.setBorderWidth(2);
+                    header.setPhrase(new Phrase(columnTitle));
+                    header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    header.setVerticalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(header);
+                });
+    }
+
+    private  void addCustomRows(PdfPTable table,ActionLogGSM actionLogGSM){
+
+
+        PdfPCell operationType = new PdfPCell(new Phrase(actionLogGSM.getOperationType()));
+        operationType.setHorizontalAlignment(Element.ALIGN_CENTER);
+        operationType.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(operationType);
+
+
+
+        PdfPCell date = new PdfPCell(new Phrase(actionLogGSM.getDateTime().withNano(0).toString().replace("T"," ")));
+        date.setHorizontalAlignment(Element.ALIGN_CENTER);
+        date.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(date);
+
+        PdfPCell gsmId = new PdfPCell(new Phrase(actionLogGSM.getGsmController().getId().toString()));
+        gsmId.setHorizontalAlignment(Element.ALIGN_CENTER);
+        gsmId.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(gsmId);
+
+        PdfPCell username = new PdfPCell(new Phrase(actionLogGSM.getUser().getName()));
+        username.setHorizontalAlignment(Element.ALIGN_CENTER);
+        username.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(username);
+
+
+    }
+    public void writeToCSVFile(List<ActionLogGSM> actionLogGSMList,String fileName) throws IOException {
         List<List<String>> rows=new ArrayList<>();
         for (ActionLogGSM action:actionLogGSMList) {
             rows.add(Arrays.asList(action.getOperationType(), action.getDateTime().toString(), action.getGsmController().getId().toString()
@@ -196,6 +276,7 @@ public class ServiceUtils {
         csvWriter.flush();
         csvWriter.close();
     }
+
     public String hashPassword(String password){
 
         Integer salt=ThreadLocalRandom.current().nextInt(5, 15 + 1);

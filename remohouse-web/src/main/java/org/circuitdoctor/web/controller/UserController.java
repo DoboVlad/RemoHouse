@@ -13,6 +13,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
-@CrossOrigin
+
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -37,6 +39,7 @@ public class UserController {
     private UserConverter userConverter;
     @Autowired
     private UserRepository userRepository;
+
 
     @RequestMapping(value = "user/login", method = RequestMethod.PUT)
     boolean login(@RequestBody UserDto userDto){
@@ -187,13 +190,13 @@ public class UserController {
                                 @PathVariable String endDate,@PathVariable boolean takeAll){
 
         log.trace("getActions - method entered userID={}",userID);
-        if(ext.equals("csv") || ext.equals("txt")){
+        if(ext.equals("csv") || ext.equals("txt") || ext.equals("pdf")){
             userService.sendEmailWithActionLogs(userID,ext,startDate,endDate,takeAll);
             log.trace("getActions - method finished");
             return "email sent";
         }
 
-        return "the extension must be txt or csv";
+        return "the extension must be txt,csv or pdf";
     }
     @RequestMapping(value = "user/sendEmailActionsFromGSMs/{userID}/{ext}/{startDate}/{endDate}/{takeAll}",method = RequestMethod.PUT)
     String sendEmailWithActionsFromGSMs(@RequestBody List<Long> gsmIds, @PathVariable Long userID, @PathVariable String ext, @PathVariable String startDate,
@@ -202,13 +205,13 @@ public class UserController {
         log.trace("getActionsFromGSMs - method entered userID={}",userID);
         System.out.println(gsmIds);
         //System.out.println(gsmIds);
-        if(ext.equals("csv") || ext.equals("txt")){
+        if(ext.equals("csv") || ext.equals("txt") || ext.equals("pdf")){
             userService.sendEmailWithActionLogsFromGSMs(userID,ext,gsmIds,startDate,endDate,takeAll);
             log.trace("getActionsFromGSMs - method finished");
             return "email sent";
         }
 
-        return "the extension must be txt or csv";
+        return "the extension must be txt, csv or pdf";
     }
 
     @RequestMapping(value = "user/checkPassword/{userID}",method = RequestMethod.PUT)

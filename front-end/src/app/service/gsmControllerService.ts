@@ -8,9 +8,15 @@ export class GsmControllerService {
   private httpOptionsPlain = {
     headers: new HttpHeaders({
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization : `Basic ${window.btoa('user:password')}`
     }),
     responseType: 'text' as 'json'
+  };
+  private httpSecurity = {
+    headers: new HttpHeaders({
+      Authorization : `Basic ${window.btoa('user:password')}`
+    })
   };
   private url = 'http://localhost:8080/api/gsm';
 
@@ -18,13 +24,13 @@ export class GsmControllerService {
   }
 
   openGSM(gsm : GSMController, userID : number) : Observable<Boolean>{
-    return this.http.put<Boolean>(this.url+"/open/"+userID+"/open",gsm);
+    return this.http.put<Boolean>(this.url+"/open/"+userID+"/open",gsm,this.httpSecurity);
   }
   closeGSM(gsm : GSMController, userID : number) : Observable<Boolean>{
-    return this.http.put<Boolean>(this.url+"/close/"+userID+"/close",gsm);
+    return this.http.put<Boolean>(this.url+"/close/"+userID+"/close",gsm,this.httpSecurity);
   }
   getGSMs(userID : number, roomID : number) : Observable<Array<GSMController>>{
-    return this.http.get<Array<GSMController>>(this.url+"/getGSMs/"+userID+"/"+roomID);
+    return this.http.get<Array<GSMController>>(this.url+"/getGSMs/"+userID+"/"+roomID,this.httpSecurity);
   }
 
   addGSMController(userID : number, gsm : GSMController) : Observable<string>{
