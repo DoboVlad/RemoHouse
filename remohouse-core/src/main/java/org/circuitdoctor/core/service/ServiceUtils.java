@@ -136,7 +136,7 @@ public class ServiceUtils {
             {from} and {to} are existing emails
         POST:-
          */
-        to="andrei.bangau99@gmail.com";
+        //to="andrei.bangau99@gmail.com";
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "mail.circuitdoctor.ro");
@@ -191,14 +191,14 @@ public class ServiceUtils {
                 title="All time actions table from the gsm controllers selected";
             }
             else{
-                title="Actions table from the gsm controllers selected that happened between "+startDate+" and "+endDate;
+                title="Actions table from the gsm controllers selected \n "+startDate+" - "+endDate;
             }
             Paragraph p=new Paragraph(title,bold);
 
             p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
             document.add(Chunk.NEWLINE);
-            PdfPTable table = new PdfPTable(4);
+            PdfPTable table = new PdfPTable(new float[]{14,20,14,14,14,10,14});
             addTableHeader(table);
             for (ActionLogGSM action:actionLogGSMList) {
                 addCustomRows(table,action);
@@ -214,7 +214,7 @@ public class ServiceUtils {
 
     }
     private void addTableHeader(PdfPTable table) {
-        Stream.of("operation type", "Date", "Gsm Id","User name")
+        Stream.of("User name","Date & hour","city","location","room", "Gsm","operation type" )
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -228,28 +228,48 @@ public class ServiceUtils {
 
     private  void addCustomRows(PdfPTable table,ActionLogGSM actionLogGSM){
 
+        PdfPCell usernameCell = new PdfPCell(new Phrase(actionLogGSM.getUser().getName()));
+        usernameCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        usernameCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(usernameCell);
 
-        PdfPCell operationType = new PdfPCell(new Phrase(actionLogGSM.getOperationType()));
-        operationType.setHorizontalAlignment(Element.ALIGN_CENTER);
-        operationType.setVerticalAlignment(Element.ALIGN_CENTER);
-        table.addCell(operationType);
+        PdfPCell dateCell = new PdfPCell(new Phrase(actionLogGSM.getDateTime().withNano(0).toString().replace("T"," ")));
+        dateCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        dateCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(dateCell);
+
+        String city=actionLogGSM.getGsmController().getRoom().getLocation().getCity();
+        String locationName=actionLogGSM.getGsmController().getRoom().getLocation().getName();
+        String roomName=actionLogGSM.getGsmController().getRoom().getName();
+
+        PdfPCell cityCell = new PdfPCell(new Phrase(city));
+        cityCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cityCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cityCell);
+
+        PdfPCell locationCell = new PdfPCell(new Phrase(locationName));
+        locationCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        locationCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(locationCell);
+
+        PdfPCell roomCell = new PdfPCell(new Phrase(roomName));
+        roomCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        roomCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(roomCell);
+
+
+        PdfPCell gsmCell = new PdfPCell(new Phrase(actionLogGSM.getGsmController().getId().toString()));
+        gsmCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        gsmCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(gsmCell);
+
+        PdfPCell operationTypeCell = new PdfPCell(new Phrase(actionLogGSM.getOperationType()));
+        operationTypeCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        operationTypeCell.setVerticalAlignment(Element.ALIGN_CENTER);
+        table.addCell(operationTypeCell);
 
 
 
-        PdfPCell date = new PdfPCell(new Phrase(actionLogGSM.getDateTime().withNano(0).toString().replace("T"," ")));
-        date.setHorizontalAlignment(Element.ALIGN_CENTER);
-        date.setVerticalAlignment(Element.ALIGN_CENTER);
-        table.addCell(date);
-
-        PdfPCell gsmId = new PdfPCell(new Phrase(actionLogGSM.getGsmController().getId().toString()));
-        gsmId.setHorizontalAlignment(Element.ALIGN_CENTER);
-        gsmId.setVerticalAlignment(Element.ALIGN_CENTER);
-        table.addCell(gsmId);
-
-        PdfPCell username = new PdfPCell(new Phrase(actionLogGSM.getUser().getName()));
-        username.setHorizontalAlignment(Element.ALIGN_CENTER);
-        username.setVerticalAlignment(Element.ALIGN_CENTER);
-        table.addCell(username);
 
 
     }
