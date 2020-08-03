@@ -3,6 +3,7 @@ package org.circuitdoctor.web.dto;
 import lombok.*;
 import org.circuitdoctor.core.model.GSMStatus;
 
+import javax.persistence.Column;
 import javax.print.DocFlavor;
 import javax.validation.constraints.*;
 
@@ -25,4 +26,6 @@ public class GSMControllerDto extends BaseDto {
     @Builder.Default
     private GSMStatus status=OFF;
     private String type;
+    @Column(nullable = false)
+    private String name;
 }

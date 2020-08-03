@@ -25,6 +25,7 @@ public class ActionLogGSMDto extends BaseDto {
     private String dateTime;
     private Long userID;
     private Long gsmControllerID;
+    private String gsmControllerName;
     private String gsmControllerType;
     private String roomName;
     private String locationName;

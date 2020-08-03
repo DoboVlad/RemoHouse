@@ -27,4 +27,8 @@ public class ActionLogGSM extends BaseEntity<Long> implements Serializable {
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     private GSMController gsmController;
+
+    public String getGSMName(){
+        return gsmController.getName();
+    }
 }

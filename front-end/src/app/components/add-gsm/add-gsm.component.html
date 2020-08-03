@@ -25,7 +25,16 @@
     Please enter a valid phone number
   </mat-error>
 </mat-form-field>
+<br>
+<p><br>Name:</p>
+<mat-form-field appearance="fill">
+  <mat-label>Name</mat-label>
+  <input matInput #name [(ngModel)]="data.name" name="name" ngDefaultControl [formControl]="nameControllForm">
+  <mat-error *ngIf="nameControllForm.touched && nameControllForm.invalid">
+    Please enter a valid name
+  </mat-error>
+</mat-form-field>
 <br><br>
-<button (click)="!isError() && add(gsm_type.value, status.value, phoneNumber.value)">ADD</button>
+<button (click)="!isError() && add(gsm_type.value, status.value, phoneNumber.value, name.value)">ADD</button>
 <button (click)="onCloseClick()">Cancel</button>
 

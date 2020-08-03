@@ -76,7 +76,7 @@ newPassword: string;}
   rooms: Room[];
 
   expandedController: GSMController | null;
-  controllerColumns: string[] = ["type", "status", "phoneNumber"];
+  controllerColumns: string[] = ["type", "status", "phoneNumber","name"];
   controllerDataSource;
   gsmController: GSMController[];
   room: Room;
@@ -84,7 +84,7 @@ newPassword: string;}
   //actions page
   actionLogs: ActionLogGSM[] = [];
   dataSourceActions: MatTableDataSource<ActionLogGSM>;
-  displayedColumns: string[] = ["operationType", "dateTime", "gsmControllerType", "roomName", "locationName"];
+  displayedColumns: string[] = ["operationType", "dateTime","gsmControllerName", "gsmControllerType", "roomName", "locationName"];
   resultsActionLength = 0;
   isLoadingResults: boolean = true;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -230,7 +230,7 @@ newPassword: string;}
       //result can be null on cancel
       if (result != null) {
         //TODO: validation for latitude/longitude + refresh table
-        var gsmController = new GSMController(0, this.expandedRoom.id, result.phoneNumber, result.status, result.gsm_type);
+        var gsmController = new GSMController(0, this.expandedRoom.id, result.phoneNumber, result.status, result.gsm_type, result.name);
         this.gsmControllerService.addGSMController(this.user.id, gsmController).subscribe(response => {
           console.log(response);
           this.snackBar.open(String("Added GSM."), "Ok", {duration: 2000});
@@ -258,7 +258,7 @@ newPassword: string;}
       console.log(controller);
       if (result != null) {
         console.log("Am ajuns aici!");
-        var gsmcontroller = new GSMController(controller['id'], controller['roomID'], result.phoneNumber, controller['status'], result.gsm_type);
+        var gsmcontroller = new GSMController(controller['id'], controller['roomID'], result.phoneNumber, controller['status'], result.gsm_type, result.name);
         this.gsmControllerService.updateGSMController(this.user.id, gsmcontroller).subscribe(controller => {
           this.snackBar.open(String("Updated GSM"), "ok", {duration: 2000});
           this.refreshTablegsm();

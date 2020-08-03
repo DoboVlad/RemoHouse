@@ -1,8 +1,12 @@
-OperationType,Date,GSM ID,User Name
-open,2020-07-13T15:33:00.970788,272,Nenisca
-open,2020-07-14T18:46:53.330464,242,Nenisca
-close,2020-07-17T15:43:25.344668,276,Nenisca
-open,2020-07-17T15:43:26.797900,276,Nenisca
-close,2020-07-14T18:46:54.578101,242,Nenisca
-open,2020-07-13T19:36:44.303881,276,Nenisca
-open,2020-07-20T14:18:11.055485,242,Nenisca
+User Name,Date & Hour,city,location,room,GSM,OperationType
+Nenisca,2020-08-03T15:23:38.529690,Cluj-Napoca,My Office,Main Office Building 1,door4,open
+Nenisca,2020-08-03T15:23:40.221170,Cluj-Napoca,My Office,Main Office Building 1,door4,close
+Nenisca,2020-07-13T16:00:59.721831,Cluj-Napoca,My Office,Main Office Building 1,door4,close
+Nenisca,2020-07-13T16:01:02.185088,Cluj-Napoca,My Office,Main Office Building 1,door4,open
+Nenisca,2020-07-13T16:01:03.823328,Cluj-Napoca,My Office,Main Office Building 1,door4,close
+Nenisca,2020-07-23T18:45:15.056306,Cluj-Napoca,My Office,Main Office Building 1,door4,open
+Nenisca,2020-07-23T18:45:17.968940,Cluj-Napoca,My Office,Main Office Building 1,door4,close
+Nenisca,2020-08-03T15:23:41.555967,Cluj-Napoca,My Office,Main Office Building 1,testUpdateDoor,open
+Nenisca,2020-08-03T15:23:43.505281,Cluj-Napoca,My Office,Main Office Building 1,testUpdateDoor,close
+Nenisca,2020-08-03T15:23:45.107929,Cluj-Napoca,My Office,Main Office Building 1,testUpdateDoor,open
+Nenisca,2020-08-03T15:23:45.904955,Cluj-Napoca,My Office,Main Office Building 1,testUpdateDoor,close

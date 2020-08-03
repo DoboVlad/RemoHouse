@@ -26,7 +26,16 @@
   </mat-error>
 </mat-form-field>
 <p><br></p>
-  <button (click)="!isError() && Update(gsm_type.value, status.value, phoneNumber.value)">Update</button>
+<p><br>Name:</p>
+<mat-form-field appearance="fill">
+  <mat-label>Name</mat-label>
+  <input matInput #name [(ngModel)]="data.name" name="name" ngDefaultControl [formControl]="nameControllForm">
+  <mat-error *ngIf="nameControllForm.touched && nameControllForm.invalid">
+    Please enter a valid name
+  </mat-error>
+</mat-form-field>
+<p><br></p>
+  <button (click)="!isError() && Update(gsm_type.value, status.value, phoneNumber.value,name.value)">Update</button>
   <button (click)="onCloseClick()">Cancel</button>
 
 

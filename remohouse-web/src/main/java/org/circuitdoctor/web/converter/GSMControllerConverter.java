@@ -15,6 +15,7 @@ public class GSMControllerConverter extends BaseConverter<GSMController, GSMCont
         GSMController gsmController=GSMController.builder()
                 .phoneNumber(dto.getPhoneNumber())
                 .room(roomRepository.findById(dto.getRoomID()).get())
+                .name(dto.getName())
                 .status(dto.getStatus())
                 .type(dto.getType())
                 .build();
@@ -31,6 +32,7 @@ public class GSMControllerConverter extends BaseConverter<GSMController, GSMCont
                 .roomID(gsmController.getRoom().getId())
                 .status(gsmController.getStatus())
                 .type(gsmController.getType())
+                .name(gsmController.getName())
                 .build();
         return dto;
     }

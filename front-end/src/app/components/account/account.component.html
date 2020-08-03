@@ -310,6 +310,13 @@
             <td mat-cell *matCellDef="let element"> {{element.dateTime}} </td>
           </ng-container>
 
+
+          <!-- GSMController name Column -->
+          <ng-container matColumnDef="gsmControllerName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> GSM Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.gsmControllerName}} </td>
+          </ng-container>
+
           <!-- GSMController type Column -->
           <ng-container matColumnDef="gsmControllerType">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>

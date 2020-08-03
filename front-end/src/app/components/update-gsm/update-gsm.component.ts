@@ -14,6 +14,10 @@ export class UpdateGSMComponent implements OnInit {
     Validators.required,
     Validators.nullValidator,
   ]);
+  nameControllForm=new FormControl('',[
+    Validators.required,
+    Validators.nullValidator,
+  ]);
 
   phoneControllForm= new FormControl('',[
     Validators.required,
@@ -27,15 +31,16 @@ export class UpdateGSMComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-  constructor(public dialogRef:MatDialogRef<UpdateGSMComponent>,@Inject(MAT_DIALOG_DATA) public data:LoginDialogData) {}
+  constructor(public dialogRef: MatDialogRef<UpdateGSMComponent>,@Inject(MAT_DIALOG_DATA) public data: LoginDialogData) {}
   onCloseClick() {
     this.dialogRef.close(null);
   }
-  Update(gsm_type: string, status:string, phoneNumber: string){
+  Update(gsm_type: string, status: string, phoneNumber: string, name: string){
     console.log(gsm_type);
-      this.data.gsm_type=gsm_type;
-      this.data.status=status;
-      this.data.phoneNumber=phoneNumber;
-      this.dialogRef.close(this.data);
+    this.data.gsm_type = gsm_type;
+    this.data.status = status;
+    this.data.phoneNumber = phoneNumber;
+    this.data.name = name;
+    this.dialogRef.close(this.data);
   }
 }

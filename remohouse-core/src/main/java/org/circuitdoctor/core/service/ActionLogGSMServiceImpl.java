@@ -78,7 +78,7 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
         List<ActionLogGSM> result = actionLogGSMRepository.findAll().stream()
                 .filter(action -> action.getUser().getId().equals(userID))
                 .filter(action -> (action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end)) || action.getDateTime().isEqual(start) || action.getDateTime().isEqual(end))
-                .sorted(Comparator.comparing(ActionLogGSM::getDateTime))
+                .sorted(Comparator.comparing(ActionLogGSM::getGSMName))
                 .collect(Collectors.toList());
         log.trace("findAllActions -method finished result={}",result);
         return result;
@@ -103,14 +103,14 @@ public class ActionLogGSMServiceImpl implements ActionLogGSMService {
             result = actionLogGSMRepository.findAll().stream()
                     .filter(action -> action.getUser().getId().equals(userId))
                     .filter(action -> gsmIds.contains(action.getGsmController().getId()))
-                    .sorted(Comparator.comparing(ActionLogGSM::getDateTime))
+                    .sorted(Comparator.comparing(ActionLogGSM::getGSMName))
                     .collect(Collectors.toList());
         }else{
             result = actionLogGSMRepository.findAll().stream()
                     .filter(action -> action.getUser().getId().equals(userId))
                     .filter(action -> gsmIds.contains(action.getGsmController().getId()))
                     .filter(action -> action.getDateTime().isAfter(start) && action.getDateTime().isBefore(end))
-                    .sorted(Comparator.comparing(ActionLogGSM::getDateTime))
+                    .sorted(Comparator.comparing(ActionLogGSM::getGSMName))
                     .collect(Collectors.toList());
         }
 

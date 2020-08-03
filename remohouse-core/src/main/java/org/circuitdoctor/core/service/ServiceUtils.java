@@ -136,7 +136,7 @@ public class ServiceUtils {
             {from} and {to} are existing emails
         POST:-
          */
-        //to="andrei.bangau99@gmail.com";
+        to="andrei.bangau99@gmail.com";
         Properties props = System.getProperties();
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", "mail.circuitdoctor.ro");
@@ -198,7 +198,7 @@ public class ServiceUtils {
             p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
             document.add(Chunk.NEWLINE);
-            PdfPTable table = new PdfPTable(new float[]{14,20,14,14,14,10,14});
+            PdfPTable table = new PdfPTable(new float[]{14,19,14,14,13,13,13});
             addTableHeader(table);
             for (ActionLogGSM action:actionLogGSMList) {
                 addCustomRows(table,action);
@@ -258,7 +258,7 @@ public class ServiceUtils {
         table.addCell(roomCell);
 
 
-        PdfPCell gsmCell = new PdfPCell(new Phrase(actionLogGSM.getGsmController().getId().toString()));
+        PdfPCell gsmCell = new PdfPCell(new Phrase(actionLogGSM.getGsmController().getName()));
         gsmCell.setHorizontalAlignment(Element.ALIGN_CENTER);
         gsmCell.setVerticalAlignment(Element.ALIGN_CENTER);
         table.addCell(gsmCell);
@@ -276,16 +276,20 @@ public class ServiceUtils {
     public void writeToCSVFile(List<ActionLogGSM> actionLogGSMList,String fileName) throws IOException {
         List<List<String>> rows=new ArrayList<>();
         for (ActionLogGSM action:actionLogGSMList) {
-            rows.add(Arrays.asList(action.getOperationType(), action.getDateTime().toString(), action.getGsmController().getId().toString()
-                    ,action.getUser().getName()));
+            rows.add(Arrays.asList(action.getUser().getName(), action.getDateTime().toString(),action.getGsmController().getRoom().getLocation().getCity(),
+                    action.getGsmController().getRoom().getLocation().getName(),action.getGsmController().getRoom().getName(), action.getGsmController().getName(),action.getOperationType()));
 
         }
-
+        //"User name","Date & hour","city","location","room", "Gsm","operation type"
         FileWriter csvWriter = new FileWriter(fileName);
-        csvWriter.append("OperationType").append(",");
-        csvWriter.append("Date").append(",");
-        csvWriter.append("GSM ID").append(",");
-        csvWriter.append("User Name");
+
+        csvWriter.append("User Name").append(",");
+        csvWriter.append("Date & Hour").append(",");
+        csvWriter.append("city").append(",");
+        csvWriter.append("location").append(",");
+        csvWriter.append("room").append(",");
+        csvWriter.append("GSM").append(",");
+        csvWriter.append("OperationType");
         csvWriter.append("\n");
 
         for (List<String> rowData : rows) {
